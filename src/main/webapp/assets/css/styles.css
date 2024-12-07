@@ -1,0 +1,164 @@
+/* Reset mặc định */
+body, h1, h2, h3, p, a, table, th, td {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+/* Tổng quan */
+body {
+    background-color: #f4f4f9;
+    color: #333;
+    margin: 20px;
+    padding: 0;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+/* Trung tâm hóa nội dung */
+div[align="center"] {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Tiêu đề */
+h1 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #0056b3;
+}
+
+h2 {
+    font-size: 24px;
+    color: #0056b3;
+    margin-bottom: 10px;
+}
+
+/* Bảng */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #0056b3;
+    color: white;
+    font-weight: bold;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Liên kết */
+a {
+    color: #0056b3;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+a:hover {
+    color: #003d7a;
+    text-decoration: underline;
+}
+
+/* Nút */
+input[type="submit"] {
+    background-color: #0056b3;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #003d7a;
+}
+
+/* Thông báo */
+p {
+    margin-bottom: 10px;
+}
+
+p[style*="color: green;"] {
+    color: #28a745;
+    font-weight: bold;
+}
+
+p[style*="color: red;"] {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+/* Bố trí các nút trong bảng */
+table td .action-buttons {
+    display: flex;
+    gap: 10px; /* Khoảng cách giữa các nút */
+    justify-content: flex-start; /* Căn các nút về bên trái */
+}
+
+/* Style cho từng nút */
+table td .action-buttons a {
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+.action-buttons a.edit {
+    background-color: #28a745; /* Màu xanh cho sửa */
+}
+
+.action-buttons a.edit:hover {
+    background-color: #218838;
+}
+
+.action-buttons a.delete {
+    background-color: #dc3545; /* Màu đỏ cho xóa */
+}
+
+.action-buttons a.delete:hover {
+    background-color: #c82333;
+}
+
+.action-buttons a.detail {
+    background-color: #007bff; /* Màu xanh dương cho xem chi tiết */
+}
+
+.action-buttons a.detail:hover {
+    background-color: #0056b3;
+}
+
+.action-buttons a.list {
+    background-color: #17a2b8; /* Màu xanh lơ cho danh sách nhân viên */
+}
+
+.action-buttons a.list:hover {
+    background-color: #117a8b;
+}
