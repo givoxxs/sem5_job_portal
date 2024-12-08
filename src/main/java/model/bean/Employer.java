@@ -7,6 +7,7 @@ public class Employer {
     private String address;
     private String link; // websites, social media
     private String description;
+    
 	public String getId() {
 		return id;
 	}

@@ -4,34 +4,32 @@ import java.sql.Timestamp;
 
 public class Job {
 	private String id;
-    private String employerId;
+    private String employerName;
     private String title;
     private String description;
-    private String salaryRangeId; // ID của SalaryRange
+    private String salaryRange; // ID của SalaryRange
     private String location;
     private String jobType; // part-time, full-time, internship
     private String experience; // Intern, Fresher, Junior, ...
     private Timestamp datePost;
     private boolean isAvailable;
-    private String salaryRange;
     
 	public Job() {
 
 	}
 	
-	public Job(String id, String employerId, String title, String description, String salaryRangeId, String location,
-			String jobType, String experience, Timestamp datePost, boolean isAvailable, String salaryRange) {
+	public Job(String id, String employerName, String title, String description, String salaryRange, String location,
+			String jobType, String experience, Timestamp datePost, boolean isAvailable) {
 		this.id = id;
-		this.employerId = employerId;
+		this.employerName = employerName;
 		this.title = title;
 		this.description = description;
-		this.salaryRangeId = salaryRangeId;
+		this.salaryRange = salaryRange;
 		this.location = location;
 		this.jobType = jobType;
 		this.experience = experience;
 		this.datePost = datePost;
 		this.isAvailable = isAvailable;
-		this.salaryRange = salaryRange;
 	}
     
     public String getId() {
@@ -40,12 +38,15 @@ public class Job {
 	public void setId(String id) {
 		this.id = id;
 	}
-	public String getEmployerId() {
-		return employerId;
+
+	public String getEmployerName() {
+		return employerName;
 	}
-	public void setEmployerId(String employerId) {
-		this.employerId = employerId;
+
+	public void setEmployerName(String employerName) {
+		this.employerName = employerName;
 	}
+
 	public String getTitle() {
 		return title;
 	}
@@ -57,12 +58,6 @@ public class Job {
 	}
 	public void setDescription(String description) {
 		this.description = description;
-	}
-	public String getSalaryRangeId() {
-		return salaryRangeId;
-	}
-	public void setSalaryRangeId(String salaryRangeId) {
-		this.salaryRangeId = salaryRangeId;
 	}
 	public String getLocation() {
 		return location;
