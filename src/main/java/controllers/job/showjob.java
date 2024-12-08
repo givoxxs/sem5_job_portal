@@ -34,7 +34,7 @@ public class showjob extends HttpServlet {
 		if (jobid == null) {
 			List<Job> jobs = JobBO.getInstance().getJobByEmployerId(employer_id);
 			request.setAttribute("listjob", jobs);
-			response.sendRedirect("showjob.jsp");
+			destination = "showjob.jsp";
 		} else {
 			Job job = JobBO.getInstance().getJobById(jobid);
 			request.setAttribute("job", job);

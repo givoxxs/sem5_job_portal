@@ -50,22 +50,9 @@ public class JobServlet extends HttpServlet {
 			break;
 		case "job_application":
 			request.getRequestDispatcher("job_application").forward(request, response);
+		default:
+			request.getRequestDispatcher("showjob").forward(request, response);
+			break;
 		}
-		
-//		String destination = null;
-//		HttpSession session = request.getSession();
-//		String employerId = (String) session.getAttribute("employer_id");
-//		
-//		String jobid = request.getParameter("jobid");
-//		if (jobid != null) {
-//			Job job = JobBO.getInstance().getJobById(jobid);
-//			request.setAttribute("job", job);
-//			destination = "jobdetail.jsp";
-//		}else {
-//			List<Job> jobs = JobBO.getInstance().getJobByEmployerId(employerId);
-//			request.setAttribute("listjob", jobs);
-//			destination = "employer.jsp";
-//		}
-//		request.getRequestDispatcher(destination).forward(request, response);
 	}
 }
