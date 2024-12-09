@@ -36,12 +36,12 @@ public class job_application extends HttpServlet {
 		}
 		
 		switch (action) {
-		case "showJob_applicationOfEmployer":
-			request.getRequestDispatcher("showjob_application").forward(request, response);
-			break;
-		case "updateStatusJob_application":
-			request.getRequestDispatcher("updatestatusjob_app").forward(request, response);
-			break;
+			case "showJob_applicationOfEmployer":
+				request.getRequestDispatcher("showjob_application").forward(request, response);
+				break;
+			case "updateStatusJob_application":
+				request.getRequestDispatcher("updatestatusjob_app").forward(request, response);
+				break;
 		}
 //		if (jobid != null) {
 //			List<Job_Application> jobApplications = JobApplicationBO.getInstance().getJobApplicationByJobId(jobid);

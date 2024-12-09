@@ -25,7 +25,7 @@ public class HomeServlet extends HttpServlet {
                 	req.getRequestDispatcher("admin/dashboard.jsp").forward(req, resp);
                     break;
                 case "employer":
-                	req.getRequestDispatcher("employer/dashboard.jsp").forward(req, resp);
+                	req.getRequestDispatcher("JobServlet").forward(req, resp);
                     break;
                 case "candidate":
                 	req.getRequestDispatcher("index.jsp").forward(req, resp);

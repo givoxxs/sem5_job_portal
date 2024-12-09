@@ -5,9 +5,17 @@ public class Employer {
     private String accountId;
     private String name;
     private String address;
-    private String link; // websites, social media
+    private String email;
+	private String link; // websites, social media
     private String description;
     
+    public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	
 	public String getId() {
 		return id;
 	}

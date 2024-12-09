@@ -23,9 +23,9 @@ public class EmployerBO {
 	}
 	
 	//update profile
-	public boolean updateEmployerProfile(String id, String name, String email, String phone, String address,
-			String avatarUrl) {
-		return EmployerDAO.getInstance().updateEmployerProfile(id, name, email, phone, address, avatarUrl);
+	public boolean updateEmployerProfile(String id, String name, String email, String address,
+			String link, String description) {
+		return EmployerDAO.getInstance().updateEmployerProfile(id, name, email, address, link, description);
 	}
 	
 	

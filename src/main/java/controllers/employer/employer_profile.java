@@ -7,20 +7,22 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import model.bean.Employer;
 import model.bo.EmployerBO;
 
 @WebServlet("/employer_profile")
-public class emloyer_profile extends HttpServlet {
+public class employer_profile extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
-		String employr_id = request.getParameter("id");
+		HttpSession session = request.getSession();
+		String employr_id = session.getAttribute("employer_id").toString();
 		Employer emp = EmployerBO.getInstance().getEmployerProfile(employr_id);
 		request.setAttribute("employer", emp);
-		String destination = "employer_profile.jsp";
+		
+		String destination = "employer/employer_profile.jsp";
 		request.getRequestDispatcher(destination).forward(request, response);
 	}
 	

@@ -18,13 +18,13 @@ public class update_employer_profile extends HttpServlet {
 			throws ServletException, IOException {
 
 		String employr_id = request.getParameter("id");
-		String destination = "show_employer_profile.jsp";
+		String destination = "employer_profile";
 		String name = request.getParameter("name");
 		String email = request.getParameter("email");
-		String phone = request.getParameter("phone");
 		String addr = request.getParameter("address");
-		String avatar_url = request.getParameter("avatar_url");
-		boolean update = EmployerBO.getInstance().updateEmployerProfile(employr_id, name, email, phone, addr, avatar_url);
+		String link = request.getParameter("link");
+		String description = request.getParameter("description");
+		boolean update = EmployerBO.getInstance().updateEmployerProfile(employr_id, name, email, addr, link, description);
 		if(update) {
 			request.setAttribute("message", "Update success");
 		} else {

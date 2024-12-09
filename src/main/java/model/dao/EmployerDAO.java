@@ -1,6 +1,7 @@
 package model.dao;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -38,15 +39,15 @@ public class EmployerDAO {
 	}
 	
 	//Update employer profile
-	public boolean updateEmployerProfile(String id, String name, String email, String phone, String address,
-			String avatarUrl) {
-		String query = "UPDATE employer_profile SET name = ?, email = ?, phone = ?, address = ?, avatar_url = ? WHERE id = ?";
+	public boolean updateEmployerProfile(String id, String name, String email, String address,
+			String link, String description) {
+		String query = "UPDATE employer_profile SET name = ?, email = ?, address = ?, link = ?, description = ? WHERE id = ?";
 		List<String> params = new ArrayList<>();
 		params.add(name);
 		params.add(email);
-		params.add(phone);
 		params.add(address);
-		params.add(avatarUrl);
+		params.add(link);
+		params.add(description);
 		params.add(id);
 		return DBConnect.getInstance().dataSQL(params, query);
 	}
@@ -73,17 +74,24 @@ public class EmployerDAO {
 			employer.setId(rs.getString("id"));
 			employer.setAccountId(rs.getString("account_id"));
 			employer.setName(rs.getString("name"));
+			employer.setEmail(rs.getString("email"));
 			employer.setAddress(rs.getString("address"));
 	        employer.setLink(rs.getString("link"));
 	        employer.setDescription(rs.getString("description"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		try {
+			rs.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return employer;
 	}
 	
 	public static void main(String[] args) {
-		Employer employee = getInstance().getEmployerProfile("EM02");
+		Employer employee = getInstance().getEmployerProfile("EMP2");
 		System.out.println(employee.getName());
 	}
 	

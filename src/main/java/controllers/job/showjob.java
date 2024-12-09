@@ -24,7 +24,7 @@ public class showjob extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+		System.out.println("showjob");
 		String destination = null;
 		HttpSession session = request.getSession();
 		
@@ -34,11 +34,11 @@ public class showjob extends HttpServlet {
 		if (jobid == null) {
 			List<Job> jobs = JobBO.getInstance().getJobByEmployerId(employer_id);
 			request.setAttribute("listjob", jobs);
-			destination = "showjob.jsp";
+			destination = "employer/showjob.jsp";
 		} else {
 			Job job = JobBO.getInstance().getJobById(jobid);
 			request.setAttribute("job", job);
-			destination = "jobdetail.jsp";
+			destination = "employer/jobdetail.jsp";
 		}
 		request.getRequestDispatcher(destination).forward(request, response);
 	}
