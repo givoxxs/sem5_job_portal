@@ -3,6 +3,7 @@
 	<name>sem5_job_portal</name>
 	<comment></comment>
 	<projects>
+		<project>Servers</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

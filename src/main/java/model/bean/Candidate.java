@@ -1,11 +1,22 @@
 package model.bean;
 
+import java.util.UUID;
+
 public class Candidate {
     private String id;
     private String accountId;
     private String name;
     private String email;
     private String cvUrl;
+    
+    public Candidate() {}
+    public Candidate(String accountId, String name, String email, String cvUrl) {
+    	this.id = "cand_" + UUID.randomUUID().toString();
+    	this.accountId = accountId;
+    	this.name = name;
+    	this.email = email;
+    	this.cvUrl = cvUrl;
+    }
     
 	public String getId() {
 		return id;
