@@ -18,38 +18,28 @@ public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String username = req.getParameter("username");
-        String password = req.getParameter("password");
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String username = request.getParameter("username");
+        String password = request.getParameter("password");
         
         try {
         	
         	Account account = AccountBO.getInstance().findAccountByUsername(username);
-			if (account == null) {
-				req.getRequestDispatcher("login.jsp?error=Invalid credentials").forward(req, resp);
-				return;
+			if (account == null || !PasswordUtils.checkPassword(password, account.getPassword())) {
+				throw new Exception("Tài khoản hoặc mật khẩu sai!");
 			}
+
+			HttpSession session = request.getSession();
 			
-			if (!PasswordUtils.checkPassword(password, account.getPassword())) {
-				req.getRequestDispatcher("login.jsp?error=Invalid credentials").forward(req, resp);
-				return;
-			}
+			session.setAttribute("accountId", account.getId());
+			session.setAttribute("role", account.getRole());
+			session.setAttribute("avatarUrl", account.getAvatarUrl());
 			
-			HttpSession session = req.getSession();
-			
-			session.setAttribute("account", account);
-			resp.sendRedirect("jobs");
-			if (account.getRole().equals("admin")) {
-				req.getRequestDispatcher("admin").forward(req, resp);
-			} else if (account.getRole().equals("employer")) {
-				req.getRequestDispatcher("jobs").forward(req, resp);
-			} else {
-//				resp.sendRedirect();
-				req.getRequestDispatcher("index.jsp").forward(req, resp);
-			}
+			response.sendRedirect("/sem5_job_portal/");
         } catch (Exception e) {
             e.printStackTrace();
-            req.getRequestDispatcher("login.jsp?error=Internal error").forward(req, resp);
+            request.setAttribute("error", e.getMessage());
+            request.getRequestDispatcher("/login.jsp").forward(request, response);
         }
 	}
 }
