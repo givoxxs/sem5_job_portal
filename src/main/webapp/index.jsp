@@ -71,7 +71,6 @@ h1 {
 	<div class="container">
 	    <!-- Search Form -->
 	    <h1>Find Your Dream Job</h1>
-	    <div class="card-header my-3">Find your job</div>
 	    
 	    <form action="job-search" method="GET" class="search-bar">
 	        <!-- Search by job name -->
