@@ -18,10 +18,18 @@ public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		System.out.println("LoginServlet: doGet");
+//		resp.sendRedirect("/login.jsp");
+		resp.sendRedirect(req.getContextPath() + "/login.jsp");
+	}
+	
+	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		resp.setContentType("text/html; charset=UTF-8");
 		String username = req.getParameter("username");
         String password = req.getParameter("password");
-        
+        System.out.println("LoginServlet: username = " + username + ", password = " + password);
         try {
         	
         	Account account = AccountBO.getInstance().findAccountByUsername(username);
