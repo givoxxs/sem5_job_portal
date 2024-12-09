@@ -27,7 +27,7 @@ public class updatestatusjob_app extends HttpServlet {
         String jobapp_id = request.getParameter("jobapp_id");
         String status = request.getParameter("status");
 		if (jobapp_id != null) {
-			JobApplicationBO.getInstance().updateJobApplication(jobapp_id, status);
+			JobApplicationBO.getInstance().updateStatusJobApplication(jobapp_id, status);
 			destination = "job_application?action=showJob_applicationOfEmployer";
 		}
 	}

@@ -27,7 +27,8 @@ public class JobServlet extends HttpServlet {
 		
 		HttpSession session = request.getSession();
 		
-		String employer_id = session.getAttribute("employer_id").toString();
+		String employer_id = "EMP01"; session.getAttribute("employer_id").toString();
+		session.setAttribute("employer_id", employer_id);
 		String action = request.getParameter("action");
 		
 		if (employer_id == null) {
@@ -36,23 +37,23 @@ public class JobServlet extends HttpServlet {
 		
 		//swith
 		switch (action) {
-		case "show":
-			request.getRequestDispatcher("showjob").forward(request, response);
-			break;
-		case "update":
-			request.getRequestDispatcher("updatejob").forward(request, response);
-			break;
-		case "notavaible":
-			request.getRequestDispatcher("updatejob").forward(request, response);
-			break;
-		case "addjob":
-			request.getRequestDispatcher("add_job").forward(request, response);
-			break;
-		case "job_application":
-			request.getRequestDispatcher("job_application").forward(request, response);
-		default:
-			request.getRequestDispatcher("showjob").forward(request, response);
-			break;
+			case "show":
+				request.getRequestDispatcher("showjob").forward(request, response);
+				break;
+			case "update":
+				request.getRequestDispatcher("updatejob").forward(request, response);
+				break;
+			case "notavaible":
+				request.getRequestDispatcher("updatejob").forward(request, response);
+				break;
+			case "addjob":
+				request.getRequestDispatcher("add_job").forward(request, response);
+				break;
+			case "job_application":
+				request.getRequestDispatcher("job_application").forward(request, response);
+			default:
+				request.getRequestDispatcher("showjob").forward(request, response);
+				break;
 		}
 	}
 }

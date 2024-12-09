@@ -37,7 +37,7 @@ public class JobApplicationBO {
 	}
 	
 	//update job application
-	public boolean updateJobApplication(String id, String status) {
-		return JobApplicationDAO.getInstance().updateJobApplication(id, status);
+	public boolean updateStatusJobApplication(String id, String status) {
+		return JobApplicationDAO.getInstance().updateStatusJobApplication(id, status);
 	}
 }

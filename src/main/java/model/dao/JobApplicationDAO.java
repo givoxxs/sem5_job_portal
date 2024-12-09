@@ -5,8 +5,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import model.bean.Job;
 import model.bean.Job_Application;
 import utils.DBConnect;
+import utils.EmailUtils;
 
 public class JobApplicationDAO {
 	
@@ -75,11 +77,20 @@ public class JobApplicationDAO {
 		List<String> params = new ArrayList<>();
 		params.add(id);
 		ResultSet rs = DBConnect.getInstance().selectSQL(params, query);
-		return mapResultToJobApplication(rs);
+		Job_Application jobApplication = null;
+		try {
+			while(rs.next()) {
+				jobApplication = mapResultToJobApplication(rs);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return jobApplication;
 	}
 	
 	//Update job application
-	public boolean updateJobApplication(String id, String status) {
+	public boolean updateStatusJobApplication(String id, String status) {
 		String query = "UPDATE job_application SET status = ? WHERE id = ?";
 		List<String> params = new ArrayList<>();
 		params.add(status);
@@ -94,16 +105,31 @@ public class JobApplicationDAO {
 	public void sendNotification(String id, String status) {
 		// Send email
 		Job_Application jobApplication = getJobApplicationById(id);
+		Job job = JobDAO.getInstance().getJobById(jobApplication.getJob_id());
 		String to = jobApplication.getEmail();
-		String subject = "Job Application Status";
-		String body = "Your job application has been " + status;
-		
+		String subject = "Notify Job Application Status";
+		String body = "Kính gửi " + jobApplication.getName() + ",<br><br>"
+	            + "Chúng tôi trân trọng cảm ơn bạn đã quan tâm và gửi hồ sơ ứng tuyển đến công ty chúng tôi. "
+	            + "Dưới đây là thông tin về vị trí mà bạn đã ứng tuyển:<br><br>"
+	            + "<strong>JOB ID:</strong> " + jobApplication.getJob_id() + "<br>"
+	            + "<strong>JOB:</strong> " + job.getTitle() + "<br><br>"
+	            + "Trạng thái hiện tại của hồ sơ: <strong>" + status + "</strong>.<br><br>"
+	            + "Nếu có bất kỳ thắc mắc nào, xin vui lòng liên hệ với chúng tôi qua email này hoặc số điện thoại hotline.<br><br>"
+	            + "Chúng tôi hy vọng sẽ có cơ hội hợp tác với bạn trong tương lai.<br><br>"
+	            + "Trân trọng,<br>"
+	            + "<strong>Phòng Nhân Sự</strong><br>"
+	            + "Nhà tuyển dụng:" + job.getEmployerName() +" <br>";
+
 		// Send email
+		EmailUtils.getInstance().sendEmail(to, subject, body);
 	}
 	
 	
 	public static void main(String[] args) {
-
+		
+		//Test send notification
+		JobApplicationDAO.getInstance().updateStatusJobApplication("JA02","Accept");
+		
         List<Job_Application> jobApplications = JobApplicationDAO.getInstance().getJobApplicationByJob_Id("JO2024-12-08 17:36:33");
         for (Job_Application jobApplication : jobApplications) {
         	System.out.println(jobApplication.getId());
