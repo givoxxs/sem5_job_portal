@@ -49,11 +49,19 @@ public class updatejob extends HttpServlet {
 			}else {
                 destination = "form_updatejob.jsp";
 			}
+			request.getRequestDispatcher(destination).forward(request, response);
 		} else {
-			JobBO.getInstance().updateAvailableJob(jobid, status);
-			destination = "JobServlet?action=showjob";
+			// Update
+			System.out.println("jobid: " + jobid);
+			boolean rs = JobBO.getInstance().updateAvailableJob(jobid, status);
+			String msg = "";
+			if (rs) {
+				msg	= "Update status successfully!";
+			} else {
+				msg = "Update status failed!";
+			}
+			response.sendRedirect("JobServlet?action=showjob&message="+msg);
 		}
-		request.getRequestDispatcher(destination).forward(request, response);
 	}
 
 }

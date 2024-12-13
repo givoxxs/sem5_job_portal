@@ -27,14 +27,13 @@ public class add_job extends HttpServlet {
 		HttpSession session = request.getSession();
 		String employerId = (String) session.getAttribute("employer_id");
 
-		String jobname = request.getParameter("jobname");
 		String title = request.getParameter("title");
 		String description = request.getParameter("description");
 		String salaryRangeId = request.getParameter("salaryRangeId");
 		String location = request.getParameter("location");
 		String jobType = request.getParameter("jobType");
 		String experience = request.getParameter("experience");
-		if (jobname != null) {
+		if (title != null) {
 			// Add job
 			 boolean rs = JobBO.getInstance().addJob(employerId, title, description, salaryRangeId,
 			 location, jobType, experience);

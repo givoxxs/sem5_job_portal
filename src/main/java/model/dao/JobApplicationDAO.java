@@ -100,6 +100,15 @@ public class JobApplicationDAO {
 		return rs;
 	}
 	
+	//Search Job_Application by Name
+	public List<Job_Application> searchJobApplicationByName(String jobid,String name) {
+		String query = "SELECT * FROM job_application WHERE job_id = ? AND BINARY name LIKE ?";
+		List<String> params = new ArrayList<>();
+		params.add(jobid);
+		params.add("%" + name + "%");
+		return getListJobApplications(params, query);
+	}
+	
 	
 	//Send notification by Gmail
 	public void sendNotification(String id, String status) {

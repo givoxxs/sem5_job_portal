@@ -13,14 +13,20 @@ import javax.servlet.http.HttpSession;
 public class JobServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		doPost(request, response);
 	}
 	
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		System.out.println("JobServlet");
+		 // Thiết lập mã hóa UTF-8 cho request và response
+        request.setCharacterEncoding("UTF-8"); // Đảm bảo request sử dụng UTF-8
+        response.setContentType("text/html; charset=UTF-8"); // Thiết lập phản hồi (response) sử dụng UTF-8
+        response.setCharacterEncoding("UTF-8"); // Đảm bảo response sử dụng UTF-8
+        
 		HttpSession session = request.getSession();
 		String destination = null;
 		String employer_id = "EMP01"; session.setAttribute("employer_id",employer_id);
@@ -33,7 +39,10 @@ public class JobServlet extends HttpServlet {
 //		if (employer_id == null) {
 //			response.sendRedirect("login.jsp");
 //		}
-		
+//		if(action == null) {
+//			action = "null";
+//			System.out.println("action is null");
+//		}
 		//swith
 		switch (action) {
 			case "showjob":
@@ -42,7 +51,7 @@ public class JobServlet extends HttpServlet {
 			case "update":
 				destination = "updatejob";
 				break;
-			case "notavaible":
+			case "updateavaible":
 				destination = "updatejob";
 				break;
 			case "formaddjob":
@@ -51,8 +60,10 @@ public class JobServlet extends HttpServlet {
 			case "addjob":
 				destination = "add_job";
 				break;
-			case "job_application":
-				destination = "job_application";
+			case "search":
+				System.out.println("searchjob");
+				destination = "search_job";
+				break;
 			default:
 				destination = "employer/employer_index.jsp";
 				break;

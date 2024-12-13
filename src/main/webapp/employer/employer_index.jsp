@@ -1,20 +1,40 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import = "javax.servlet.http.HttpSession" %>
+<%@ page import = "model.bean.Account" %>
+
+	<%
+		String employer_id = "EMP01";
+		session.setAttribute("employer_id", employer_id);
+	%>
+	
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="UTF-8">
 	<title>Employer</title>
+    <link rel="stylesheet" href="assets/css/index.css">
+	<link rel="stylesheet" href="assets/css/navbar.css">
 	<link rel="stylesheet" href="assets/css/employer/t3.css" />
     <link rel="stylesheet" href="assets/css/employer/t2.css" />
+    <!-- <link rel="stylesheet" href="assets/css/styles.css"> -->
 </head>
 <body>
-	<% 
-	String employer_id = "EMP01";
-	session.setAttribute("employer_id", employer_id);
+	<%
+	if(request.getAttribute("message") != null) {
+			%>
+	<script>
+                alert("${message}");
+                </script>
+			<%
+		}
 	%>
-    <div class="contentt3">
+	<%
+        Account account = new Account();//(Account) request.getSession().getAttribute("account");
+        
+    %>
+	<%@include file="../includes/navbar.jsp"%>
+	<div class="contentt3">
       <div class="t3-center">
         <div class="center-menu">
           <div class="link">
@@ -37,13 +57,14 @@
               name="view"
               src="JobServlet?action=showjob"
               width="100%"
-              height="800px"
+              height="1000px"
               style="border: 1px;"
             ></iframe>
-
+	
           </div>
         </div>
       </div>
     </div>
+    <%@include file="../includes/footer.jsp"%>
 </body>
 </html>

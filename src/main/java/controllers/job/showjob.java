@@ -24,7 +24,6 @@ public class showjob extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		System.out.println("showjob");
 		String destination = null;
 		HttpSession session = request.getSession();
 		

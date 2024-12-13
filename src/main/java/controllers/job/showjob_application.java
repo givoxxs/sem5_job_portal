@@ -26,20 +26,13 @@ public class showjob_application extends HttpServlet {
             throws ServletException, IOException {
 
         String destination = null;
-        HttpSession session = request.getSession();
-        String employerId = (String) session.getAttribute("employer_id");
-        String job_app_id = request.getParameter("job_app_id");
         String job_id = request.getParameter("job_id");
-        
-		if (job_id != null) {
-			List<Job_Application> jobApplications = JobApplicationBO.getInstance().getJobApplicationByJobId(job_id);
-			request.setAttribute("listjobapplication", jobApplications);
-			destination = "listjob_application.jsp";
-		} else if (job_app_id != null) {
-			Job_Application jobApplication = JobApplicationBO.getInstance().getJobApplicationById(job_app_id);
-			request.setAttribute("jobApplication", jobApplication);
-			destination = "detail_job_app";
-		} 
+        request.setAttribute("job_id", job_id);
+                
+		List<Job_Application> jobApplications = JobApplicationBO.getInstance().getJobApplicationByJobId(job_id);
+		request.setAttribute("listjobapplication", jobApplications);
+		destination = "employer/listjob_application.jsp";
+
 		request.getRequestDispatcher(destination).forward(request, response);
 	}
 }

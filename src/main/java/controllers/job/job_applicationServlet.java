@@ -13,8 +13,8 @@ import javax.servlet.http.HttpSession;
 import model.bean.Job_Application;
 import model.bo.JobApplicationBO;
 
-@WebServlet("/job_application")
-public class job_application extends HttpServlet {
+@WebServlet("/job_applicationServlet")
+public class job_applicationServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -31,25 +31,25 @@ public class job_application extends HttpServlet {
 
 		String action = request.getParameter("action");
 		
-		if (employerId == null) {
-			response.sendRedirect("login.jsp");
+		if	(action == null) {
+            action = "showJob_applicationOfJob";
 		}
-		
+
 		switch (action) {
-			case "showJob_applicationOfEmployer":
-				request.getRequestDispatcher("showjob_application").forward(request, response);
+			case "showJob_applicationOfJob":
+				destination = "showjob_application";
 				break;
 			case "updateStatusJob_application":
-				request.getRequestDispatcher("updatestatusjob_app").forward(request, response);
+				destination = "updatestatusjob_app";
+				break;
+			case "search":
+                destination = "searchjob_application";
+                break;
+			default:
+				destination = "showjob_application";
 				break;
 		}
-//		if (jobid != null) {
-//			List<Job_Application> jobApplications = JobApplicationBO.getInstance().getJobApplicationByJobId(jobid);
-//			request.setAttribute("listjob_application", jobApplications);
-//			destination = "listjob_application.jsp";
-//		} else {
-//
-//		}
+
 		request.getRequestDispatcher(destination).forward(request, response);
 	}
 

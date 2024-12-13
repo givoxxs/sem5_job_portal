@@ -40,4 +40,9 @@ public class JobApplicationBO {
 	public boolean updateStatusJobApplication(String id, String status) {
 		return JobApplicationDAO.getInstance().updateStatusJobApplication(id, status);
 	}
+	
+	//search job application by name
+	public List<Job_Application> searchJobApplicationByName(String jobid, String name) {
+		return JobApplicationDAO.getInstance().searchJobApplicationByName(jobid, name);
+	}
 }

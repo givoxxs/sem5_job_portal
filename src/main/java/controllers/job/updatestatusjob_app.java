@@ -27,9 +27,15 @@ public class updatestatusjob_app extends HttpServlet {
         String jobapp_id = request.getParameter("jobapp_id");
         String status = request.getParameter("status");
 		if (jobapp_id != null) {
-			JobApplicationBO.getInstance().updateStatusJobApplication(jobapp_id, status);
-			destination = "job_application?action=showJob_applicationOfEmployer";
+			boolean rs = JobApplicationBO.getInstance().updateStatusJobApplication(jobapp_id, status);
+			if (rs) {
+				request.setAttribute("message", "Update status successfully!");
+			} else {
+				request.setAttribute("message", "Update status failed!");
+			}
+			destination = "JobServlet?action=showjob";
 		}
+		request.getRequestDispatcher(destination).forward(request, response);
 	}
 
 }

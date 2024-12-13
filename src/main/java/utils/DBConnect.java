@@ -18,7 +18,7 @@ public class DBConnect {
 			instance = new DBConnect();
 		}
 		try {
-			instance.getConnection();
+			getConnection();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -32,7 +32,7 @@ public class DBConnect {
     private static final String PASSWORD = "";
     private static Connection connection;
 	
-    public  Connection getConnection() throws SQLException {
+    public static Connection getConnection() throws SQLException {
 		if (connection == null || connection.isClosed()) {
 			try {
 				Class.forName("com.mysql.cj.jdbc.Driver");
