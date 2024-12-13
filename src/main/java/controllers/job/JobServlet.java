@@ -61,7 +61,6 @@ public class JobServlet extends HttpServlet {
 				destination = "add_job";
 				break;
 			case "search":
-				System.out.println("searchjob");
 				destination = "search_job";
 				break;
 			default:
