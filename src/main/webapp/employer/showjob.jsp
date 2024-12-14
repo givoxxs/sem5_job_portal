@@ -28,25 +28,6 @@ String jobType = request.getParameter("jobType");
 String experience = request.getParameter("experience");
 String location = request.getParameter("location");
 
-List<Job> searchResults = null;
-int pages = 1;
-int totalPages = 1;
-
-if (jobName != null || salaryRangeId != null || jobType != null || experience != null || location != null) {
-    try {
-        pages = Integer.parseInt(request.getParameter("page"));
-    } catch (NumberFormatException e) {
-        pages = 1;
-    }
-    searchResults = JobBO.getInstance().getAllAvailableJobs(); // Lấy tất cả công việc
-    totalPages = 1;
-}
-
-request.getAttribute("salaryRanges");
-request.getAttribute("locations"); 
-request.getAttribute("searchResults");
-request.getAttribute("totalPages");
-
 List<Job> recentJobs = (List<Job>) request.getAttribute("listjob");
 %>
 <!DOCTYPE html>
@@ -143,7 +124,6 @@ h1 {
 	        <button type="submit">Search</button>
 	    </form>
 	    
-	    <% if (searchResults == null) { %>
             <h2>Your Job</h2>
             <div class="job-list">
         <% for (Job job : recentJobs) { %>
@@ -168,40 +148,7 @@ h1 {
         <% } %>
     </div>
 
-        <% } else { %>
-            <h2>Search Results</h2>
-            <div class="job-list">
-                 <% for (Job job : searchResults) { %>
-                    <div class="job-item">
-                <div class="job-title">
-                    <h3><a href="JobServlet?action=showjob&jobid=<%= job.getId() %>"><%= job.getTitle() %></a></h3>
-                </div>
-                <div class="job-details">
-                    <span class="detail-item"><i class="fas fa-map-marker-alt"></i> <%= job.getLocation() %></span>
-                    <span class="detail-item"><i class="fas fa-briefcase"></i> <%= job.getJobType() %></span>
-                    <span class="detail-item"><i class="fas fa-coins"></i> <%= job.getSalaryRange() %></span>
-                    <span class="detail-item"><i class="fas fa-user-graduate"></i> <%= job.getExperience() %></span>
-                    <span class="detail-item"><i class="fas fa-calendar-alt"></i> <%= job.getDatePost() %></span> <%-- Format date if needed --%>
-                    <%-- Hiển thị isAvailable nếu cần thiết--%>
-                    <span class="detail-item"><i class="fas fa-check-circle"></i> <%= job.isAvailable() ? "Available" : "Not Available" %></span>
-                </div>
-            </div>
-                <% } %>
-            </div>
-
-            <%-- Pagination --%>
-            <div class="pagination">
-                <% for (int i = 1; i <= totalPages; i++) { %>
-                    <a 
-                    	href="JobSearchServlet?page=<%= i %>&jobName=<%= jobName != null 
-                    		? jobName : "" %>&salaryRange=<%= salaryRangeId != null 
-                    		? salaryRangeId : "" %>&jobType=<%= jobType != null 
-                    		? jobType : "" %>&experience=<%= experience != null 
-                    		? experience : "" %>&location=<%= location != null 
-                    		? location : "" %>" <%= i == pages ? "class='active'" : "" %>><%= i %></a>
-                <% } %>
-            </div>
-        <% } %>
+     
 	</div>
 	<%@include file="../includes/footer.jsp"%>
 </body>

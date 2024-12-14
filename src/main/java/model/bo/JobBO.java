@@ -65,6 +65,12 @@ public class JobBO {
 		return JobDAO.getInstance().updateJobAvailable(id, result);
 	}
 	
+	//search job
+	public List<Job> searchJobs(String jobName, String salaryRangeId, String jobType, String experience,
+			String location, int page) {
+		return JobDAO.getInstance().searchJobs(jobName, salaryRangeId, jobType, experience, location, page);
+	}
+	
 	
 	
 	

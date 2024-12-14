@@ -1,5 +1,7 @@
 package model.dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
@@ -251,4 +253,68 @@ public class JobDAO {
 //			System.out.println(job.isAvailable());
 //		}
 	}	
+	
+	public List<Job> searchJobs(String jobName, String salaryRangeId, String jobType, String experience, String location, int page) {
+        List<Job> jobs = new ArrayList<>();
+        int offset = (page - 1) * 10; // 10 jobs per page
+
+        String sql = "SELECT j.*, sr.salary_range, e.name " +
+                "FROM job j JOIN salary_range sr ON j.salary_range_id = sr.id " +
+        		"JOIN employer_profile e ON j.employer_id = e.id " +
+                "WHERE j.is_available = true ";
+
+        List<String> conditions = new ArrayList<>();
+        List<Object> parameters = new ArrayList<>();
+
+        if (jobName != null && !jobName.isEmpty()) {
+            conditions.add("(j.title LIKE ? OR j.description LIKE ?)");
+            parameters.add("%" + jobName + "%");
+            parameters.add("%" + jobName + "%");
+        }
+        if (salaryRangeId != null && !salaryRangeId.isEmpty()) {
+            conditions.add("j.salary_range_id = ?");
+            parameters.add(salaryRangeId);
+        }
+        if (jobType != null && !jobType.isEmpty()) {
+            conditions.add("j.job_type = ?");
+            parameters.add(jobType);
+        }
+        if (experience != null && !experience.isEmpty()) {
+            conditions.add("j.experience = ?");
+            parameters.add(experience);
+        }
+        if (location != null && !location.isEmpty()) {
+            conditions.add("j.location = ?");
+            parameters.add(location);
+        }
+
+        if (!conditions.isEmpty()) {
+            sql += "AND (" + String.join(" AND ", conditions) + ") ";
+        }
+
+        sql += "ORDER BY j.date_post DESC LIMIT 10 OFFSET ?";
+        parameters.add(offset);
+        
+        Connection connection = null;
+		try {
+			connection = DBConnect.getConnection();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            for (int i = 0; i < parameters.size(); i++) {
+                ps.setObject(i + 1, parameters.get(i));
+            }
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    jobs.add(mapResultToJob(rs));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return jobs;
+    }
 }

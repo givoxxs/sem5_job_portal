@@ -10,6 +10,7 @@ import javax.servlet.http.*;
 import model.bean.Job;
 import model.bean.Job_Application;
 import model.bo.JobApplicationBO;
+import model.bo.JobBO;
 
 @WebServlet("/search_job")
 public class search_job extends HttpServlet {
@@ -48,14 +49,7 @@ public class search_job extends HttpServlet {
             }
        	 
        	 	//Thưc hiện tìm kiếm
-            searchResults = jobBO.searchJobs(jobName, salaryRangeId, jobType, experience, location, page);
-            totalPages = jobBO.getTotalPages(jobName, salaryRangeId, jobType, experience, location);
-
-            request.setAttribute("jobName", jobName);
-            request.setAttribute("salaryRangeId", salaryRangeId);
-            request.setAttribute("jobType", jobType);
-            request.setAttribute("experience", experience);
-            request.setAttribute("location", location);
+            searchResults = JobBO.getInstance().searchJobs(jobName, salaryRangeId, jobType, experience, location, page);
 
 
        } else {
@@ -64,7 +58,7 @@ public class search_job extends HttpServlet {
           totalPages=1;
        }
         
-        request.setAttribute("searchResults", searchResults);
+        request.setAttribute("listjob", searchResults);
         destination = "employer/showjob.jsp";
 		request.getRequestDispatcher(destination).forward(request, response);
 	}
