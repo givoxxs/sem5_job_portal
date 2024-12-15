@@ -1,5 +1,7 @@
 package model.bean;
 
+import java.util.UUID;
+
 public class Account {
     private String id;
     private String username;
@@ -10,6 +12,15 @@ public class Account {
     
 	public Account() {
 
+	}
+	
+	public Account(String username, String password, String role) {
+		this.id = "acct_" + UUID.randomUUID().toString();
+		this.username = username;
+		this.password = password;
+		this.role = role;
+		this.avatarUrl = "https://i.ibb.co/P9B37Bq/default-avatar.jpg"; //default avatar
+		this.isDeleted = false; // default
 	}
 	
 	public Account(String id, String username, String password, String role, String avatarUrl, boolean isDeleted) {

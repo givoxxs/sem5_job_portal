@@ -1,0 +1,108 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #eafaf1;
+    /* Xanh lá nhạt */
+}
+
+.register-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 700px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.register-container h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #2e7d32;
+    /* Xanh lá đậm */
+}
+
+.register-form .role {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.register-form .role .role-option {
+    display: flex;
+    align-items: center;
+    border: 1px solid #a5d6a7;
+    /* Thêm viền xung quanh */
+    border-radius: 8px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.register-form .role label {
+    margin: 0 10px;
+    font-size: 16px;
+    color: #388e3c;
+    white-space: nowrap;
+}
+
+.register-form .form-group {
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.register-form .form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #388e3c;
+    /* Xanh lá trung bình */
+}
+
+.register-form .form-group input {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #a5d6a7;
+    /* Xanh lá nhạt hơn */
+    border-radius: 4px;
+}
+
+.register-form .form-group input:focus {
+    border-color: #66bb6a;
+    /* Xanh lá nổi bật */
+    outline: none;
+}
+
+.error {
+	color: red;
+	font-weight: bold;
+}
+
+.register-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: #43a047;
+    /* Xanh lá chính */
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.register-btn:hover {
+    background-color: #388e3c;
+    /* Xanh lá đậm hơn khi hover */
+}
