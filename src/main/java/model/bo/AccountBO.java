@@ -4,6 +4,7 @@ import java.sql.SQLException;
 
 import model.bean.Account;
 import model.dao.AccountDAO;
+import utils.PasswordUtils;
 
 public class AccountBO {
 	// instance
@@ -16,7 +17,9 @@ public class AccountBO {
 	
 	public static AccountBO getInstance() {
 		if (instance == null) {
-			instance = new AccountBO();
+			synchronized(AccountBO.class) {
+				instance = new AccountBO();
+			}
 		}
 		return instance;
 	}
@@ -26,6 +29,7 @@ public class AccountBO {
 	}
 	
 	public boolean createAccount(Account account) throws SQLException {
+		account.setPassword(PasswordUtils.hashPassword(account.getPassword()));
 		return accountDAO.createAccount(account);
 	}
 }

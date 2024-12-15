@@ -14,11 +14,13 @@
 	<classpathentry exported="true" kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry exported="true" kind="lib" path="src/main/webapp/WEB-INF/lib/jbcrypt-0.4.jar"/>
+
 	<classpathentry kind="lib" path="D:/Thanh/Team LTM/sem5_job_portal/src/main/webapp/WEB-INF/lib/javax.activation-1.2.0.jar"/>
 	<classpathentry kind="lib" path="D:/Thanh/Team LTM/sem5_job_portal/src/main/webapp/WEB-INF/lib/javax.mail-1.6.2.jar"/>
 	<classpathentry kind="lib" path="D:/Thanh/Team LTM/sem5_job_portal/src/main/webapp/WEB-INF/lib/javax.servlet-api-4.0.1.jar"/>
 	<classpathentry kind="lib" path="D:/Thanh/Team LTM/sem5_job_portal/src/main/webapp/WEB-INF/lib/jbcrypt-0.4.jar"/>
 	<classpathentry kind="lib" path="D:/Thanh/Team LTM/sem5_job_portal/src/main/webapp/WEB-INF/lib/mysql-connector-java.jar"/>
 	<classpathentry kind="lib" path="D:/Thanh/Team LTM/sem5_job_portal/src/main/webapp/WEB-INF/lib/mysql-connector-java-8.0.30.jar"/>
+
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

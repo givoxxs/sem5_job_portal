@@ -22,20 +22,20 @@ public class HomeServlet extends HttpServlet {
 
             switch (role) {
                 case "admin":
-                	req.getRequestDispatcher("admin/dashboard.jsp").forward(req, resp);
+                	resp.sendRedirect("/sem5_job_portal/admin/dashboard.jsp");
                     break;
                 case "employer":
                 	req.getRequestDispatcher("JobServlet").forward(req, resp);
                     break;
                 case "candidate":
-                	req.getRequestDispatcher("index.jsp").forward(req, resp);
+                	resp.sendRedirect("/sem5_job_portal/index.jsp");
                     break;
                 default:
-                    resp.sendRedirect("index.jsp");
+                    resp.sendRedirect("/sem5_job_portal/index.jsp");
             }
         } else {
 //            req.getRequestDispatcher("jsp/index.jsp").forward(req, resp);
-        	resp.sendRedirect("index.jsp");
+        	resp.sendRedirect("/sem5_job_portal/index.jsp"); //để test login
         }
     }
 
