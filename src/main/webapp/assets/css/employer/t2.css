@@ -1,0 +1,35 @@
+.link {
+  font-family: Arial, Helvetica, sans-serif;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.tittle {
+  font-size: 15px;
+  color: #084af491;
+  border: 1px solid #e6e6e6;
+  text-transform: uppercase;
+  border-bottom: none;
+  height: 50px;
+  line-height: 50px;
+  padding-left: 15px;
+  font-weight: 600;
+}
+
+.sub-tittle {
+  border: 1px solid #e6e6e6;
+}
+
+.sub-tittle > a {
+  font-size: 13px;
+  padding: 12px 0;
+  display: block;
+  border-bottom: 1px dashed #c9c9c9;
+  margin: 0 15px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.sub-tittle > a:last-child {
+  border-bottom: none;
+}

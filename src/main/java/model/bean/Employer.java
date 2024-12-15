@@ -20,6 +20,7 @@ public class Employer {
     	this.link = link;
     	this.description = description;
     }
+
 	public String getId() {
 		return id;
 	}
@@ -63,5 +64,4 @@ public class Employer {
 		this.description = description;
 	}
     
-
 }

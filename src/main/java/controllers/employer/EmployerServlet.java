@@ -1,4 +1,4 @@
-package controllers.job;
+package controllers.employer;
 
 import java.io.IOException;
 
@@ -9,19 +9,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@WebServlet("/JobServlet")
-public class JobServlet extends HttpServlet {
+@WebServlet("/EmployerServlet")
+public class EmployerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		doPost(request, response);
 	}
-	
-	@Override
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+            throws ServletException, IOException {
 		 // Thiết lập mã hóa UTF-8 cho request và response
         request.setCharacterEncoding("UTF-8"); // Đảm bảo request sử dụng UTF-8
         response.setContentType("text/html; charset=UTF-8"); // Thiết lập phản hồi (response) sử dụng UTF-8
@@ -29,39 +27,20 @@ public class JobServlet extends HttpServlet {
         
 		HttpSession session = request.getSession();
 		String destination = null;
-		String employer_id = "EMP01"; session.setAttribute("employer_id",employer_id);
+		String employer_id = session.getAttribute("employer_id").toString();
 		String action = request.getParameter("action");
 		if (action == null) {
 			destination = "employer/employer_index.jsp";
 			action = "null";
 		}
 		
-//		if (employer_id == null) {
-//			response.sendRedirect("login.jsp");
-//		}
-//		if(action == null) {
-//			action = "null";
-//			System.out.println("action is null");
-//		}
 		//swith
 		switch (action) {
-			case "showjob":
-				destination = "showjob";
+			case "showprofile":
+				destination = "employer_profile";
 				break;
 			case "update":
-				destination = "updatejob";
-				break;
-			case "updateavaible":
-				destination = "updatejob";
-				break;
-			case "formaddjob":
-				destination = "employer/Form_add_job.jsp";
-				break;
-			case "addjob":
-				destination = "add_job";
-				break;
-			case "search":
-				destination = "search_job";
+				destination = "update_employer_profile";
 				break;
 			default:
 				destination = "employer/employer_index.jsp";
