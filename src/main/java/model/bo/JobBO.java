@@ -33,14 +33,14 @@ public class JobBO {
 		return JobDAO.getInstance().getJobsByEmployerId(id);
 	}
 	
+	//select job by employer id
+	public List<Job> getJobByEmployerId(String id, int offset, int noOfRecords) {
+		return JobDAO.getInstance().getJobsByEmployerId(id, offset, noOfRecords);
+	}
+	
 	//select job by id
 	public Job getJobById(String id) {
 		return JobDAO.getInstance().getJobById(id);
-	}
-	
-	//search job by name
-	public List<Job> searchJobsByName(String name) {
-		return JobDAO.getInstance().searchJobsByName(name);
 	}
 	
 	//add job
@@ -66,16 +66,12 @@ public class JobBO {
 	}
 	
 	//search job
-	public List<Job> searchJobs(String jobName, String salaryRangeId, String jobType, String experience,
-			String location, int page) {
-		return JobDAO.getInstance().searchJobs(jobName, salaryRangeId, jobType, experience, location, page);
+	public List<Job> searchJobs(String emp_id, String jobName, String salaryRangeId, String jobType, String experience,
+			String location, int offset, int noOfRecords) {
+		return JobDAO.getInstance().searchJobs(emp_id, jobName, salaryRangeId, jobType, experience, location, offset, noOfRecords);
 	}
 	
-	
-	
-	
-	
-	
+
 	
 	
 }

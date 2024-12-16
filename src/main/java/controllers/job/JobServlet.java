@@ -29,6 +29,7 @@ public class JobServlet extends HttpServlet {
         
 		HttpSession session = request.getSession();
 		String destination = null;
+		//tạo session demo
 		String employer_id = "EMP01"; session.setAttribute("employer_id",employer_id);
 		String action = request.getParameter("action");
 		if (action == null) {
@@ -36,9 +37,10 @@ public class JobServlet extends HttpServlet {
 			action = "null";
 		}
 		
-//		if (employer_id == null) {
-//			response.sendRedirect("login.jsp");
-//		}
+		if (employer_id == null) {
+			response.sendRedirect("login.jsp");
+		}
+		
 //		if(action == null) {
 //			action = "null";
 //			System.out.println("action is null");

@@ -21,6 +21,7 @@ locations.add("Hà Nội");
 locations.add("Hồ Chí Minh");
 locations.add("Đà Nẵng");
 locations.add("Khác");
+
 //Xử lý tìm kiếm
 String jobName = request.getParameter("jobName");
 String salaryRangeId = request.getParameter("salaryRange");
@@ -28,7 +29,13 @@ String jobType = request.getParameter("jobType");
 String experience = request.getParameter("experience");
 String location = request.getParameter("location");
 
-List<Job> recentJobs = (List<Job>) request.getAttribute("listjob");
+	List<Job> recentJobs = (List<Job>) request.getAttribute("listjob");
+	int noOfPages = (int) request.getAttribute("noOfPages");
+    int currentPage = (int) request.getAttribute("currentPage");
+    boolean search = false;
+    if(request.getAttribute("search") != null) {
+    	search = (boolean) request.getAttribute("search");
+    }
 %>
 <!DOCTYPE html>
 <html>
@@ -148,6 +155,20 @@ h1 {
         <% } %>
     </div>
 
+	<!-- Pagination -->
+    <div class="pagination">
+        <% for (int i = 1; i <= noOfPages; i++) { %>
+			<% if(search){
+        	%>
+			<a
+				href="JobServlet?action=search&jobName=<%= jobName %>&salaryRange=<%= salaryRangeId %>&jobType=<%= jobType %>&experience=<%= experience %>&location=<%= location %>&page=<%= i %>"
+				class="<%= (i == currentPage) ? "active" : "" %>"><%= i %></a> 
+				<%}else{
+        	%>
+            <a href="JobServlet?action=showjob&page=<%= i %>" class="<%= (i == currentPage) ? "active" : "" %>"><%= i %></a>
+        <% }
+        } %>
+    </div>
      
 	</div>
 	<%@include file="../includes/footer.jsp"%>

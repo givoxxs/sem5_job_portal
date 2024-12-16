@@ -24,15 +24,40 @@ public class showjob extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		int page = 1; // Trang mặc định là 1
+		int recordsPerPage = 8; // Số mục hiển thị mỗi trang
+		
+		//Lấy trang jsp yêu cầu
+		if (request.getParameter("page") != null) {
+			page = Integer.parseInt(request.getParameter("page"));
+		}
+		
 		String destination = null;
 		HttpSession session = request.getSession();
 		
 		String employer_id = session.getAttribute("employer_id").toString();
 		String jobid = request.getParameter("jobid");
 		
+		if (employer_id == null) {
+		    System.out.println("Employer_id is null");
+		    return;
+		}
+		
 		if (jobid == null) {
-			List<Job> jobs = JobBO.getInstance().getJobByEmployerId(employer_id);
+			
+			//tính toán số trang
+			List<Job> fulljobs = JobBO.getInstance().getJobByEmployerId(employer_id);
+			int totalRecords = fulljobs.size();
+			int noOfPages = (int) Math.ceil((double) totalRecords / recordsPerPage);
+
+			//lấy danh sách job cần thiết
+			List<Job> jobs = JobBO.getInstance().getJobByEmployerId(employer_id,(page - 1) * recordsPerPage, recordsPerPage);
+			
+			// Gửi dữ liệu phân trang về JSP
+			request.setAttribute("noOfPages", noOfPages);
+			request.setAttribute("currentPage", page);
 			request.setAttribute("listjob", jobs);
+			
 			destination = "employer/showjob.jsp";
 		} else {
 			Job job = JobBO.getInstance().getJobById(jobid);

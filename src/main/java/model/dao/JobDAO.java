@@ -91,17 +91,32 @@ public class JobDAO {
 		return getJOB(null, query);
 	}
 	
-	//Select job by enployer_id
-	public List<Job> getJobsByEmployerId(String employerId) {
+	//Select job by enployer_id theo trang
+	public List<Job> getJobsByEmployerId(String employerId, int offset, int noOfRecords ) {
 		String query = "SELECT j.*, s.salary_range, e.name "
 				+ "FROM job j "
 				+ "JOIN salary_range s ON j.salary_range_id = s.id "
 				+ "JOIN employer_profile e ON j.employer_id = e.id "
-				+ "WHERE j.employer_id = ?";
+				+ "WHERE j.employer_id = ?"
+				+ "LIMIT "+offset+","+noOfRecords;
 		List<String> params = new ArrayList<String>();
 		params.add(employerId);
 		return getJOB(params, query);
 	}
+	
+	//Select job by enployer_id
+		public List<Job> getJobsByEmployerId(String employerId) {
+			String query = "SELECT j.*, s.salary_range, e.name "
+					+ "FROM job j "
+					+ "JOIN salary_range s ON j.salary_range_id = s.id "
+					+ "JOIN employer_profile e ON j.employer_id = e.id "
+					+ "WHERE j.employer_id = ?";
+			List<String> params = new ArrayList<String>();
+			params.add(employerId);
+			
+			
+			return getJOB(params, query);
+		}
 	
 	//Select job by id
 	public Job getJobById(String id) {
@@ -118,53 +133,6 @@ public class JobDAO {
 		return null;
 	}
 	
-	//Search job by name
-	public List<Job> searchJobsByName(String name) {
-		String query = "SELECT j.*, s.salary_range, e.name "
-				+ "FROM job j "
-				+ "JOIN salary_range s ON j.salary_range_id = s.id "
-				+ "JOIN employer_profile e ON j.employer_id = e.id "
-				+ "WHERE j.title LIKE ?";
-		List<String> params = new ArrayList<String>();
-		params.add("%" + name + "%");
-		return getJOB(params, query);
-	}
-	
-	//Search job by salary_range_id
-	public List<Job> searchJobsBySalaryRangeId(String salaryRangeId) {
-		String query = "SELECT j.*, s.salary_range, e.name "
-				+ "FROM job j "
-				+ "JOIN salary_range s ON j.salary_range_id = s.id "
-				+ "JOIN employer_profile e ON j.employer_id = e.id "
-				+ "WHERE j.salary_range_id = ?";
-		List<String> params = new ArrayList<String>();
-		params.add(salaryRangeId);
-		return getJOB(params, query);
-	}
-	
-	//Search job by location
-	public List<Job> searchJobsByLocation(String location) {
-		String query = "SELECT j.*, s.salary_range, e.name "
-				+ "FROM job j "
-				+ "JOIN salary_range s ON j.salary_range_id = s.id "
-				+ "JOIN employer_profile e ON j.employer_id = e.id "
-				+ "WHERE j.location LIKE ?";
-		List<String> params = new ArrayList<String>();
-		params.add("%" + location + "%");
-		return getJOB(params, query);
-	}
-	
-	//Search job by job_type
-	public List<Job> searchJobsByJobType(String jobType) {
-		String query = "SELECT j.*, s.salary_range, e.name "
-				+ "FROM job j "
-				+ "JOIN salary_range s ON j.salary_range_id = s.id "
-				+ "JOIN employer_profile e ON j.employer_id = e.id "
-				+ "WHERE j.job_type = ?";
-		List<String> params = new ArrayList<String>();
-		params.add(jobType);
-		return getJOB(params, query);
-	}
 	
 	//Add job
 	public boolean addJob(String employerId, String title, String description, String salaryRangeId, String location, String jobType, String experience) {
@@ -213,58 +181,19 @@ public class JobDAO {
 		params.add(isAvailable ? "1" : "0");
 		params.add(id);
 		return DBConnect.getInstance().dataSQL(params, query);
-	}
-	
-	
-	public static void main(String[] args) {
-		//test add job
-//		getInstance().addJob("EMP01", "JOB việc làm IT", "Tuyển dev full snack", "3", "HCM", "full-time", "Senior");
-		
-		//test update job
-//		getInstance().updateJob("JOB01", "JOB việc làm IT", "Tuyển dev full snack", "3", "HCM", "full-time", "Senior");
-		
-		//get one job
-		Job job = getInstance().getJobById("JOB01");
-		System.out.println("\n");
-		System.out.println(job.getId());
-		System.out.println(job.getEmployerName());
-		System.out.println(job.getTitle());
-		System.out.println(job.getDescription());
-		System.out.println(job.getSalaryRange());
-		System.out.println(job.getLocation());
-		System.out.println(job.getJobType());
-		System.out.println(job.getExperience());
-		System.out.println(job.getDatePost());
-		System.out.println(job.isAvailable());
-		
-//		JobDAO jobDAO = JobDAO.getInstance();
-//		List<Job> jobs = jobDAO.getAllJobs();
-//		for (Job job : jobs) {
-//			System.out.println("\n");
-//			System.out.println(job.getId());
-//			System.out.println(job.getEmployerName());
-//			System.out.println(job.getTitle());
-//			System.out.println(job.getDescription());
-//			System.out.println(job.getSalaryRange());
-//			System.out.println(job.getLocation());
-//			System.out.println(job.getJobType());
-//			System.out.println(job.getExperience());
-//			System.out.println(job.getDatePost());
-//			System.out.println(job.isAvailable());
-//		}
 	}	
 	
-	public List<Job> searchJobs(String jobName, String salaryRangeId, String jobType, String experience, String location, int page) {
+	public List<Job> searchJobs(String emp_id, String jobName, String salaryRangeId, String jobType, String experience, String location, int offset, int noOfRecords) {
         List<Job> jobs = new ArrayList<>();
-        int offset = (page - 1) * 10; // 10 jobs per page
 
         String sql = "SELECT j.*, sr.salary_range, e.name " +
                 "FROM job j JOIN salary_range sr ON j.salary_range_id = sr.id " +
         		"JOIN employer_profile e ON j.employer_id = e.id " +
-                "WHERE j.is_available = true ";
+                "WHERE j.employer_id = ?";
 
         List<String> conditions = new ArrayList<>();
         List<Object> parameters = new ArrayList<>();
+        parameters.add(emp_id);
 
         if (jobName != null && !jobName.isEmpty()) {
             conditions.add("(j.title LIKE ? OR j.description LIKE ?)");
@@ -292,8 +221,11 @@ public class JobDAO {
             sql += "AND (" + String.join(" AND ", conditions) + ") ";
         }
 
-        sql += "ORDER BY j.date_post DESC LIMIT 10 OFFSET ?";
-        parameters.add(offset);
+        sql += "ORDER BY j.date_post DESC ";
+        if(offset != -1 && noOfRecords != -1) {
+        	sql += "LIMIT " + offset + ", " + noOfRecords;
+        }
+
         
         Connection connection = null;
 		try {
