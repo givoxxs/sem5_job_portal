@@ -20,6 +20,8 @@ public class SalaryRangeBO {
 	}
 	
 	public List<SalaryRange> getAllAvailableSalaryRanges() {
+//		List<SalaryRange> salaryRanges = salaryRangeDAO.getAllAvailableSalaryRanges();
+//		System.out.println("SalaryRangeBO: getAllAvailableSalaryRanges: " + salaryRanges);
 		return salaryRangeDAO.getAllAvailableSalaryRanges();
 	}
 }

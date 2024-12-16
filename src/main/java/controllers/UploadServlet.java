@@ -23,10 +23,14 @@ public class UploadServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
+        	response.setContentType("text/html;charset=UTF - 8");
+        	request.setCharacterEncoding("UTF-8");
+        	System.out.println("UploadServlet");
             // Lấy file từ request
             Part imagePart = request.getPart("image");
             
             String imageUrl = ImageUploadUtil.uploadImage(imagePart);
+            System.out.println("imageUrl: " + imageUrl);
             // Đưa URL ảnh lên JSP (hoặc trang khác)
             request.setAttribute("imageUrl", imageUrl);
             
@@ -34,13 +38,16 @@ public class UploadServlet extends HttpServlet {
             String redirect = request.getParameter("redirect");
 
             if (redirect != null && redirect.equals("candidate/create/profile")) {
-                request.getRequestDispatcher(redirect).forward(request, response);
+            	String f_url = "/" + redirect;
+            	System.out.println(request.getContextPath() + f_url);
+            	request.getRequestDispatcher("/candidate/create/profile").forward(request, response);
+//            	request.getRequestDispatcher(request.getContextPath() + "/candidate/create/profile").forward(request, response);
             }
             else {
             	request.getRequestDispatcher("/testUrl.jsp").forward(request, response);
             }
         } catch (Exception e) {
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage()); // 500
         }
     }
 }

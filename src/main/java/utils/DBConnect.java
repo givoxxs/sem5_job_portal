@@ -35,7 +35,7 @@ public class DBConnect {
     public static Connection getConnection() throws SQLException {
 		if (connection == null || connection.isClosed()) {
 			try {
-				Class.forName("com.mysql.jdbc.Driver");
+				Class.forName("com.mysql.cj.jdbc.Driver");
 				connection = DriverManager.getConnection(URL, USER, PASSWORD);
 			} catch (ClassNotFoundException e) {
 				throw new SQLException("JDBC Driver not found", e);

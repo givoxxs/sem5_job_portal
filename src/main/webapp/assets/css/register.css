@@ -7,8 +7,7 @@ body {
     margin: 0;
     padding: 0;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
     min-height: 100vh;
     background-color: #eafaf1;
     /* Xanh lá nhạt */
@@ -16,7 +15,11 @@ body {
 
 .register-container {
     width: 100%;
-    max-width: 400px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 700px;
     padding: 20px;
     background-color: #fff;
     border-radius: 8px;
