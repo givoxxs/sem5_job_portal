@@ -1,6 +1,8 @@
 package controllers;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,13 +11,27 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@WebServlet("/")
+import model.bean.Job;
+import model.bean.SalaryRange;
+import model.bo.JobBO;
+import model.bo.SalaryRangeBO;
+
+@WebServlet("/home")
 public class HomeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	@Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession session = req.getSession(false); 
+        System.out.println("HomeServlet - doGet");
+        List<Job> recentJobs = JobBO.getInstance().getTopLatestJobs(6);
+        req.setAttribute("recentJobs", recentJobs);
+        List<Job> randomJobs = JobBO.getInstance().getRandomJobs(6);
+        req.setAttribute("randomJobs", randomJobs);
+        List<SalaryRange> salaryRanges = SalaryRangeBO.getInstance().getAllAvailableSalaryRanges();
+        req.setAttribute("salaryRanges", salaryRanges);
+        req.setAttribute("locations", new ArrayList<>(List.of("Hà Nội", "Hồ Chí Minh", "Đà Nẵng", "Khác")));
+		HttpSession session = req.getSession(false); 
+		System.out.println("SalaryRanges: " + salaryRanges);
 
         if (session != null && session.getAttribute("role") != null) {
             String role = (String) session.getAttribute("role");
@@ -28,19 +44,20 @@ public class HomeServlet extends HttpServlet {
                 	req.getRequestDispatcher("JobServlet").forward(req, resp);
                     break;
                 case "candidate":
-                	resp.sendRedirect("/sem5_job_portal/index.jsp");
+//                	resp.sendRedirect("/sem5_job_portal/index.jsp");
+                	req.getRequestDispatcher("index_home.jsp").forward(req, resp);
                     break;
                 default:
-                    resp.sendRedirect("/sem5_job_portal/index.jsp");
+//                    resp.sendRedirect("/sem5_job_portal/index.jsp");
+                	req.getRequestDispatcher("index_home.jsp").forward(req, resp);
             }
         } else {
-//            req.getRequestDispatcher("jsp/index.jsp").forward(req, resp);
-        	resp.sendRedirect("/sem5_job_portal/index.jsp"); //để test login
+        	req.getRequestDispatcher("index_home.jsp").forward(req, resp);
         }
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.sendRedirect("/");
+        doGet(req, resp);
     }
 }

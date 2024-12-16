@@ -17,11 +17,6 @@ public class SalaryRangeDAO {
 	private Connection conn;
 
 	private SalaryRangeDAO() {
-        try {
-            conn = DBConnect.getConnection();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
 	}
 	
 	public static SalaryRangeDAO getInstance() {
@@ -33,7 +28,8 @@ public class SalaryRangeDAO {
 	
 	public List<SalaryRange> getAllAvailableSalaryRanges() {
 		List<SalaryRange> salaryRanges = new ArrayList<>();
-		try {
+//		try {
+		try (Connection conn = DBConnect.getConnection()) {
 			PreparedStatement ps = conn.prepareStatement(SQL_GET_ALL_AVAILABLE_SALARY_RANGES);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {

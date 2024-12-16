@@ -26,6 +26,7 @@ public class search_job extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
+		
 		System.out.println("searchjob.java");
 		String destination = null;
 		String job_id = request.getParameter("job_id");

@@ -51,7 +51,7 @@ public class LoginServlet extends HttpServlet {
 			session.setAttribute("role", account.getRole());
 			session.setAttribute("avatarUrl", account.getAvatarUrl());
 			
-			response.sendRedirect(request.getContextPath() + "/");
+			response.sendRedirect(request.getContextPath() + "/home");
         } catch (Exception e) {
             e.printStackTrace();
             request.setAttribute("error", e.getMessage());
