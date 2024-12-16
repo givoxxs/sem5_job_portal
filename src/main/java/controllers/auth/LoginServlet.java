@@ -41,21 +41,11 @@ public class LoginServlet extends HttpServlet {
         	Account account = AccountBO.getInstance().findAccountByUsername(username);
 			if (account == null || !PasswordUtils.checkPassword(password, account.getPassword())) {
 				throw new Exception("Tài khoản hoặc mật khẩu sai!");
-			if (account == null || !PasswordUtils.checkPassword(password, account.getPassword())) {
-				throw new Exception("Tài khoản hoặc mật khẩu sai!");
 			}
-
-			HttpSession session = request.getSession();
 
 			HttpSession session = request.getSession();
 			
 			session.setAttribute("account", account);
-			session.setAttribute("username", account.getUsername());
-			session.setAttribute("accountId", account.getId());
-			session.setAttribute("role", account.getRole());
-			session.setAttribute("avatarUrl", account.getAvatarUrl());
-			
-			response.sendRedirect(request.getContextPath() + "/");
 			session.setAttribute("username", account.getUsername());
 			session.setAttribute("accountId", account.getId());
 			session.setAttribute("role", account.getRole());

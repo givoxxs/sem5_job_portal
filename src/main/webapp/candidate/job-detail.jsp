@@ -27,7 +27,7 @@ if (job == null) {
 <div class="container">
     <h2><%= job.getTitle() %></h2>
     <%-- Hiển thị chi tiết công việc ở đây --%>
-    <p>Company: <%= job.getEmployerId() %></p> <%-- Thay bằng tên công ty --%>
+    <p>Company: <%= job.getEmployerName()%></p> <%-- Thay bằng tên công ty --%>
     <p>Salary: <%= job.getSalaryRange() %></p>
     <p>Location: <%= job.getLocation() %></p>
     <p>Experience: <%= job.getExperience() %></p>

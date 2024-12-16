@@ -29,6 +29,12 @@ public class JobBO {
 	}
 	
 	public List<Job> getTopLatestJobs(int limit) {
+		System.out.println("JobBO - getTopLatestJobs");
+		// in ra length
+		System.out.println("limit: " + limit);
+		// in ra danh sách các công việc mới nhất
+		List<Job> jobs = jobDAO.getTopLatestJobs(limit);
+		System.out.println("jobs: " + jobs);
 		return jobDAO.getTopLatestJobs(limit);
 	}
 	
@@ -54,4 +60,32 @@ public class JobBO {
     public int getTotalPages(String jobName, String salaryRangeId, String jobType, String experience, String location) {
         return jobDAO.getTotalPages(jobName, salaryRangeId, jobType, experience, location);
     }
+
+	public boolean addJob(String employerId, String title, String description, String salaryRangeId, String location,
+			String jobType, String experience) {
+		// TODO Auto-generated method stub
+		return jobDAO.addJob(employerId, title, description, salaryRangeId, location, jobType, experience);
+	}
+
+	public List<Job> getJobByEmployerId(String employer_id) {
+		// TODO Auto-generated method stub
+        return jobDAO.getJobByEmployerId(employer_id);
+	}
+
+	public boolean updateJob(String jobid, String title, String description, String salaryRangeId, String location,
+			String jobType, String experience) {
+		// TODO Auto-generated method stub
+		return jobDAO.updateJob(jobid, title, description, salaryRangeId, location, jobType, experience);
+	}
+
+	public boolean updateAvailableJob(String jobid, String status) {
+		// TODO Auto-generated method stub
+		return jobDAO.updateAvailableJob(jobid, status);
+	}
+
+	public List<Job> searchJobsAll(String jobName, String salaryRangeId, String jobType, String experience,
+		    String location) {
+        // TODO Auto-generated method stub
+        return jobDAO.searchJobsAll(jobName, salaryRangeId, jobType, experience, location);
+	}
 }
