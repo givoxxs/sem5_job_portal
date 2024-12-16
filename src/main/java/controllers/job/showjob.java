@@ -25,7 +25,7 @@ public class showjob extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		int page = 1; // Trang mặc định là 1
-		int recordsPerPage = 8; // Số mục hiển thị mỗi trang
+		int recordsPerPage = 9; // Số mục hiển thị mỗi trang
 		
 		//Lấy trang jsp yêu cầu
 		if (request.getParameter("page") != null) {

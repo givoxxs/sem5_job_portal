@@ -40,7 +40,7 @@ public class search_job extends HttpServlet {
         List<Job> searchResults = null;
         int page = 1;
         int totalPages = 1;
-        int recordsPerPage = 8; // Số mục hiển thị mỗi trang
+        int recordsPerPage = 9; // Số mục hiển thị mỗi trang
         
         if (jobName != null || salaryRangeId != null || jobType != null || experience != null || location != null ) {
         	

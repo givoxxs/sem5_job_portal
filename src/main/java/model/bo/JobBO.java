@@ -24,10 +24,6 @@ public class JobBO {
 		return jobDAO.getAllAvailableJobs();
 	}
 	
-	public Job getJobById(String jobId) {
-		return jobDAO.getJobById(jobId);
-	}
-	
 	public List<Job> getTopLatestJobs(int limit) {
 		System.out.println("JobBO - getTopLatestJobs");
 		// in ra length

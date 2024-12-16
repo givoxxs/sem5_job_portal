@@ -75,8 +75,10 @@ h1 {
                     String status = ja.getStatus();
                     if(status.equals("Pending")) {
                     	%>
+                    	<span class="detail-item">
                     	<a href="job_applicationServlet?action=updateStatusJob_application&jobapp_id=<%=ja.getId() %>&status=Reject" class="button">Reject</a>
                     	<a href="job_applicationServlet?action=updateStatusJob_application&jobapp_id=<%=ja.getId() %>&status=Accept" class="button">Accept</a>
+                    	</span>
                     <%
                     }else{
                     	%>

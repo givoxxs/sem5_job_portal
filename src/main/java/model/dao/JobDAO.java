@@ -77,7 +77,6 @@ public class JobDAO {
 	public Job mapResultToJob(ResultSet rs) throws SQLException {
 		Job job = new Job();
 		job.setId(rs.getString("id"));
-		job.setEmployerName(rs.getString("name"));
 		job.setTitle(rs.getString("title"));
 		job.setDescription(rs.getString("description"));
 		job.setSalaryRange(rs.getString("salary_range"));
@@ -417,42 +416,7 @@ public class JobDAO {
 
         return (int) Math.ceil((double) totalJobs / 10);
     }
-	public boolean addJob(String employerId, String title, String description, String salaryRangeId, String location,
-			String jobType, String experience) {
-		boolean rs = false;
-		String id = createId("job");
-//		try {
-		try (Connection conn = DBConnect.getConnection()){
-			PreparedStatement ps = conn.prepareStatement(SQL_CREATE_JOB);
-			ps.setString(1, id);
-			ps.setString(2, employerId);
-			ps.setString(3, title);
-			ps.setString(4, description);
-			ps.setString(5, salaryRangeId);
-			ps.setString(6, location);
-			ps.setString(7, jobType);
-			ps.setString(8, experience);
-			rs = ps.executeUpdate() > 0;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return rs;
-	}
-	public List<Job> getAllAvailableJobs() {
-		List<Job> jobs = new ArrayList<Job>();
-//		try {
-		try (Connection conn = DBConnect.getConnection()) {
-			PreparedStatement ps = conn.prepareStatement(SQL_GET_ALl_AVAILABLE_JOBS);
-			ResultSet rs = ps.executeQuery();
-			while (rs.next()) {
-				Job job = mapResultToJob(rs);
-				jobs.add(job);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return jobs;
-	}
+
 	public List<Job> getJobByEmployerId(String employer_id) {
 		List<Job> jobs = new ArrayList<Job>();
 //		try {

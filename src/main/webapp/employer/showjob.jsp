@@ -146,10 +146,10 @@ h1 {
                     <span class="detail-item"><i class="fas fa-calendar-alt"></i> <%= job.getDatePost() %></span> <%-- Format date if needed --%>
                     <%-- Hiển thị isAvailable nếu cần thiết--%>
                     <span class="detail-item"><i class="fas fa-check-circle"></i> <%= job.isAvailable() ? "Available" : "Not Available" %></span>
-                    
+                    <span class="detail-item">
                     <a href="JobServlet?action=updateavaible&jobid=<%= job.getId() %>&status=<%= job.isAvailable() ? "false" : "true" %>" class="button"><%= job.isAvailable() ? "Hiring Freeze" : "Continue hiring" %></a>
                     <a href="job_applicationServlet?action=showJob_applicationOfJob&job_id=<%= job.getId() %>" class="button">View applications</a>
-                                        
+                    </span>           
                 </div>
             </div>
         <% } %>
