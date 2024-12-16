@@ -14,9 +14,34 @@ import model.bean.Job;
 import utils.DBConnect;
 
 public class JobDAO {
+	private static JobDAO instance;
+	private Connection conn;
 	
-	//Crete instance
-	private static JobDAO instance;	
+	// get all available jobs
+    private static final String SQL_GET_ALL_AVAILABLE_JOBS = "SELECT j.*, sr.salary_range " +
+            "FROM job j JOIN salary_range sr ON j.salary_range_id = sr.id " +
+            "WHERE j.is_available = true";
+//	private static final String SQL_SEARCH_JOB = "SELECT j.*, sr.salary_range "
+//			+ "FROM job j JOIN salary_range sr ON j.salary_range_id = sr.id "
+//			+ "WHERE j.is_available = true AND (j.title LIKE ? OR j.description LIKE ?)";
+	private static final String SQL_GET_TOP_LATEST_JOBS = "SELECT j.*, sr.salary_range "
+			+ "FROM job j JOIN salary_range sr ON j.salary_range_id = sr.id "
+			+ "WHERE j.is_available = true ORDER BY j.date_post DESC LIMIT ?";
+	private static final String SQL_GET_RANDOM_JOBS = "SELECT j.*, sr.salary_range " +
+            "FROM job j JOIN salary_range sr ON j.salary_range_id = sr.id " +
+            "WHERE j.is_available = true ORDER BY RAND() LIMIT ?";
+	private static final String SQL_SEARCH_JOB = "SELECT j.*, sr.salary_range "
+			+ "FROM job j JOIN salary_range sr ON j.salary_range_id = sr.id "
+			+ "WHERE j.is_available = true "
+				+ "AND (j.title LIKE ? OR j.description LIKE ? "
+				+ "OR j.salary_range_id = ? OR j.job_type = ? "
+				+ "OR j.experience = ? OR j.location = ?)";
+	
+	private static final String SQL_GET_JOB_BY_ID = "SELECT j.*, sr.salary_range "
+            + "FROM job j JOIN salary_range sr ON j.salary_range_id = sr.id "
+            + "WHERE j.id = ?";
+	
+    
 	private JobDAO() {
 	}
 	public static JobDAO getInstance() {
@@ -72,195 +97,59 @@ public class JobDAO {
         return jobs;
     }
 	
-	//Select all job avaible
-	public List<Job> getAllAvailableJobs() {
-        String query = "SELECT j.*, s.salary_range, e.name "
-        		+ "FROM job j "
-        		+ "JOIN salary_range s ON j.salary_range_id = s.id "
-        		+ "JOIN employer_profile e ON j.employer_id = e.id  "
-        		+ "WHERE j.is_available = 1";
-        return getJOB(null, query);
-    }
-	
-	//Select all job
-	public List<Job> getAllJobs() {
-		String query = "SELECT j.*, s.salary_range, e.name "
-				+ "FROM job j "
-				+ "JOIN salary_range s ON j.salary_range_id = s.id "
-				+ "JOIN employer_profile e ON j.employer_id = e.id";
-		return getJOB(null, query);
-	}
-	
-	//Select job by enployer_id
-	public List<Job> getJobsByEmployerId(String employerId) {
-		String query = "SELECT j.*, s.salary_range, e.name "
-				+ "FROM job j "
-				+ "JOIN salary_range s ON j.salary_range_id = s.id "
-				+ "JOIN employer_profile e ON j.employer_id = e.id "
-				+ "WHERE j.employer_id = ?";
-		List<String> params = new ArrayList<String>();
-		params.add(employerId);
-		return getJOB(params, query);
-	}
-	
-	//Select job by id
 	public Job getJobById(String id) {
-		String query = "SELECT j.*, s.salary_range, e.name " + "FROM job j "
-				+ "JOIN salary_range s ON j.salary_range_id = s.id "
-				+ "JOIN employer_profile e ON j.employer_id = e.id " 
-				+ "WHERE j.id = ?";
-		List<String> params = new ArrayList<String>();
-		params.add(id);
-		List<Job> jobs = getJOB(params, query);
-		if (jobs.size() > 0) {
-			return jobs.get(0);
+        Job job = null;
+        try {
+            PreparedStatement ps = conn.prepareStatement(SQL_GET_JOB_BY_ID);
+            ps.setString(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                job = mapResultToJob(rs);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return job;
+	}
+	
+	public List<Job> getTopLatestJobs(int top) {
+        List<Job> jobs = new ArrayList<Job>();
+        try {
+            PreparedStatement ps = conn.prepareStatement(SQL_GET_TOP_LATEST_JOBS);
+            ps.setInt(1, top);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Job job = mapResultToJob(rs);
+                jobs.add(job);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return jobs;
+	}
+	
+	public List<Job> getRandomJobs(int number) {
+		List<Job> jobs = new ArrayList<Job>();
+		try {
+			PreparedStatement ps = conn.prepareStatement(SQL_GET_RANDOM_JOBS);
+			ps.setInt(1, number);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				Job job = mapResultToJob(rs);
+				jobs.add(job);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
-		return null;
+		return jobs;
 	}
-	
-	//Search job by name
-	public List<Job> searchJobsByName(String name) {
-		String query = "SELECT j.*, s.salary_range, e.name "
-				+ "FROM job j "
-				+ "JOIN salary_range s ON j.salary_range_id = s.id "
-				+ "JOIN employer_profile e ON j.employer_id = e.id "
-				+ "WHERE j.title LIKE ?";
-		List<String> params = new ArrayList<String>();
-		params.add("%" + name + "%");
-		return getJOB(params, query);
-	}
-	
-	//Search job by salary_range_id
-	public List<Job> searchJobsBySalaryRangeId(String salaryRangeId) {
-		String query = "SELECT j.*, s.salary_range, e.name "
-				+ "FROM job j "
-				+ "JOIN salary_range s ON j.salary_range_id = s.id "
-				+ "JOIN employer_profile e ON j.employer_id = e.id "
-				+ "WHERE j.salary_range_id = ?";
-		List<String> params = new ArrayList<String>();
-		params.add(salaryRangeId);
-		return getJOB(params, query);
-	}
-	
-	//Search job by location
-	public List<Job> searchJobsByLocation(String location) {
-		String query = "SELECT j.*, s.salary_range, e.name "
-				+ "FROM job j "
-				+ "JOIN salary_range s ON j.salary_range_id = s.id "
-				+ "JOIN employer_profile e ON j.employer_id = e.id "
-				+ "WHERE j.location LIKE ?";
-		List<String> params = new ArrayList<String>();
-		params.add("%" + location + "%");
-		return getJOB(params, query);
-	}
-	
-	//Search job by job_type
-	public List<Job> searchJobsByJobType(String jobType) {
-		String query = "SELECT j.*, s.salary_range, e.name "
-				+ "FROM job j "
-				+ "JOIN salary_range s ON j.salary_range_id = s.id "
-				+ "JOIN employer_profile e ON j.employer_id = e.id "
-				+ "WHERE j.job_type = ?";
-		List<String> params = new ArrayList<String>();
-		params.add(jobType);
-		return getJOB(params, query);
-	}
-	
-	//Add job
-	public boolean addJob(String employerId, String title, String description, String salaryRangeId, String location, String jobType, String experience) {
-		String query = "INSERT INTO job (id, employer_id, title, description, salary_range_id, location, job_type, experience, date_post, is_available) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 1)";
-		
-		//Create time
-		LocalDateTime now = LocalDateTime.now();
-        
-        // Định dạng thời gian theo mẫu
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        String formattedDate = now.format(formatter);
-        
-		List<String> params = new ArrayList<String>();
-		params.add(createId(title));
-		params.add(employerId);
-		params.add(title);
-		params.add(description);
-		params.add(salaryRangeId);
-		params.add(location);
-		params.add(jobType);
-		params.add(experience);
-		params.add(formattedDate);
-
-		return DBConnect.getInstance().dataSQL(params, query);
-	}
-	
-	//Update job
-	public boolean updateJob(String id, String title, String description, String salaryRangeId, String location,
-			String jobType, String experience) {
-		String query = "UPDATE job SET title = ?, description = ?, salary_range_id = ?, location = ?, job_type = ?, experience = ? WHERE id = ?";
-		List<String> params = new ArrayList<String>();
-		params.add(title);
-		params.add(description);
-		params.add(salaryRangeId);
-		params.add(location);
-		params.add(jobType);
-		params.add(experience);
-		params.add(id);
-		return DBConnect.getInstance().dataSQL(params, query);
-	}
-	
-	//Update avaible job
-	public boolean updateJobAvailable(String id, boolean isAvailable) {
-		String query = "UPDATE job SET is_available = ? WHERE id = ?";
-		List<String> params = new ArrayList<String>();
-		params.add(isAvailable ? "1" : "0");
-		params.add(id);
-		return DBConnect.getInstance().dataSQL(params, query);
-	}
-	
-	
-	public static void main(String[] args) {
-		//test add job
-//		getInstance().addJob("EMP01", "JOB việc làm IT", "Tuyển dev full snack", "3", "HCM", "full-time", "Senior");
-		
-		//test update job
-//		getInstance().updateJob("JOB01", "JOB việc làm IT", "Tuyển dev full snack", "3", "HCM", "full-time", "Senior");
-		
-		//get one job
-		Job job = getInstance().getJobById("JOB01");
-		System.out.println("\n");
-		System.out.println(job.getId());
-		System.out.println(job.getEmployerName());
-		System.out.println(job.getTitle());
-		System.out.println(job.getDescription());
-		System.out.println(job.getSalaryRange());
-		System.out.println(job.getLocation());
-		System.out.println(job.getJobType());
-		System.out.println(job.getExperience());
-		System.out.println(job.getDatePost());
-		System.out.println(job.isAvailable());
-		
-//		JobDAO jobDAO = JobDAO.getInstance();
-//		List<Job> jobs = jobDAO.getAllJobs();
-//		for (Job job : jobs) {
-//			System.out.println("\n");
-//			System.out.println(job.getId());
-//			System.out.println(job.getEmployerName());
-//			System.out.println(job.getTitle());
-//			System.out.println(job.getDescription());
-//			System.out.println(job.getSalaryRange());
-//			System.out.println(job.getLocation());
-//			System.out.println(job.getJobType());
-//			System.out.println(job.getExperience());
-//			System.out.println(job.getDatePost());
-//			System.out.println(job.isAvailable());
-//		}
-	}	
 	
 	public List<Job> searchJobs(String jobName, String salaryRangeId, String jobType, String experience, String location, int page) {
         List<Job> jobs = new ArrayList<>();
         int offset = (page - 1) * 10; // 10 jobs per page
 
-        String sql = "SELECT j.*, sr.salary_range, e.name " +
+        String sql = "SELECT j.*, sr.salary_range " +
                 "FROM job j JOIN salary_range sr ON j.salary_range_id = sr.id " +
-        		"JOIN employer_profile e ON j.employer_id = e.id " +
                 "WHERE j.is_available = true ";
 
         List<String> conditions = new ArrayList<>();
@@ -295,14 +184,8 @@ public class JobDAO {
         sql += "ORDER BY j.date_post DESC LIMIT 10 OFFSET ?";
         parameters.add(offset);
         
-        Connection connection = null;
-		try {
-			connection = DBConnect.getConnection();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
             for (int i = 0; i < parameters.size(); i++) {
                 ps.setObject(i + 1, parameters.get(i));
             }
@@ -316,5 +199,57 @@ public class JobDAO {
         }
 
         return jobs;
+    }
+	
+	public int getTotalPages(String jobName, String salaryRangeId, String jobType, String experience, String location) {
+        int totalJobs = 0;
+        String sql = "SELECT COUNT(*) FROM job j WHERE j.is_available = true ";
+        List<String> conditions = new ArrayList<>(); // Tạo list conditions
+        List<Object> parameters = new ArrayList<>();// Tạo list parameters
+
+        // Tương tự như phương thức searchJobs, xây dựng câu sql query động
+        if (jobName != null && !jobName.isEmpty()) {
+			conditions.add("(j.title LIKE ? OR j.description LIKE ?)");
+			parameters.add("%" + jobName + "%");
+            parameters.add("%" + jobName + "%");
+		}
+		if (salaryRangeId != null && !salaryRangeId.isEmpty()) {
+			conditions.add("j.salary_range_id = ?");
+			parameters.add(salaryRangeId);
+		}
+		if (jobType != null && !jobType.isEmpty()) {
+			conditions.add("j.job_type = ?");
+			parameters.add(jobType);
+		}
+		if (experience != null && !experience.isEmpty()) {
+			conditions.add("j.experience = ?");
+			parameters.add(experience);
+		}
+		if (location != null && !location.isEmpty()) {
+			conditions.add("j.location = ?");
+			parameters.add(location);
+		}
+
+        if (!conditions.isEmpty()) {
+            sql += "AND (" + String.join(" AND ", conditions) + ") ";
+        }
+        
+
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            // Set parameters cho PreparedStatement
+            for (int i = 0; i < parameters.size(); i++) {
+                ps.setObject(i + 1, parameters.get(i));
+            }
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    totalJobs = rs.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return (int) Math.ceil((double) totalJobs / 10);
     }
 }

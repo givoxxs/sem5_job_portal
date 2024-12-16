@@ -1,3 +1,4 @@
+
 package model.bean;
 
 import java.util.UUID;

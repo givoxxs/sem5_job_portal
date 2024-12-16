@@ -7,6 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thêm thông tin tài khoản</title>
+    <%@include file="includes/header.jsp"%>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/register_candidate.css">
 </head>
 
