@@ -18,8 +18,8 @@ public class employer_profile extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		String employr_id = session.getAttribute("employer_id").toString();
-		Employer emp = EmployerBO.getInstance().getEmployerProfile(employr_id);
+		String employer_id = session.getAttribute("employer_id").toString();
+		Employer emp = EmployerBO.getInstance().getEmployerProfile(employer_id);
 		request.setAttribute("employer", emp);
 		
 		String destination = "employer/employer_profile.jsp";

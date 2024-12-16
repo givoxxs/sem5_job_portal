@@ -37,7 +37,21 @@ public class JobBO {
 		System.out.println("jobs: " + jobs);
 		return jobDAO.getTopLatestJobs(limit);
 	}
+
+	//select job by employer id
+	public List<Job> getJobByEmployerId(String id, int offset, int noOfRecords) {
+		return JobDAO.getInstance().getJobsByEmployerId(id, offset, noOfRecords);
+	}
 	
+	//select job by id
+	public Job getJobById(String id) {
+		return JobDAO.getInstance().getJobById(id);
+	}
+	
+	//add job
+	public boolean addJob(String employerId, String title, String description, String salaryRangeId, String location, String jobType, String experience) {
+		return JobDAO.getInstance().addJob(employerId, title, description, salaryRangeId, location, jobType, experience);
+  }
 	public List<Job> getRandomJobs(int num) {
 		return jobDAO.getRandomJobs(num);
 	}
@@ -61,11 +75,7 @@ public class JobBO {
         return jobDAO.getTotalPages(jobName, salaryRangeId, jobType, experience, location);
     }
 
-	public boolean addJob(String employerId, String title, String description, String salaryRangeId, String location,
-			String jobType, String experience) {
-		// TODO Auto-generated method stub
-		return jobDAO.addJob(employerId, title, description, salaryRangeId, location, jobType, experience);
-	}
+
 
 	public List<Job> getJobByEmployerId(String employer_id) {
 		// TODO Auto-generated method stub
@@ -83,6 +93,12 @@ public class JobBO {
 		return jobDAO.updateAvailableJob(jobid, status);
 	}
 
+	//search job
+	public List<Job> searchJobs(String emp_id, String jobName, String salaryRangeId, String jobType, String experience,
+			String location, int offset, int noOfRecords) {
+		return JobDAO.getInstance().searchJobs(emp_id, jobName, salaryRangeId, jobType, experience, location, offset, noOfRecords);
+	}
+	
 	public List<Job> searchJobsAll(String jobName, String salaryRangeId, String jobType, String experience,
 		    String location) {
         // TODO Auto-generated method stub

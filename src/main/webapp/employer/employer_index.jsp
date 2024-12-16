@@ -34,6 +34,7 @@
         
     %>
 	<%@include file="../includes/navbar.jsp"%>
+	<br></br>
 	<div class="contentt3">
       <div class="t3-center">
         <div class="center-menu">

@@ -92,7 +92,13 @@ public class EmployerDAO{
 		if (rs == null) {
 			return null;
 		}
-		return mapResultToEmployer(rs);
+		try {
+			return mapResultToEmployer(rs);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	//rs to employer
