@@ -16,6 +16,7 @@ public class HomeServlet extends HttpServlet {
 	@Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession(false); 
+        HttpSession session = req.getSession(false); 
 
         if (session != null && session.getAttribute("role") != null) {
             String role = (String) session.getAttribute("role");

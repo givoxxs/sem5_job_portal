@@ -54,8 +54,4 @@ public class ImageUploadUtil {
             return success ? jsonResponse.getJSONObject("data").getString("url") : "Lỗi tải ảnh lên";
         }
     }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 90646a4 (update login, register, and UI index)

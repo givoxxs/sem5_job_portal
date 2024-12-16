@@ -66,7 +66,6 @@ public class AccountDAO {
 		String id = "acct_" + UUID.randomUUID().toString();
 		PreparedStatement ps = conn.prepareStatement(SQL_CREATE_ACCOUNT);
 		ps.setString(1, account.getId());
-		ps.setString(1, account.getId());
 		ps.setString(2, account.getUsername());
 		ps.setString(3, account.getPassword());
 		ps.setString(4, account.getRole());

@@ -14,7 +14,6 @@ import model.bo.AccountBO;
 
 @WebServlet("/auth/register")
 public class RegisterServlet extends HttpServlet{
-public class RegisterServlet extends HttpServlet{
 	private static final long serialVersionUID = 1L;
 	
 	@Override
