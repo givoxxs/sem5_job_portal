@@ -1,5 +1,7 @@
 package model.dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
@@ -38,18 +40,6 @@ public class EmployerDAO{
 		}
 
 		return instance;
-	}
-	
-	public Employer mapResultToEmployer(ResultSet rs) throws SQLException {
-	    Employer employer = new Employer();
-	    employer.setId(rs.getString("id"));
-	    employer.setAccountId(rs.getString("account_id"));
-	    employer.setName(rs.getString("name"));
-	    employer.setAddress(rs.getString("address"));
-	    employer.setEmail(rs.getString("email"));
-	    employer.setLink(rs.getString("link"));
-	    employer.setDescription(rs.getString("description"));
-	    return employer;
 	}
 
 	public boolean createEmployer(Employer employer) throws SQLException {

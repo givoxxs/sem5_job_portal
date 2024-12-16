@@ -7,20 +7,41 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import model.bean.Account;
 import model.bo.AccountBO;
 
 @WebServlet("/auth/register")
 public class RegisterServlet extends HttpServlet{
+public class RegisterServlet extends HttpServlet{
 	private static final long serialVersionUID = 1L;
+	
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		System.out.println("RegisterServlet: redirect to register.jsp");
+		System.out.println(req.getContextPath() + "/register.jsp");
+		HttpSession session = req.getSession(false);
+		if (session != null && session.getAttribute("role") != null) {
+			resp.sendRedirect(req.getContextPath() + "/");
+		} else {
+//			resp.sendRedirect(req.getContextPath() + "/register.jsp");
+			String url = req.getContextPath() + "/register.jsp";
+			System.out.println("url" + url);
+			resp.sendRedirect(url);
+		}
+	}
 
 	@Override 
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
+		System.out.println("RegisterServlet: doPost");
 		String role = request.getParameter("role");
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
+		System.out.println("role: " + role);
+		System.out.println("username: " + username);
+		System.out.println("password: " + password);
 		
 		try {
 			if (AccountBO.getInstance().findAccountByUsername(username) != null) {
@@ -34,6 +55,7 @@ public class RegisterServlet extends HttpServlet{
 			}
 			
 			request.setAttribute("accountId", account.getId());
+			System.out.println("accountId - register: " + account.getId());
 			
 			if (account.getRole().equals("candidate"))
 			{
@@ -48,6 +70,7 @@ public class RegisterServlet extends HttpServlet{
 			e.printStackTrace();
 			request.setAttribute("error", e.getMessage());
 			request.getRequestDispatcher("/register.jsp").forward(request, response);
+//			response.sendRedirect(request.getContextPath() + "/register.jsp");
 		}
 	}
 }

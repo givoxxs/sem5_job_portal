@@ -1,18 +1,15 @@
 package controllers.auth;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-/**
- * Servlet implementation class LogoutServlet
- */
-@WebServlet("/log-out")
+@WebServlet("/logout")
 public class LogoutServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -35,18 +32,10 @@ public class LogoutServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
-		response.setContentType("text/html; charset=UTF-8");
-		try {
-			if (request.getSession().getAttribute("account") != null) {
-				request.getSession().removeAttribute("account");
-				response.sendRedirect("login.jsp");
-			} else {
-				response.sendRedirect("index.jsp");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			PrintWriter out = response.getWriter();
-			out.print("Internal error");
-		}
+		HttpSession session = request.getSession(false); 
+        if (session != null) {
+            session.invalidate(); 
+        }
+		response.sendRedirect(request.getContextPath() + "/login.jsp");
 	}
 }

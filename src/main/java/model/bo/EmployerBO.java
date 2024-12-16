@@ -32,7 +32,7 @@ public class EmployerBO {
 	}
 
     public boolean createEmployer(Employer employer) throws SQLException {
-        return employerDAO.createEmployer(employer);
+        return EmployerDAO.getInstance().createEmployer(employer);
     }
 
 }

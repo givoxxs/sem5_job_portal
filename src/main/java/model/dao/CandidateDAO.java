@@ -49,12 +49,15 @@ public class CandidateDAO{
     }
     
     public boolean createCandidate(Candidate candidate) throws SQLException{
+    	System.out.println("CandidateDAO - createCandidate");
 		PreparedStatement ps = conn.prepareStatement(SQL_CREATE_CANDIDATE);
 		ps.setString(1, candidate.getId());
 		ps.setString(2, candidate.getAccountId());
 		ps.setString(3, candidate.getName());
 		ps.setString(4, candidate.getEmail());
 		ps.setString(5, candidate.getCvUrl());
+		// tôi muốn in ra câu lệnh sql sau khi chèn của ps
+		System.out.println("ps: " + ps);
 		boolean result = ps.executeUpdate() > 0;
 		return result;
     }

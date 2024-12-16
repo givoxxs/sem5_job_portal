@@ -38,12 +38,8 @@ public class DBConnect {
 				Class.forName("com.mysql.jdbc.Driver");
 				connection = DriverManager.getConnection(URL, USER, PASSWORD);
 			} catch (ClassNotFoundException e) {
-				System.err.println("JDBC Driver not found: " + e.getMessage());
-	            throw new SQLException("JDBC Driver not found", e);
-			} catch (SQLException e) {
-	            System.err.println("Failed to connect to the database: " + e.getMessage());
-	            throw e;
-	        }
+				throw new SQLException("JDBC Driver not found", e);
+			}
 		}
 		
 		return connection;

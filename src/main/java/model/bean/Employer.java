@@ -1,4 +1,7 @@
+
 package model.bean;
+
+import java.util.UUID;
 
 import java.util.UUID;
 
@@ -8,8 +11,20 @@ public class Employer {
     private String name;
     private String address;
     private String email;
+    private String email;
     private String link; // websites, social media
     private String description;
+    public Employer() {}
+    public Employer(String accountId, String name, String address, String email, String link, String description) {
+    	this.id = "ER_" + UUID.randomUUID().toString();
+    	this.accountId = accountId;
+    	this.name = name;
+    	this.address = address;
+    	this.email = email;
+    	this.link = link;
+    	this.description = description;
+    }
+
     public Employer() {}
     public Employer(String accountId, String name, String address, String email, String link, String description) {
     	this.id = "ER_" + UUID.randomUUID().toString();
@@ -51,6 +66,12 @@ public class Employer {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
 	public String getLink() {
 		return link;
 	}
@@ -63,5 +84,6 @@ public class Employer {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+    
     
 }
