@@ -125,5 +125,23 @@ public class EmployerDAO{
 		}
 		return employer;
 	}
+	
+	//Get employer_ID by account_id
+	public String getEmployerIdByAccountId(String accountId) {
+		String query = "SELECT id FROM employer_profile WHERE account_id = ?";
+		List<String> params = new ArrayList<>();
+		params.add(accountId);
+		ResultSet rs = DBConnect.getInstance().selectSQL(params, query);
+		if (rs == null) {
+			return null;
+		}
+		try {
+			rs.next();
+			return rs.getString("id");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 }

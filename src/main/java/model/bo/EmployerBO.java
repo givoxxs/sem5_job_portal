@@ -34,5 +34,10 @@ public class EmployerBO {
     public boolean createEmployer(Employer employer) throws SQLException {
         return EmployerDAO.getInstance().createEmployer(employer);
     }
+    
+    //Get employer by account id
+	public String getEmployerByAccountId(String accountId) {
+		return EmployerDAO.getInstance().getEmployerIdByAccountId(accountId);
+	}
 
 }
