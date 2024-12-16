@@ -23,7 +23,7 @@ public class JobDetailServlet extends HttpServlet {
             Job job = JobBO.getInstance().getJobById(jobId);
             if (job != null) {
                 request.setAttribute("job", job);
-                request.getRequestDispatcher("job-detail.jsp").forward(request, response); // Chuyển đến job-detail.jsp
+                request.getRequestDispatcher("candidate/job-detail.jsp").forward(request, response); // Chuyển đến job-detail.jsp
             } else {
                 // Xử lý trường hợp không tìm thấy công việc (ví dụ: hiển thị thông báo lỗi)
                 response.getWriter().println("Job not found!");

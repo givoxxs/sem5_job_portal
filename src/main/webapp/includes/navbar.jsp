@@ -15,14 +15,14 @@
 			</a>
 			<%
 			if (account != null ) { %>
-				<li class="nav-item"><a class="nav-link" href="candidate/profile.jsp">Profile</a></li>
+				<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/profile-candidate">Profile</a></li>
 				<li class="nav-item"><a class="nav-link" href="#">
                         <strong> <%=account.getUsername()%> </strong>
 				</a></li>
 				<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/logout">Logout</a></li>	
 			<%} else {%>
-				<li class="nav-item"><a class="nav-link" href="login.jsp">Login</a></li>
-				<li class="nav-item"><a class="nav-link" href="register.jsp">Register</a></li>
+				<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/login.jsp">Login</a></li>
+				<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/register.jsp">Register</a></li>
 			<% } 
 			%>		
 		</ul>

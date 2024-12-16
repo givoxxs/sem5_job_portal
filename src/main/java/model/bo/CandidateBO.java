@@ -23,4 +23,12 @@ public class CandidateBO {
     public boolean createCandidate(Candidate candidate) throws SQLException {
         return candidateDAO.createCandidate(candidate);
     }
+    
+	public Candidate findCandidateByAccountId(String accountId) {
+		return candidateDAO.findCandidateByAccountId(accountId);
+	}
+	
+	public boolean updateCandidate(Candidate candidate) throws SQLException {
+		return candidateDAO.updateCandidate(candidate);
+	}
 }

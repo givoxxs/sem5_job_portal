@@ -8,34 +8,36 @@
 
 <%
 // Lấy dữ liệu từ request do Servlet truyền sang
-    Account account = (Account) request.getAttribute("account");
-    List<Job> recentJobs = (List<Job>) request.getAttribute("recentJobs");
-    List<Job> randomJobs = (List<Job>) request.getAttribute("randomJobs");
-    List<Job> searchResults = (List<Job>) request.getAttribute("searchResults");
-    List<SalaryRange> salaryRanges = (List<SalaryRange>) request.getAttribute("salaryRanges");
-    List<String> locations = (List<String>) request.getAttribute("locations");
- // Lấy totalPages, nếu không có hoặc không thể chuyển đổi, mặc định là 1
-    int totalPages = 1;
-    Object totalPagesAttr = request.getAttribute("totalPages");
-    if (totalPagesAttr != null) {
-        try {
-            totalPages = Integer.parseInt(totalPagesAttr.toString());
-        } catch (NumberFormatException e) {
-            totalPages = 1;  // Nếu không thể chuyển đổi, gán giá trị mặc định là 1
-        }
-    }
+    Account account =(Account) request.getSession().getAttribute("account"); 
+	if (account != null) {
+		request.setAttribute("account", account);
+	}
+	List<Job> recentJobs = (List<Job>) request.getAttribute("recentJobs");
+	List<Job> randomJobs = (List<Job>) request.getAttribute("randomJobs");
+	List<Job> searchResults = (List<Job>) request.getAttribute("searchResults");
+	List<SalaryRange> salaryRanges = (List<SalaryRange>) request.getAttribute("salaryRanges");
+	List<String> locations = (List<String>) request.getAttribute("locations");
+	// Lấy totalPages, nếu không có hoặc không thể chuyển đổi, mặc định là 1
+	int totalPages = 1;
+	Object totalPagesAttr = request.getAttribute("totalPages");
+	if (totalPagesAttr != null) {
+		try {
+	totalPages = Integer.parseInt(totalPagesAttr.toString());
+		} catch (NumberFormatException e) {
+	totalPages = 1; // Nếu không thể chuyển đổi, gán giá trị mặc định là 1
+		}
+	}
 
-    // Lấy currentPage, nếu không có hoặc không thể chuyển đổi, mặc định là 1
-    int currentPage = 1;
-    Object currentPageAttr = request.getAttribute("page");
-    if (currentPageAttr != null) {
-        try {
-            currentPage = Integer.parseInt(currentPageAttr.toString());
-        } catch (NumberFormatException e) {
-            currentPage = 1;  // Nếu không thể chuyển đổi, gán giá trị mặc định là 1
-        }
-    }
-
+	// Lấy currentPage, nếu không có hoặc không thể chuyển đổi, mặc định là 1
+	int currentPage = 1;
+	Object currentPageAttr = request.getAttribute("page");
+	if (currentPageAttr != null) {
+		try {
+	currentPage = Integer.parseInt(currentPageAttr.toString());
+		} catch (NumberFormatException e) {
+	currentPage = 1; // Nếu không thể chuyển đổi, gán giá trị mặc định là 1
+		}
+	}
 
 	String jobName = request.getParameter("jobName");
 	String salaryRangeId = request.getParameter("salaryRange");

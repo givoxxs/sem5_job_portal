@@ -32,4 +32,8 @@ public class AccountBO {
 		account.setPassword(PasswordUtils.hashPassword(account.getPassword()));
 		return accountDAO.createAccount(account);
 	}
+	
+	public boolean updateAccount(Account account) throws SQLException {
+		return accountDAO.updateAccount(account);
+	}
 }

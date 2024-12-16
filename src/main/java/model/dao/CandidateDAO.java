@@ -13,6 +13,8 @@ public class CandidateDAO{
     // create Instance
     private static CandidateDAO instance;
     private static final String SQL_CREATE_CANDIDATE= "INSERT INTO candidate_profile (id, account_id, name, email, cv_url) VALUES (?, ?, ?, ?, ?)";
+    private static final String SQL_FIND_CANDIDATE_BY_ACCOUNT_ID = "SELECT * FROM candidate_profile WHERE account_id = ?";
+    private static final String SQL_UPDATE_CANDIDATE = "UPDATE candidate_profile SET name = ?, email = ?, cv_url = ? WHERE id = ?";
     
 	private CandidateDAO() {
 		try {
@@ -61,4 +63,36 @@ public class CandidateDAO{
 		boolean result = ps.executeUpdate() > 0;
 		return result;
     }
+
+	public Candidate findCandidateByAccountId(String id) {
+		System.out.println("CandidateDAO - findCandidateByAccountId");
+		Candidate candidate = null;
+		try {
+			PreparedStatement ps = conn.prepareStatement(SQL_FIND_CANDIDATE_BY_ACCOUNT_ID);
+			ps.setString(1, id);
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				candidate = mapResultToCandidate(rs);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return candidate;
+	}
+
+	public boolean updateCandidate(Candidate candidate) {
+		System.out.println("CandidateDAO - updateCandidate");
+		try {
+			PreparedStatement ps = conn.prepareStatement(SQL_UPDATE_CANDIDATE);
+			ps.setString(1, candidate.getName());
+			ps.setString(2, candidate.getEmail());
+			ps.setString(3, candidate.getCvUrl());
+			ps.setString(4, candidate.getId());
+			boolean result = ps.executeUpdate() > 0;
+			return result;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
 }

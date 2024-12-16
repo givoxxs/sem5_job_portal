@@ -31,7 +31,6 @@ public class HomeServlet extends HttpServlet {
         req.setAttribute("salaryRanges", salaryRanges);
         req.setAttribute("locations", new ArrayList<>(List.of("Hà Nội", "Hồ Chí Minh", "Đà Nẵng", "Khác")));
 		HttpSession session = req.getSession(false); 
-		System.out.println("SalaryRanges: " + salaryRanges);
 
         if (session != null && session.getAttribute("role") != null) {
             String role = (String) session.getAttribute("role");

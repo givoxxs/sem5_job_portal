@@ -22,11 +22,12 @@ public class RegisterServlet extends HttpServlet{
 		System.out.println(req.getContextPath() + "/register.jsp");
 		HttpSession session = req.getSession(false);
 		if (session != null && session.getAttribute("role") != null) {
-			resp.sendRedirect(req.getContextPath() + "/");
+			resp.sendRedirect(req.getContextPath() + "/home");
 		} else {
 //			resp.sendRedirect(req.getContextPath() + "/register.jsp");
 			String url = req.getContextPath() + "/register.jsp";
 			System.out.println("url" + url);
+//			req.getRequestDispatcher("/register.jsp").forward(req, resp);
 			resp.sendRedirect(url);
 		}
 	}
@@ -69,7 +70,6 @@ public class RegisterServlet extends HttpServlet{
 			e.printStackTrace();
 			request.setAttribute("error", e.getMessage());
 			request.getRequestDispatcher("/register.jsp").forward(request, response);
-//			response.sendRedirect(request.getContextPath() + "/register.jsp");
 		}
 	}
 }
