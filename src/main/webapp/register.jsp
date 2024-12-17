@@ -31,18 +31,18 @@
                             </div>
                             <div class="form-group">
                                 <label for="username">Username:</label>
-                                <input type="text" id="username" name="username" placeholder="Nhập tên đăng nhập"
+                                <input type="text" id="username" name="username" placeholder="Input username"
                                     required>
                             </div>
                             <div class="form-group">
                                 <label for="password">Password:</label>
-                                <input type="password" id="password" name="password" placeholder="Nhập mật khẩu"
+                                <input type="password" id="password" name="password" placeholder="Input password"
                                     required>
                             </div>
                             <div class="form-group">
                                 <label for="confirmPassword">Confirm password:</label>
                                 <input type="password" id="confirm_password" name="confirm_password"
-                                    placeholder="Nhập lại mật khẩu" required>
+                                    placeholder="Confirm password" required>
                             </div>
                             <div class="error" id="register-error">
                                 <% String error=(String) request.getAttribute("error"); if (error !=null) { %>

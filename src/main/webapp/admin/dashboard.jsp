@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@page import="java.util.List" %>
-<%@page import="model.bean.Account" %>
+<%@page import="model.bean.Candidate" %>
+<%@page import="model.bean.Employer" %>
 <!DOCTYPE html>
 <html>
 
@@ -19,8 +20,8 @@
         <!-- Sidebar -->
         <aside class="sidebar">
             <ul>
-                <li class="active"><a href="#" id="manageUsersTab">Quản lý người dùng</a></li>
-                <li><a href="#" id="manageJobsTab">Quản lý công việc</a></li>
+                <li class="active"><a href="/sem5_job_portal/admin/list?mainContent=manageCandidates" id="manageCandidatesTab">Manage Candidates</a></li>
+                <li><a href="/sem5_job_portal/admin/list?mainContent=manageEmployers" id="manageEmployersTab">Manage Employers</a></li>
             </ul>
         </aside>
         <!-- Main Content -->
@@ -29,13 +30,12 @@
         		String mainContent = (String) request.getAttribute("mainContent");
         		if (mainContent != null) 
         		{
-        			if(mainContent.equals("manageUsers")){ 
+        			if(mainContent.equals("manageCandidates")){ 
         		
         	%>
-			            <!-- Quản lý người dùng -->
-			            <div id="manageUsers" class="content-section active">
+			            <div id="manageCandidates" class="content-section active">
 							<div class="utility">
-						        <button class="add-btn" onclick="window.location.href='create_user.html'">Thêm người dùng</button>
+						        <button class="add-btn" onclick="window.location.href='/sem5_job_portal/admin/create_candidate.jsp'">Add Candidate</button>
 						        <div class="search-and-filter">
 						            <div class="search-bar">
 						                <input type="text" id="searchInput" placeholder="Tìm kiếm...">
@@ -47,13 +47,6 @@
 						                    </svg>
 						                </button>
 						            </div>
-						
-						            <div class="filter-search">
-						                <select id="filter" name="filter">
-						                    <option value="all">Tất cả</option>
-											
-						                </select>
-						            </div>
 						        </div>
 						    </div>
 						
@@ -61,31 +54,34 @@
 						        <thead>
 						            <tr>
 						                <th>ID</th>
-						                <th>Username</th>
-						                <th>Role</th>
-						                <th>Hành động</th>
+						                <th>Name</th>
+						                <th>Email</th>
+						                <th>Action</th>
 						            </tr>
 						        </thead>
 						        <tbody>
-						            <!-- Thêm các bản ghi user-->
+
 						            <%
-							            List<Account> users = (List<Account>)request.getAttribute("users");
-							           	for (Account user : users) {
+							            List<Candidate> candidates = (List<Candidate>)request.getAttribute("candidates");
+							           	for (Candidate candidate : candidates) {
 							        %>
 							        		<tr>
-						        			  	<td><%= user.getId() %></td>
-									            <td><%= user.getUsername() %></td>
-									            <td><%= user.getRole() %></td>
+						        			  	<td><%= candidate.getId() %></td>
+									            <td><%= candidate.getName() %></td>
+									            <td><%= candidate.getEmail() %></td>
 								                <td>
-							                        <button class="view-btn">
+							                        <button class="view-btn" onclick="">
 							                            <i class="fas fa-eye"></i> <!-- Biểu tượng Xem -->
 							                        </button>
-							                        <button class="edit-btn">
+							                        <button class="edit-btn" onclick="window.location.href='/sem5_job_portal/admin/update?role=candidate&id=<%= candidate.getId()%>'">
 							                            <i class="fas fa-edit"></i> <!-- Biểu tượng Chỉnh sửa -->
 							                        </button>
-							                        <button class="delete-btn">
-							                            <i class="fas fa-trash"></i> <!-- Biểu tượng Xoá -->
-							                        </button>
+							                        <button class="delete-btn" 
+													        onclick="if(confirm('Bạn có chắc chắn muốn xóa không?')) {
+													                    window.location.href='/sem5_job_portal/admin/delete?role=candidate&id=<%= candidate.getId()%>';
+													                 }">
+													    <i class="fas fa-trash"></i> <!-- Biểu tượng Xoá -->
+													</button>
 							                    </td>
 						                    </tr>
 							        <%
@@ -94,11 +90,10 @@
 						        </tbody>
 						    </table>
 			            </div>
-	        <%		} else if (mainContent.equals("manageJobs")){ %>
-			            <!-- Quản lý phương pháp học -->
-				            <div id="manageJobs" class="content-section active">
+	        <%		} else if (mainContent.equals("manageEmployers")){ %>
+				            <div id="manageEmployers" class="content-section active">
 								<div class="utility">
-							        <button class="add-btn" onclick="window.location.href='create_job.html'">Thêm công việc mới</button>
+							        <button class="add-btn" onclick="window.location.href='/sem5_job_portal/admin/create_employer.jsp'">Add Employer</button>
 							        <div class="search-and-filter">
 							            <div class="search-bar">
 							                <input type="text" id="searchInput" placeholder="Tìm kiếm...">
@@ -110,13 +105,6 @@
 							                    </svg>
 							                </button>
 							            </div>
-							
-							            <div class="filter-search">
-							                <select id="filter" name="filter">
-							                    <option value="all">Tất cả</option>
-							
-							                </select>
-							            </div>
 							        </div>
 							    </div>
 							
@@ -124,16 +112,40 @@
 							        <thead>
 							            <tr>
 							                <th>ID</th>
-							                <th>Tiêu đề</th>
-							                <th>Lương</th>
-							                <th>Địa điểm</th>
-							                <th>Loại</th>
-							                <th>Ngày đăng</th>
-							                <th>Hành động</th>
+							                <th>Name</th>
+							                <th>Address</th>
+							                <th>Email</th>
+							                <th>Action</th>
 							            </tr>
 							        </thead>
 							        <tbody>
-							            <!-- Thêm các bản ghi job-->
+							            <%
+							            List<Employer> employers = (List<Employer>)request.getAttribute("employers");
+							           	for (Employer employer : employers) {
+							        %>
+							        		<tr>
+						        			  	<td><%= employer.getId() %></td>
+									            <td><%= employer.getName() %></td>
+									            <td><%= employer.getAddress() %></td>
+									            <td><%= employer.getEmail() %></td>
+								                <td>
+ 													<button class="view-btn" onclick="">
+							                            <i class="fas fa-eye"></i> <!-- Biểu tượng Xem -->
+							                        </button>
+							                        <button class="edit-btn" onclick="window.location.href='/sem5_job_portal/admin/update?role=employer&id=<%= employer.getId()%>'">
+							                            <i class="fas fa-edit"></i> <!-- Biểu tượng Chỉnh sửa -->
+							                        </button>
+							                        <button class="delete-btn" 
+													        onclick="if(confirm('Bạn có chắc chắn muốn xóa không?')) {
+													                    window.location.href='/sem5_job_portal/admin/delete?role=employer&id=<%= employer.getId()%>';
+													                 }">
+													    <i class="fas fa-trash"></i> <!-- Biểu tượng Xoá -->
+													</button>
+							                    </td>
+						                    </tr>
+							        <%
+							           	}
+						            %>
 							        </tbody>
 							    </table>
 				            </div>
@@ -152,7 +164,7 @@
 		%>
 		<div class="pagination">
 		    <% if (currentPage > 1) { %>
-		        <a href="/sem5_job_portal/admin/list?mainContent=<%= mainContent %>&page=<%= currentPage - 1 %>">« Trước</a>
+		        <a href="/sem5_job_portal/admin/list?mainContent=<%= mainContent %>&page=<%= currentPage - 1 %>">« Previous</a>
 		    <% } %>
 		
 		    <% if (startPage > 1) { %>
@@ -170,7 +182,7 @@
 		    <% } %>
 		
 		    <% if (currentPage < totalPages) { %>
-		        <a href="/sem5_job_portal/admin/list?mainContent=<%= mainContent %>&page=<%= currentPage + 1 %>">Tiếp »</a>
+		        <a href="/sem5_job_portal/admin/list?mainContent=<%= mainContent %>&page=<%= currentPage + 1 %>">Next »</a>
 		    <% } %>
 		</div>
     </div>
