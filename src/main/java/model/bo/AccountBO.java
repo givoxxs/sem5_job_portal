@@ -35,7 +35,8 @@ public class AccountBO {
 	}
 
 	public boolean updateAccount(Account account) throws SQLException {
-		return accountDAO.updateAccount(account);
+		return AccountDAO.getInstance().updateAccount(account);
+	}
 
 	public List<Account> getUsers(int page, int recordsPerPage) throws SQLException{
 		int start = (page - 1) * recordsPerPage;

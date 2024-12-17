@@ -20,11 +20,7 @@ public class AccountDAO {
     private static final String SQL_UPDATE_ACCOUNT = "UPDATE account SET username = ?, password = ?, role = ?, avatar_url = ?, is_deleted = ? WHERE id = ?";
 
 	private AccountDAO() {
-		try {
-			conn = DBConnect.getConnection();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		
 	}
 
     public static AccountDAO getInstance() {

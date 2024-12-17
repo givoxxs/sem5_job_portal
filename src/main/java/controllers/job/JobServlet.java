@@ -32,11 +32,11 @@ public class JobServlet extends HttpServlet {
         
 		HttpSession session = request.getSession();
 		Account account = (Account) session.getAttribute("account");
-		//String employer_id = EmployerBO.getInstance().getEmployerByAccountId(account.getId());
-		//session.setAttribute("employer_id",employer_id);
+		String employer_id = EmployerBO.getInstance().getEmployerByAccountId(account.getId());
+		session.setAttribute("employer_id",employer_id);
 		String destination = null;
 		//tạo session demo
-		String employer_id = "EMP01"; session.setAttribute("employer_id",employer_id);
+//		String employer_id = "EMP01"; session.setAttribute("employer_id",employer_id);
 		
 		//get action
 		String action = request.getParameter("action");
