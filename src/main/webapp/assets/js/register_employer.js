@@ -1,4 +1,4 @@
-let links = "";
+let links = (document.getElementById("link").value)? document.getElementById("link").value : "";
 
 function addLink() {
     var urlInput = document.getElementById('urlInput');
@@ -7,9 +7,6 @@ function addLink() {
     if (url) {
 		// Thêm url mới vào links với dấu ; ngăn cách
         links += (links ? ";" : "") + url;
-
-        // Hiển thị danh sách liên kết đã thêm
-        console.log("Danh sách links:", links);
         
         document.getElementById("link").value = links;
         
@@ -25,9 +22,9 @@ function addLink() {
 
         // Tạo nút xóa
         var deleteButton = document.createElement('button');
-        deleteButton.textContent = "Xóa";
+        deleteButton.textContent = "Delete";
         deleteButton.onclick = function() {
-            li.remove(); // Xoá phần tử li
+            removeLink(url, li); // Gọi hàm xoá link và phần tử li
         };
 
         // Thêm link và nút xóa vào li
@@ -40,6 +37,18 @@ function addLink() {
         // Xoá nội dung trong input sau khi thêm
         urlInput.value = '';
     } else {
-        alert("Vui lòng nhập một link hợp lệ!");
+        alert("Invalid link!");
     }
+}
+
+function removeLink(url, li) {
+    // Cập nhật lại biến links bằng cách loại bỏ link đã xoá
+    let linkArray = links.split(';');
+    linkArray = linkArray.filter(link => link !== url);  // Loại bỏ link bị xóa
+    links = linkArray.join(';');  // Nối lại các link thành chuỗi
+
+    document.getElementById("link").value = links; // Cập nhật lại giá trị trong trường hidden
+
+    // Xóa phần tử li khỏi danh sách
+    li.remove();
 }
