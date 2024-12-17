@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import model.bean.Account;
@@ -18,7 +20,7 @@ public class AccountDAO {
     
 	private AccountDAO() {
 		try {
-			conn = DBConnect.getInstance().getConnection();
+			conn = DBConnect.getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -76,5 +78,31 @@ public class AccountDAO {
 		return result;
 	}
 	
-	
+	public List<Account> getUsers(int start, int recordsPerPage) throws SQLException{
+	    List<Account> users = new ArrayList<>();
+	    String sql = "SELECT * FROM account LIMIT ?, ?";
+        PreparedStatement preparedStatement = conn.prepareStatement(sql);
+        preparedStatement.setInt(1, start);
+        preparedStatement.setInt(2, recordsPerPage);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()) {
+            Account user = new Account();
+            user.setId(resultSet.getString("id"));
+            user.setUsername(resultSet.getString("username"));
+            user.setRole(resultSet.getString("role"));
+            users.add(user);
+	        }
+	    return users;
+	}
+
+	public int getTotalRecords() throws SQLException{
+	    String sql = "SELECT COUNT(*) FROM account";
+	    PreparedStatement preparedStatement = conn.prepareStatement(sql);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if (resultSet.next()) {
+            return resultSet.getInt(1);
+        }
+	    return 0;
+	}
+
 }

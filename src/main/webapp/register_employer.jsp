@@ -29,17 +29,13 @@
                 <label for="email">Email:</label>
                 <input type="text" id="email" name="email" placeholder="Nhập email" required>
             </div>
-            <div class="form-group">
-            <!--  
+            <div class="form-group"> 
                 <label for="urlInput">Liên kết:</label>
-                <input type="url" id="urlInput" name="urlInput" placeholder="Nhập một liên kết" required> 
+                <input type="url" id="urlInput" name="urlInput" placeholder="Nhập một liên kết"> 
+                <input type="hidden" id="link" name="link">
                 <button onclick="addLink()">Thêm</button>
-                <label for="linkList">Danh sách link:</label>
+                <label for="linkList">Danh sách liên kết:</label>
 				<ul id="linkList"></ul>	
-			-->
-			
-                <label for="link">Liên kết:</label>
-                <input type="url" id="link" name="link" placeholder="Nhập một liên kết" required>
             </div>
 			<div class="form-group">
                 <label for="description">Mô tả:</label>

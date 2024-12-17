@@ -1,0 +1,31 @@
+@charset "UTF-8";
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    width: 100%; /* Đảm bảo pagination chiếm toàn bộ chiều rộng */
+    box-sizing: border-box; /* Đảm bảo không bị cắt khi thêm padding */
+}
+
+.pagination a {
+    margin: 0 5px;
+    padding: 8px 12px;
+    text-decoration: none;
+   	color: #007bff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.pagination a:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+.pagination a.active {
+    background-color: #007bff;
+    color: white;
+    pointer-events: none;
+    cursor: default;
+}
