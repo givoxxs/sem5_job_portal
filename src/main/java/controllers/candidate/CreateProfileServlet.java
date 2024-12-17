@@ -50,7 +50,8 @@ public class CreateProfileServlet extends HttpServlet{
 			{
 				throw new Exception("Có lỗi xảy ra khi thêm thông tin");
 			}
-			request.getRequestDispatcher("/auth/login").forward(request, response);
+//			request.getRequestDispatcher("/auth/login").forward(request, response);
+			response.sendRedirect(request.getContextPath() + "/login.jsp");
 		} catch (Exception e)
 		{
 			System.out.println(e.getMessage());

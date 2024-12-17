@@ -1,5 +1,7 @@
 package model.bean;
 
+import java.util.UUID;
+
 public class Job_Application {
 	private String id;
 	private String name;
@@ -9,6 +11,34 @@ public class Job_Application {
 	private String cv_url;
 	private String candidate_id;
 	private String status;
+	
+	public Job_Application() {
+
+	}
+	
+	public Job_Application(String name, String email, String phone, String job_id, String cv_url, String candidate_id,
+			String status) {
+		this.id = "JA_" + UUID.randomUUID().toString();
+		this.name = name;
+		this.email = email;
+		this.phone = phone;
+		this.job_id = job_id;
+		this.cv_url = cv_url;
+		this.candidate_id = candidate_id;
+		this.status = status;
+	}
+	
+	public Job_Application(String id, String name, String email, String phone, String job_id, String cv_url,
+			String candidate_id, String status) {
+		this.id = id;
+		this.name = name;
+		this.email = email;
+		this.phone = phone;
+		this.job_id = job_id;
+		this.cv_url = cv_url;
+		this.candidate_id = candidate_id;
+		this.status = status;
+	}
 	
 	public String getId() {
 		return id;

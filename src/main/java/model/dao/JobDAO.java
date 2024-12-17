@@ -267,7 +267,7 @@ public class JobDAO {
         }
         if (location != null && !location.isEmpty()) {
             conditions.add("j.location = ?");
-            parameters.add(location);
+            parameters.add("%" + location + "%");
         }
 
         if (!conditions.isEmpty()) {
@@ -494,7 +494,7 @@ public class JobDAO {
 		}
 		if (location != null && !location.isEmpty()) {
 			conditions.add("j.location = ?");
-			parameters.add(location);
+			parameters.add("%" + location + "%");
 		}
 		if (!conditions.isEmpty()) {
 			sql += "AND (" + String.join(" AND ", conditions) + ") ";
@@ -504,6 +504,7 @@ public class JobDAO {
 			for (int i = 0; i < parameters.size(); i++) {
 				ps.setObject(i + 1, parameters.get(i));
 			}
+			System.out.println("ps searchJobsAll" + ps);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				Job job = mapResultToJob(rs);

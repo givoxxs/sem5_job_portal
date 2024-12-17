@@ -67,8 +67,8 @@ public class jobSearch extends HttpServlet {
         }
 
         // Lấy các dữ liệu khác cho JSP
-        List<Job> recentJobs = jobBO.getTopLatestJobs(5);
-        List<Job> randomJobs = jobBO.getRandomJobs(10);
+        List<Job> recentJobs = jobBO.getTopLatestJobs(6);
+        List<Job> randomJobs = jobBO.getRandomJobs(6);
         List<SalaryRange> salaryRanges = SalaryRangeBO.getInstance().getAllAvailableSalaryRanges();
 
         // Lưu trữ thông tin vào request

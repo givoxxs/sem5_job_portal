@@ -19,12 +19,11 @@ public class LoginServlet extends HttpServlet {
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		System.out.println("RegisterServlet: redirect to register.jsp");
+		System.out.println("LoginServlet: - doGet");
 		System.out.println(req.getContextPath() + "/login.jsp");
 		HttpSession session = req.getSession(false);
 		if (session != null && session.getAttribute("role") != null) {
-			// req.getRequestDispatcher(req.getContextPath() + "/").forward(req, resp);
-			resp.sendRedirect("/sem5_job_portal/index.jsp");
+			req.getRequestDispatcher("/home").forward(req, resp);
 		} else {
 			resp.sendRedirect(req.getContextPath() + "/login.jsp");
 		}
@@ -51,7 +50,7 @@ public class LoginServlet extends HttpServlet {
 			session.setAttribute("role", account.getRole());
 			session.setAttribute("avatarUrl", account.getAvatarUrl());
 			
-			response.sendRedirect(request.getContextPath() + "/");
+			response.sendRedirect(request.getContextPath() + "/home");
         } catch (Exception e) {
             e.printStackTrace();
             request.setAttribute("error", e.getMessage());

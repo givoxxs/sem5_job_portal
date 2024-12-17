@@ -18,6 +18,14 @@ public class Candidate {
     	this.cvUrl = cvUrl;
     }
     
+	public Candidate(String id, String accountId, String name, String email, String cvUrl) {
+		this.id = id;
+		this.accountId = accountId;
+		this.name = name;
+		this.email = email;
+		this.cvUrl = cvUrl;
+	}
+    
 	public String getId() {
 		return id;
 	}
