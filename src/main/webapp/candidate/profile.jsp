@@ -18,6 +18,7 @@
     <%@ include file="../includes/header.jsp" %>
     <link rel="stylesheet" href="assets/css/candidate/profile.css">
     <link rel="stylesheet" href="assets/css/navbar.css">
+    <link rel="stylesheet" href="assets/css/index.css">
     <style>
         .profile-container {
             margin: 20px;

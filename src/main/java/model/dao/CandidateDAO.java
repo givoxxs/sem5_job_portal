@@ -17,11 +17,6 @@ public class CandidateDAO{
     private static final String SQL_UPDATE_CANDIDATE = "UPDATE candidate_profile SET name = ?, email = ?, cv_url = ? WHERE id = ?";
     
 	private CandidateDAO() {
-		try {
-			conn = DBConnect.getConnection();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 	}
 
 	public static CandidateDAO getInstance() {
@@ -52,22 +47,28 @@ public class CandidateDAO{
     
     public boolean createCandidate(Candidate candidate) throws SQLException{
     	System.out.println("CandidateDAO - createCandidate");
-		PreparedStatement ps = conn.prepareStatement(SQL_CREATE_CANDIDATE);
-		ps.setString(1, candidate.getId());
-		ps.setString(2, candidate.getAccountId());
-		ps.setString(3, candidate.getName());
-		ps.setString(4, candidate.getEmail());
-		ps.setString(5, candidate.getCvUrl());
-		// tôi muốn in ra câu lệnh sql sau khi chèn của ps
-		System.out.println("ps: " + ps);
-		boolean result = ps.executeUpdate() > 0;
-		return result;
+		try (Connection conn = DBConnect.getConnection()) {
+			PreparedStatement ps = conn.prepareStatement(SQL_CREATE_CANDIDATE);
+			ps.setString(1, candidate.getId());
+			ps.setString(2, candidate.getAccountId());
+			ps.setString(3, candidate.getName());
+			ps.setString(4, candidate.getEmail());
+			ps.setString(5, candidate.getCvUrl());
+			// tôi muốn in ra câu lệnh sql sau khi chèn của ps
+			System.out.println("ps: " + ps);
+			boolean result = ps.executeUpdate() > 0;
+			return result;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
     }
 
 	public Candidate findCandidateByAccountId(String id) {
 		System.out.println("CandidateDAO - findCandidateByAccountId");
 		Candidate candidate = null;
-		try {
+//		try {
+		try (Connection conn = DBConnect.getConnection()) {
 			PreparedStatement ps = conn.prepareStatement(SQL_FIND_CANDIDATE_BY_ACCOUNT_ID);
 			ps.setString(1, id);
 			ResultSet rs = ps.executeQuery();
@@ -82,7 +83,8 @@ public class CandidateDAO{
 
 	public boolean updateCandidate(Candidate candidate) {
 		System.out.println("CandidateDAO - updateCandidate");
-		try {
+//		try {
+		try (Connection conn = DBConnect.getConnection()) {
 			PreparedStatement ps = conn.prepareStatement(SQL_UPDATE_CANDIDATE);
 			ps.setString(1, candidate.getName());
 			ps.setString(2, candidate.getEmail());

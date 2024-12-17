@@ -1,6 +1,7 @@
 <%@ page import="model.bean.Job" %>
 <%@ page import="model.bo.JobBO" %>
 <%@ page import="model.bean.Account" %>
+<%@ page import="model.bean.Candidate" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
 Account account = (Account) request.getSession().getAttribute("account");
@@ -8,13 +9,17 @@ if (account != null) {
 	request.setAttribute("account", account);
 }
 
+Candidate candidate = (Candidate) request.getAttribute("candidate");
+
 String jobId = request.getParameter("id");
-Job job = JobBO.getInstance().getJobById(jobId); // Cần triển khai phương thức getJobById trong JobBO và JobDAO
+Job job = (Job) request.getAttribute("job");
 
 if (job == null) {
     // Xử lý trường hợp không tìm thấy công việc
     return;
 }
+
+
 %>
 <!DOCTYPE html>
 <html>
@@ -27,8 +32,11 @@ if (job == null) {
 <%@include file="../includes/navbar.jsp"%>
 <div class="container">
 	<!-- Thêm nút Quay Lại -->
+		<% if (request.getAttribute("error") != null) { %>
+		<p style="color: red;"><%= request.getAttribute("error") %></p>
+	<% } %>
+	
 	<button id="backButton" onclick="window.history.back()">Quay Lại</button>
-
     <h2><%= job.getTitle() %></h2>
     <p><strong>Company:</strong> <%= job.getEmployerName() %></p>
     <p><strong>Salary:</strong> <%= job.getSalaryRange() %></p>
@@ -44,11 +52,26 @@ if (job == null) {
             <span class="close">&times;</span>
             <!-- Form ứng tuyển có thể thêm vào đây -->
             <h3>Apply for this Job</h3>
-            <form>
+            <form action="${pageContext.request.contextPath}/apply-job-candidate" method="post">
                 <!-- Form fields như Name, Email, Resume -->
-                <input type="text" placeholder="Your Name" required><br><br>
-                <input type="email" placeholder="Your Email" required><br><br>
-                <textarea placeholder="Cover Letter" required></textarea><br><br>
+                <input type="hidden" name="job_id" value="<%= job.getId() %>">
+                <input type="hidden" name="candidate_id" value="<%= candidate.getId() %>">
+                
+                <label for="name">Your Name</label>
+                <input type="text" name="name" placeholder="Your Name" value="<%= candidate.getName() %>"
+                	 required><br><br> 
+                	 
+                 <label for="email">Your Email</label>
+               	<input type="email" name="email" placeholder="Your Email" value="<%=candidate.getEmail()%>" 
+               		required><br> <br>
+               		
+            	<label for="phone">Your Phone</label>
+                <input type="text" name="phone" id="phone" required><br><br>
+                
+                <label for="cv">Your CV</label>
+                <input type="text" name="cv_url" id="cv" value="<%= candidate.getCvUrl() %>" 
+                	required><br><br>
+                	
                 <button type="submit" class="btn-submit">Submit</button>
             </form>
         </div>

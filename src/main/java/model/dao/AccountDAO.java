@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.UUID;
 
 import model.bean.Account;
+import model.bean.Job_Application;
 import utils.DBConnect;
 
 public class AccountDAO {
@@ -15,7 +16,7 @@ public class AccountDAO {
     private static final String SQL_FIND_ACCOUNT_BY_USERNAME = "SELECT * FROM account WHERE username = ? AND is_deleted = false";
     private static final String SQL_CREATE_ACCOUNT = "INSERT INTO account (id, username, password, role, avatar_url, is_deleted) VALUES (?, ?, ?, ?, ?, ?)";
     private static final String SQL_UPDATE_ACCOUNT = "UPDATE account SET username = ?, password = ?, role = ?, avatar_url = ?, is_deleted = ? WHERE id = ?";
-
+    
     private AccountDAO() {
         try {
             conn = DBConnect.getConnection(); // Ensure DB connection is initialized only once
@@ -58,7 +59,6 @@ public class AccountDAO {
         Account account = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-//        try {
         try (Connection conn = DBConnect.getConnection();) {
             ps = conn.prepareStatement(SQL_FIND_ACCOUNT_BY_USERNAME);
             ps.setString(1, username);
@@ -81,7 +81,7 @@ public class AccountDAO {
     public boolean createAccount(Account account) throws SQLException {
         boolean result = false;
         PreparedStatement ps = null;
-        try {
+        try (Connection conn = DBConnect.getConnection();) {
             ps = conn.prepareStatement(SQL_CREATE_ACCOUNT);
             ps.setString(1, account.getId());
             ps.setString(2, account.getUsername());
@@ -102,7 +102,7 @@ public class AccountDAO {
 	public boolean updateAccount(Account account) {
 		boolean result = false;
 		PreparedStatement ps = null;
-		try {
+		try (Connection conn = DBConnect.getConnection();) {
 			ps = conn.prepareStatement(SQL_UPDATE_ACCOUNT);
 			ps.setString(1, account.getUsername());
 			ps.setString(2, account.getPassword());
