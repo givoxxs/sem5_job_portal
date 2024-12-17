@@ -22,12 +22,12 @@
                         <form class="login-form" action="${pageContext.request.contextPath}/auth/login" method="post">
                             <div class="form-group">
                                 <label for="username">Username:</label>
-                                <input type="text" id="username" name="username" placeholder="Nhập tên đăng nhập"
+                                <input type="text" id="username" name="username" placeholder="Input username"
                                     required>
                             </div>
                             <div class="form-group">
                                 <label for="password">Password:</label>
-                                <input type="password" id="password" name="password" placeholder="Nhập mật khẩu"
+                                <input type="password" id="password" name="password" placeholder="Input password"
                                     required>
                             </div>
                             <div class="error" id="login-error">
