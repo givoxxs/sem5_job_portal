@@ -11,40 +11,42 @@ import model.bean.SalaryRange;
 import utils.DBConnect;
 
 public class SalaryRangeDAO {
-	// get all available salary ranges
-	private static final String SQL_GET_ALL_AVAILABLE_SALARY_RANGES = "SELECT * FROM salary_range";
-	private static SalaryRangeDAO instance;
-	private Connection conn;
+    // SQL query
+    private static final String SQL_GET_ALL_AVAILABLE_SALARY_RANGES = "SELECT * FROM salary_range";
+    private static volatile SalaryRangeDAO instance;
 
-	private SalaryRangeDAO() {
-        try {
-            conn = DBConnect.getConnection();
-        } catch (SQLException e) {
-            e.printStackTrace();
+    private SalaryRangeDAO() {
+        // Private constructor to prevent instantiation
+    }
+
+    public static SalaryRangeDAO getInstance() {
+        if (instance == null) {
+            synchronized (SalaryRangeDAO.class) {
+                if (instance == null) {
+                    instance = new SalaryRangeDAO();
+                }
+            }
         }
-	}
-	
-	public static SalaryRangeDAO getInstance() {
-		if (instance == null) {
-			instance = new SalaryRangeDAO();
-		}
-		return instance;
-	}
-	
-	public List<SalaryRange> getAllAvailableSalaryRanges() {
-		List<SalaryRange> salaryRanges = new ArrayList<>();
-		try {
-			PreparedStatement ps = conn.prepareStatement(SQL_GET_ALL_AVAILABLE_SALARY_RANGES);
-			ResultSet rs = ps.executeQuery();
-			while (rs.next()) {
-				SalaryRange salaryRange = new SalaryRange();
-				salaryRange.setId(rs.getString("id"));
-				salaryRange.setSalaryRange(rs.getString("salary_range"));
-				salaryRanges.add(salaryRange);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return salaryRanges;
-	}
+        return instance;
+    }
+
+    public List<SalaryRange> getAllAvailableSalaryRanges() {
+        List<SalaryRange> salaryRanges = new ArrayList<>();
+        try (Connection conn = DBConnect.getConnection();
+             PreparedStatement ps = conn.prepareStatement(SQL_GET_ALL_AVAILABLE_SALARY_RANGES);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                SalaryRange salaryRange = new SalaryRange();
+                salaryRange.setId(rs.getString("id"));
+                salaryRange.setSalaryRange(rs.getString("salary_range"));
+                salaryRanges.add(salaryRange);
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error fetching salary ranges: " + e.getMessage());
+            throw new RuntimeException("Database error occurred while fetching salary ranges.", e);
+        }
+        return salaryRanges;
+    }
 }

@@ -13,8 +13,7 @@ if (account != null) {
 	request.setAttribute("account", account);
 }
 
-
-List<SalaryRange> salaryRanges = request.getAttribute("salaryRanges") != null ? (List<SalaryRange>) request.getAttribute("salaryRanges") : new ArrayList<>();
+List<SalaryRange> salaryRanges =(List<SalaryRange>) request.getAttribute("salaryRanges");
 
 List<String> locations = new ArrayList<>();
 locations.add("Hà Nội");
