@@ -85,8 +85,12 @@ public class JobBO {
 	}
 
 	public boolean updateAvailableJob(String jobid, String status) {
+		boolean is_avaible = false;
+		if (status.equals("true")) {
+			is_avaible = true;
+		}
 		// TODO Auto-generated method stub
-		return jobDAO.updateAvailableJob(jobid, status);
+		return jobDAO.updateJobAvailable(jobid, is_avaible);
 	}
 
 	//search job

@@ -211,6 +211,7 @@ public class JobDAO {
 
 	//Update avaible job
 	public boolean updateJobAvailable(String id, boolean isAvailable) {
+		
 		String query = "UPDATE job SET is_available = ? WHERE id = ?";
 		List<String> params = new ArrayList<String>();
 		params.add(isAvailable ? "1" : "0");
@@ -452,6 +453,7 @@ public class JobDAO {
 		}
 		return rs;
 	}
+	
 	public boolean updateAvailableJob(String jobid, String status) {
 		boolean rs = false;
 //		try {
