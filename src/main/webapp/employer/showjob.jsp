@@ -13,14 +13,14 @@ if (account != null) {
 	request.setAttribute("account", account);
 }
 
-
-List<SalaryRange> salaryRanges = SalaryRangeBO.getInstance().getAllAvailableSalaryRanges(); // Lấy tất cả các khoảng lương
+List<SalaryRange> salaryRanges =(List<SalaryRange>) request.getAttribute("salaryRanges");
 
 List<String> locations = new ArrayList<>();
 locations.add("Hà Nội");
 locations.add("Hồ Chí Minh");
 locations.add("Đà Nẵng");
 locations.add("Khác");
+
 //Xử lý tìm kiếm
 String jobName = request.getParameter("jobName");
 String salaryRangeId = request.getParameter("salaryRange");
@@ -28,7 +28,13 @@ String jobType = request.getParameter("jobType");
 String experience = request.getParameter("experience");
 String location = request.getParameter("location");
 
-List<Job> recentJobs = (List<Job>) request.getAttribute("listjob");
+	List<Job> recentJobs = (List<Job>) request.getAttribute("listjob");
+	int noOfPages = (int) request.getAttribute("noOfPages");
+    int currentPage = (int) request.getAttribute("currentPage");
+    boolean search = false;
+    if(request.getAttribute("search") != null) {
+    	search = (boolean) request.getAttribute("search");
+    }
 %>
 <!DOCTYPE html>
 <html>
@@ -139,15 +145,29 @@ h1 {
                     <span class="detail-item"><i class="fas fa-calendar-alt"></i> <%= job.getDatePost() %></span> <%-- Format date if needed --%>
                     <%-- Hiển thị isAvailable nếu cần thiết--%>
                     <span class="detail-item"><i class="fas fa-check-circle"></i> <%= job.isAvailable() ? "Available" : "Not Available" %></span>
-                    
+                    <span class="detail-item">
                     <a href="JobServlet?action=updateavaible&jobid=<%= job.getId() %>&status=<%= job.isAvailable() ? "false" : "true" %>" class="button"><%= job.isAvailable() ? "Hiring Freeze" : "Continue hiring" %></a>
                     <a href="job_applicationServlet?action=showJob_applicationOfJob&job_id=<%= job.getId() %>" class="button">View applications</a>
-                                        
+                    </span>           
                 </div>
             </div>
         <% } %>
     </div>
 
+	<!-- Pagination -->
+    <div class="pagination">
+        <% for (int i = 1; i <= noOfPages; i++) { %>
+			<% if(search){
+        	%>
+			<a
+				href="JobServlet?action=search&jobName=<%= jobName %>&salaryRange=<%= salaryRangeId %>&jobType=<%= jobType %>&experience=<%= experience %>&location=<%= location %>&page=<%= i %>"
+				class="<%= (i == currentPage) ? "active" : "" %>"><%= i %></a> 
+				<%}else{
+        	%>
+            <a href="JobServlet?action=showjob&page=<%= i %>" class="<%= (i == currentPage) ? "active" : "" %>"><%= i %></a>
+        <% }
+        } %>
+    </div>
      
 	</div>
 	<%@include file="../includes/footer.jsp"%>

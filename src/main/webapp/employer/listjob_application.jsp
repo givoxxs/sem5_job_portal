@@ -13,9 +13,17 @@ if (account != null) {
 	request.setAttribute("account", account);
 }
 
+//Xử lý tìm kiếm
+String job_id = request.getParameter("job_id");
+String name = request.getParameter("name");
 
-String recentJobs = (String) request.getAttribute("job_id");
 List<Job_Application> job_applications = (List<Job_Application>) request.getAttribute("listjobapplication");
+int noOfPages = (int) request.getAttribute("noOfPages");
+int currentPage = (int) request.getAttribute("currentPage");
+boolean search = false;
+if(request.getAttribute("search") != null) {
+	search = (boolean) request.getAttribute("search");
+}
 %>
 <!DOCTYPE html>
 <html>
@@ -42,7 +50,7 @@ h1 {
 	    <h1>Find Job Application</h1>
 	    
 	    <form action="job_applicationServlet?action=search" method="POST" class="search-bar">
-	    	<input type="hidden" name="job_id" value="<%= (String) request.getAttribute("job_id")  %>"/>
+	    	<input type="hidden" name="job_id" value="<%= job_id %>"/>
 	        <!-- Search by job name -->
 	        <input type="text" name="name" placeholder="Search Job application by Name" 
 	        style="width: 80%;"/>
@@ -67,8 +75,10 @@ h1 {
                     String status = ja.getStatus();
                     if(status.equals("Pending")) {
                     	%>
+                    	<span class="detail-item">
                     	<a href="job_applicationServlet?action=updateStatusJob_application&jobapp_id=<%=ja.getId() %>&status=Reject" class="button">Reject</a>
                     	<a href="job_applicationServlet?action=updateStatusJob_application&jobapp_id=<%=ja.getId() %>&status=Accept" class="button">Accept</a>
+                    	</span>
                     <%
                     }else{
                     	%>
@@ -82,6 +92,22 @@ h1 {
             </div>
         <% } %>
     </div>
+    
+    <!-- Pagination -->
+    <div class="pagination">
+        <% for (int i = 1; i <= noOfPages; i++) { %>
+        <% if(search){
+        	%>
+			<a
+				href="job_applicationServlet?action=search&name=<%= name%>&job_id=<%= job_id %>&page=<%= i %>"
+				class="<%= (i == currentPage) ? "active" : "" %>"><%= i %></a> 
+				<%}else{
+        	%>
+            <a href="job_applicationServlet?action=showJob_applicationOfJob&page=<%= i %>" class="<%= (i == currentPage) ? "active" : "" %>"><%= i %></a>
+        <% }
+        } %>
+    </div>
+    
 	</div>
 	<%@include file="../includes/footer.jsp"%>
 </body>

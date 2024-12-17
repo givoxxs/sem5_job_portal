@@ -42,8 +42,8 @@ public class JobApplicationBO {
 	}
 	
 	//search job application by name
-	public List<Job_Application> searchJobApplicationByName(String jobid, String name) {
-		return JobApplicationDAO.getInstance().searchJobApplicationByName(jobid, name);
+	public List<Job_Application> searchJobApplicationByName(String jobid, String name,   int offset, int noOfRecords) {
+		return JobApplicationDAO.getInstance().searchJobApplicationByName(jobid, name, offset, noOfRecords);
 	}
 	
 	public List<Job_Application> getJobApplicationByCandidateId(String candidateId) {
@@ -54,4 +54,14 @@ public class JobApplicationBO {
 	public boolean insertJobApplication(Job_Application job) {
 		return JobApplicationDAO.getInstance().insertJobApplication(job);
 	}
+
+	//search job application by name
+		public List<Job_Application> searchJobApplicationByName(String jobid, String name ) {
+			return JobApplicationDAO.getInstance().searchJobApplicationByName(jobid, name);
+		}
+	
+	//Get job application by job id
+		public List<Job_Application> getJobApplicationByJobId(String jobId,  int offset, int noOfRecords) {
+			return JobApplicationDAO.getInstance().getJobApplicationByJob_Id(jobId, offset, noOfRecords);
+		}
 }

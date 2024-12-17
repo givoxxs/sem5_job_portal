@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import model.bean.Account;
@@ -16,14 +18,14 @@ public class AccountDAO {
     private static final String SQL_FIND_ACCOUNT_BY_USERNAME = "SELECT * FROM account WHERE username = ? AND is_deleted = false";
     private static final String SQL_CREATE_ACCOUNT = "INSERT INTO account (id, username, password, role, avatar_url, is_deleted) VALUES (?, ?, ?, ?, ?, ?)";
     private static final String SQL_UPDATE_ACCOUNT = "UPDATE account SET username = ?, password = ?, role = ?, avatar_url = ?, is_deleted = ? WHERE id = ?";
-    
-    private AccountDAO() {
-        try {
-            conn = DBConnect.getConnection(); // Ensure DB connection is initialized only once
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+
+	private AccountDAO() {
+		try {
+			conn = DBConnect.getConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
     public static AccountDAO getInstance() {
         if (instance == null) {
@@ -123,4 +125,32 @@ public class AccountDAO {
 		}
 		return result;
 	}
+	
+	public List<Account> getUsers(int start, int recordsPerPage) throws SQLException{
+	    List<Account> users = new ArrayList<>();
+	    String sql = "SELECT * FROM account LIMIT ?, ?";
+        PreparedStatement preparedStatement = conn.prepareStatement(sql);
+        preparedStatement.setInt(1, start);
+        preparedStatement.setInt(2, recordsPerPage);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()) {
+            Account user = new Account();
+            user.setId(resultSet.getString("id"));
+            user.setUsername(resultSet.getString("username"));
+            user.setRole(resultSet.getString("role"));
+            users.add(user);
+	        }
+	    return users;
+	}
+
+	public int getTotalRecords() throws SQLException{
+	    String sql = "SELECT COUNT(*) FROM account";
+	    PreparedStatement preparedStatement = conn.prepareStatement(sql);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if (resultSet.next()) {
+            return resultSet.getInt(1);
+        }
+	    return 0;
+	}
+
 }

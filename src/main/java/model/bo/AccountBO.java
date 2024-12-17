@@ -1,6 +1,7 @@
 package model.bo;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import model.bean.Account;
 import model.dao.AccountDAO;
@@ -32,8 +33,16 @@ public class AccountBO {
 		account.setPassword(PasswordUtils.hashPassword(account.getPassword()));
 		return accountDAO.createAccount(account);
 	}
-	
+
 	public boolean updateAccount(Account account) throws SQLException {
 		return accountDAO.updateAccount(account);
+
+	public List<Account> getUsers(int page, int recordsPerPage) throws SQLException{
+		int start = (page - 1) * recordsPerPage;
+		return accountDAO.getUsers(start, recordsPerPage);
+	}
+	
+	public int getTotalPages(int recordsPerPage) throws SQLException{
+		return (int) Math.ceil((double) accountDAO.getTotalRecords() / recordsPerPage);
 	}
 }

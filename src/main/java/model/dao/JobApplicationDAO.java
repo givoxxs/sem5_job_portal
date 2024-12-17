@@ -74,6 +74,15 @@ public class JobApplicationDAO {
 		return getListJobApplications(params, query);
 	}
 	
+	//Get job application by job id
+		public List<Job_Application> getJobApplicationByJob_Id(String job_id, int offset, int noOfRecords) {
+			String query = "SELECT * FROM job_application WHERE job_id = ?"
+					+ " LIMIT " + offset + ", " + noOfRecords;
+			List<String> params = new ArrayList<>();
+			params.add(job_id);
+			return getListJobApplications(params, query);
+		}
+	
 	//Get one job application by id
 	public Job_Application getJobApplicationById(String id) {
 		String query = "SELECT * FROM job_application WHERE id = ?";
@@ -104,8 +113,18 @@ public class JobApplicationDAO {
 	}
 	
 	//Search Job_Application by Name
-	public List<Job_Application> searchJobApplicationByName(String jobid,String name) {
-		String query = "SELECT * FROM job_application WHERE job_id = ? AND BINARY name LIKE ?";
+		public List<Job_Application> searchJobApplicationByName(String jobid,String name) {
+			String query = "SELECT * FROM job_application WHERE job_id = ? AND BINARY name LIKE ?";
+			List<String> params = new ArrayList<>();
+			params.add(jobid);
+			params.add("%" + name + "%");
+			return getListJobApplications(params, query);
+		}
+	
+	//Search Job_Application by Name
+	public List<Job_Application> searchJobApplicationByName(String jobid,String name,   int offset, int noOfRecords) {
+		String query = "SELECT * FROM job_application WHERE job_id = ? AND BINARY name LIKE ?"
+				+ " LIMIT " + offset + ", " + noOfRecords;
 		List<String> params = new ArrayList<>();
 		params.add(jobid);
 		params.add("%" + name + "%");
