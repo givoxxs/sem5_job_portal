@@ -10,7 +10,8 @@
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <title>Đăng Ký Tài Khoản</title>
                 <%@include file="includes/header.jsp" %>
-                    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/register.css">
+                <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/register.css">
+                <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/navbar.css">
             </head>
             <style>
             </style>

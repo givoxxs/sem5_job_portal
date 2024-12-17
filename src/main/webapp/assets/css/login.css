@@ -7,16 +7,21 @@ body {
     margin: 0;
     padding: 0;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
     min-height: 100vh;
     background-color: #eafaf1;
     /* Xanh lá nhạt */
 }
 
 .login-container {
-    width: 100%;
-    max-width: 400px;
+	align-self: center;
+    width: 100vw;
+    height: calc(100vh - 56px);
+    max-height: 400px;
+    max-width: 700px;
+    flex-direction: column;
+/*     justify-content: center; */
+    align-items: center;
     padding: 20px;
     background-color: #fff;
     border-radius: 8px;

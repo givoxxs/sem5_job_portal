@@ -1,8 +1,18 @@
-/*function addLink() {
+let links = "";
+
+function addLink() {
     var urlInput = document.getElementById('urlInput');
     var url = urlInput.value.trim();  // Lấy giá trị link nhập vào và loại bỏ khoảng trắng thừa
     
     if (url) {
+		// Thêm url mới vào links với dấu ; ngăn cách
+        links += (links ? ";" : "") + url;
+
+        // Hiển thị danh sách liên kết đã thêm
+        console.log("Danh sách links:", links);
+        
+        document.getElementById("link").value = links;
+        
         // Tạo một phần tử li mới
         var li = document.createElement('li');
         li.classList.add('link-item');
@@ -32,4 +42,4 @@
     } else {
         alert("Vui lòng nhập một link hợp lệ!");
     }
-} */
+}

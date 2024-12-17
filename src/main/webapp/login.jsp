@@ -9,9 +9,10 @@
             <head>
                 <meta charset="UTF-8">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>Đăng Nhặp Tài Khoản</title>
+                <title>Đăng Nhập Tài Khoản</title>
                 <%@include file="includes/header.jsp" %>
-                    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/login.css">
+                <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/login.css">
+                <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/navbar.css">
             </head>
 
             <body>
