@@ -18,8 +18,10 @@ pageEncoding="UTF-8" %> <%@ page import="model.bean.Employer" %>
 		}
 	%>
 	
-    <% Employer emp = (Employer) request.getAttribute("employer"); if (emp ==
-    null) { out.println("Employer not found!"); return; } %>
+    <% Employer emp = (Employer) request.getAttribute("employer"); 
+    if (emp ==    null) { 
+    	out.println("Employer not found!"); return; } 
+    	%>
     <h1>Employer profile</h1>
     <form action="EmployerServlet?action=update" method="post">
       <label for="id">Employer ID:</label>

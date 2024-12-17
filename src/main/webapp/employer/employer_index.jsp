@@ -30,10 +30,11 @@
 		}
 	%>
 	<%
-        Account account = new Account();//(Account) request.getSession().getAttribute("account");
+	Account account = (Account) request.getSession().getAttribute("account");
         
     %>
 	<%@include file="../includes/navbar.jsp"%>
+	<br></br>
 	<div class="contentt3">
       <div class="t3-center">
         <div class="center-menu">

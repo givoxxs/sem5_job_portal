@@ -1,15 +1,17 @@
 @charset "UTF-8";
 .button {
-    display: inline-block;
-    padding: 8px 16px; /* Giảm kích thước padding */
+    display: block; /* Hoặc 'flex' nếu bạn cần canh giữa */
+    padding: 8px 16px;
+    margin-left: 5px;
     background-color: #3a99d8;
     color: white;
-    font-size: 14px; /* Giảm kích thước font */
+    font-size: 14px;
     text-align: center;
-    border-radius: 3px; /* Giảm bo góc */
-    text-decoration: none; /* Xóa gạch chân mặc định của thẻ <a> */
+    border-radius: 3px;
+    text-decoration: none;
     transition: background-color 0.3s ease, transform 0.3s ease;
 }
+
 
 .button:hover {
     background-color: #003d7a;
