@@ -29,7 +29,7 @@ public class HomeServlet extends HttpServlet {
         req.setAttribute("randomJobs", randomJobs);
         List<SalaryRange> salaryRanges = SalaryRangeBO.getInstance().getAllAvailableSalaryRanges();
         req.setAttribute("salaryRanges", salaryRanges);
-        req.setAttribute("locations", new ArrayList<>(List.of("Hà Nội", "Hồ Chí Minh", "Đà Nẵng", "Khác")));
+        req.setAttribute("locations", new ArrayList<>(List.of("Ha Noi", "Ho Chi Minh", "Da Nang", "Others")));
 		HttpSession session = req.getSession(false); 
 
         if (session != null && session.getAttribute("role") != null) {
