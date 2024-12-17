@@ -46,14 +46,14 @@ public class ApplyJobServlet extends HttpServlet {
 			System.out.println("ApplyJobServlet.doPost() resule: " + resule);
 			
 			if (resule) {
-//				// Send an email to the candidate
-//				String candidateEmail = email;
-//				String candidateName = name;
-//				String subject = "Job Application Confirmation";
-//				String body = "Dear " + candidateName + ",\n\n"
-//						+ "Your job application has been submitted successfully.\n\n"
-//						+ "Thank you for your interest in our company.\n\n" + "Best regards,\n" + "HR Department";
-//				EmailUtils.getInstance().sendEmail(candidateEmail, subject, body);
+				// Send an email to the candidate
+				String candidateEmail = email;
+				String candidateName = name;
+				String subject = "Job Application Confirmation";
+				String body = "Dear " + candidateName + ",\n\n"
+						+ "Your job application has been submitted successfully.\n\n"
+						+ "Thank you for your interest in our company.\n\n" + "Best regards,\n" + "HR Department";
+				EmailUtils.getInstance().sendEmail(candidateEmail, subject, body);
 			} else {
 				request.setAttribute("error", "Failed to apply for the job");
 			}
