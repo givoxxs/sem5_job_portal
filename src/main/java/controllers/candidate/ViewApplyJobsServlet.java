@@ -30,6 +30,9 @@ public class ViewApplyJobsServlet extends HttpServlet {
 		// Get the list of jobs that the user has applied to
 		List<Job_Application> jobs = JobApplicationBO.getInstance().getJobApplicationByCandidateId(candidate.getId());
 		request.setAttribute("jobs_apply", jobs);
+//		List<Job_Application> jobs = JobApplicationBO.getInstance()
+//			    .getDetailedJobApplicationsByCandidateId(candidate.getId());
+//			request.setAttribute("jobs_apply", jobs);
 		request.getRequestDispatcher("/candidate/view_apply_jobs.jsp").forward(request, response);
 	}
 }

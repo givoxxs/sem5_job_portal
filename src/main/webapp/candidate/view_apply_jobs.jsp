@@ -85,12 +85,12 @@ css cho bảng
             <table class="job-table">
                 <thead>
                     <tr>
-                        <th>ID</th>
                         <th>Tên</th>
                         <th>Email</th>
                         <th>Số điện thoại</th>
                         <th>Trạng thái</th>
                         <th>Link CV</th>
+                        <th>Chi tiết công việc</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -99,13 +99,15 @@ css cho bảng
                         for (Job_Application job : jobs) {
                     %>
                     <tr>
-                        <td><%= job.getId() %></td>
                         <td><%= job.getName() %></td>
                         <td><%= job.getEmail() %></td>
                         <td><%= job.getPhone() %></td>
                         <td><%= job.getStatus() %></td>
                         <td>
                             <a href="<%= job.getCv_url() %>" target="_blank" class="cv-link">Xem CV</a>
+                        </td>
+                        <td>
+                        	<a href="job-detail?id=<%= job.getJob_id() %>">Xem</a>
                         </td>
                     </tr>
                     <%
