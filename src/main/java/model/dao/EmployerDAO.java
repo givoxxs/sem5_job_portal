@@ -101,6 +101,14 @@ public class EmployerDAO{
 		return null;
 	}
 	
+	//Update employer profile
+	public boolean deleteEmployerById(String id) {
+		String query = "DELETE FROM employer_profile WHERE id = ?";
+		List<String> params = new ArrayList<>();
+		params.add(id);
+		return DBConnect.getInstance().dataSQL(params, query);
+	}
+	
 	//rs to employer
 	public Employer mapResultToEmployer(ResultSet rs) {
 		
@@ -137,5 +145,32 @@ public class EmployerDAO{
 		}
 		return null;
 	}
+	
+	public List<Employer> getEmployers(int start, int recordsPerPage) throws SQLException{
+	    List<Employer> employers = new ArrayList<>();
+	    String sql = "SELECT * FROM employer_profile LIMIT ?, ?";
+        PreparedStatement preparedStatement = conn.prepareStatement(sql);
+        preparedStatement.setInt(1, start);
+        preparedStatement.setInt(2, recordsPerPage);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()) {
+            Employer employer = new Employer();
+            employer.setId(resultSet.getString("id"));
+            employer.setName(resultSet.getString("name"));
+            employer.setAddress(resultSet.getString("address"));
+            employer.setEmail(resultSet.getString("email"));
+            employers.add(employer);
+	        }
+	    return employers;
+	}
 
+	public int getTotalRecords() throws SQLException{
+	    String sql = "SELECT COUNT(*) FROM employer_profile";
+	    PreparedStatement preparedStatement = conn.prepareStatement(sql);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if (resultSet.next()) {
+            return resultSet.getInt(1);
+        }
+	    return 0;
+	}
 }

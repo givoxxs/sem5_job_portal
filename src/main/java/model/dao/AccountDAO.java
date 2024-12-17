@@ -78,6 +78,27 @@ public class AccountDAO {
 		return result;
 	}
 	
+	public Account getAccountById(String id) throws SQLException {
+		Account account = null;
+		String sql = "SELECT * FROM account WHERE id = ?";
+		PreparedStatement preparedStatement = conn.prepareStatement(sql);
+		preparedStatement.setString(1, id);
+		ResultSet rs = preparedStatement.executeQuery();
+		if (rs.next()) {
+			account = mapResultToAccount(rs);
+		}
+		return account;
+	}
+	
+	public boolean changePassword(String id, String newPassword) throws SQLException {
+		String sql = "UPDATE account SET password = ? WHERE id = ?";
+		PreparedStatement preparedStatement = conn.prepareStatement(sql);
+		preparedStatement.setString(1, newPassword);
+		preparedStatement.setString(2, id);
+		boolean result = preparedStatement.executeUpdate() > 0;
+		return result;
+	}
+	
 	public List<Account> getUsers(int start, int recordsPerPage) throws SQLException{
 	    List<Account> users = new ArrayList<>();
 	    String sql = "SELECT * FROM account LIMIT ?, ?";

@@ -37,10 +37,10 @@ public class UploadServlet extends HttpServlet {
             // Lấy giá trị của trường ẩn "redirect"
             String redirect = request.getParameter("redirect");
 
-            if (redirect != null && redirect.equals("candidate/create/profile")) {
+            if (redirect != null) {
             	String f_url = "/" + redirect;
             	System.out.println(request.getContextPath() + f_url);
-            	request.getRequestDispatcher("/candidate/create/profile").forward(request, response);
+            	request.getRequestDispatcher(f_url).forward(request, response);
 //            	request.getRequestDispatcher(request.getContextPath() + "/candidate/create/profile").forward(request, response);
             }
             else {
