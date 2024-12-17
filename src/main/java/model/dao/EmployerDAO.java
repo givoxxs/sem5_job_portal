@@ -117,12 +117,6 @@ public class EmployerDAO{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		try {
-			rs.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		return employer;
 	}
 	

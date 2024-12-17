@@ -14,7 +14,7 @@ if (account != null) {
 }
 
 
-List<SalaryRange> salaryRanges = SalaryRangeBO.getInstance().getAllAvailableSalaryRanges(); // Lấy tất cả các khoảng lương
+List<SalaryRange> salaryRanges = request.getAttribute("salaryRanges") != null ? (List<SalaryRange>) request.getAttribute("salaryRanges") : new ArrayList<>();
 
 List<String> locations = new ArrayList<>();
 locations.add("Hà Nội");
