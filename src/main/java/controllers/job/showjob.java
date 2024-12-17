@@ -11,7 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import model.bean.Job;
+import model.bean.SalaryRange;
 import model.bo.JobBO;
+import model.bo.SalaryRangeBO;
 
 @WebServlet("/showjob")
 public class showjob extends HttpServlet {
@@ -42,6 +44,9 @@ public class showjob extends HttpServlet {
 		    System.out.println("Employer_id is null");
 		    return;
 		}
+		
+		List<SalaryRange> salaryRanges = SalaryRangeBO.getInstance().getAllAvailableSalaryRanges();
+		request.setAttribute("salaryRanges", salaryRanges);
 		
 		if (jobid == null) {
 			

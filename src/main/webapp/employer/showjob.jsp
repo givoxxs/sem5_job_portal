@@ -13,8 +13,7 @@ if (account != null) {
 	request.setAttribute("account", account);
 }
 
-
-List<SalaryRange> salaryRanges = SalaryRangeBO.getInstance().getAllAvailableSalaryRanges(); // Lấy tất cả các khoảng lương
+List<SalaryRange> salaryRanges =(List<SalaryRange>) request.getAttribute("salaryRanges");
 
 List<String> locations = new ArrayList<>();
 locations.add("Hà Nội");
