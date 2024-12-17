@@ -36,16 +36,16 @@ public class ManageListServlet extends HttpServlet{
 				dispatcher.forward(request, response);
 			}
 			else if (mainContent.equals("manageJobs")) {
-				//List<Job> jobs = jobBO.getJobs(page, recordsPerPage);
-				//int totalPages = jobBO.totalPages(recordsPerPage);
+				List<Job> jobs = jobBO.getJobs(page, recordsPerPage);
+				int totalPages = jobBO.totalPages(recordsPerPage);
 
-				//request.setAttribute("jobs", jobs);
+				request.setAttribute("jobs", jobs);
 				request.setAttribute("mainContent", mainContent);
 				request.setAttribute("currentPage", page);
-				//request.setAttribute("totalPages", totalPages);
+				request.setAttribute("totalPages", totalPages);
 
-				//RequestDispatcher dispatcher = request.getRequestDispatcher("/admin/dashboard.jsp");
-				//dispatcher.forward(request, response);
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/admin/dashboard.jsp");
+				dispatcher.forward(request, response);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

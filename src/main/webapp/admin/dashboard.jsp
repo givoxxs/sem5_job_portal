@@ -152,25 +152,25 @@
 		%>
 		<div class="pagination">
 		    <% if (currentPage > 1) { %>
-		        <a href="admin/list?mainContent=<%= mainContent %>&page=<%= currentPage - 1 %>">« Trước</a>
+		        <a href="/sem5_job_portal/admin/list?mainContent=<%= mainContent %>&page=<%= currentPage - 1 %>">« Trước</a>
 		    <% } %>
 		
 		    <% if (startPage > 1) { %>
-		        <a href="admin/list?mainContent=<%= mainContent %>&page=1">1</a>
+		        <a href="/sem5_job_portal/admin/list?mainContent=<%= mainContent %>&page=1">1</a>
 		        <% if (startPage > 2) { %> <span>...</span> <% } %>
 		    <% } %>
 		
 		    <% for (int i = startPage; i <= endPage; i++) { %>
-		        <a href="admin/list?mainContent=<%= mainContent %>&page=<%= i %>" class="<%= i == currentPage ? "active" : "" %>"><%= i %></a>
+		        <a href="/sem5_job_portal/admin/list?mainContent=<%= mainContent %>&page=<%= i %>" class="<%= i == currentPage ? "active" : "" %>"><%= i %></a>
 		    <% } %>
 		
 		    <% if (endPage < totalPages) { %>
-		        <a href="admin/list?mainContent=<%= mainContent %>&page=<%= totalPages %>"><%= totalPages %></a>
+		        <a href="/sem5_job_portal/admin/list?mainContent=<%= mainContent %>&page=<%= totalPages %>"><%= totalPages %></a>
 		        <% if (endPage < totalPages - 1) { %> <span>...</span> <% } %>
 		    <% } %>
 		
 		    <% if (currentPage < totalPages) { %>
-		        <a href="admin/list?mainContent=<%= mainContent %>&page=<%= currentPage + 1 %>">Tiếp »</a>
+		        <a href="/sem5_job_portal/admin/list?mainContent=<%= mainContent %>&page=<%= currentPage + 1 %>">Tiếp »</a>
 		    <% } %>
 		</div>
     </div>
