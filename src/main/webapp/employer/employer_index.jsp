@@ -44,7 +44,7 @@
               <a href="EmployerServlet?action=showprofile" target="view"
                 >Employer profile</a
               >
-              <a href="JobServlet?action=showjob" target="view">My job</a>
+              <a href="JobServlet?action=showjob" target="view">Job manager</a>
 
               <a href="JobServlet?action=formaddjob" target="view"
                 >Add job</a
