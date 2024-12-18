@@ -1,5 +1,7 @@
 package model.dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -11,7 +13,8 @@ import utils.DBConnect;
 import utils.EmailUtils;
 
 public class JobApplicationDAO {
-	
+	private static final String SQL_ALL_JOBS_BY_CANIDATE = "SELECT * FROM job_application WHERE candidate_id = ?";
+	private static final String SQL_INSERT_JOB_APPLICATION = "INSERT INTO job_application (id, name, email, phone, job_id, cv_url, candidate_id, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 	//Create a singleton pattern
 	private static JobApplicationDAO instance;
 	private JobApplicationDAO() {
@@ -152,6 +155,26 @@ public class JobApplicationDAO {
 		EmailUtils.getInstance().sendEmail(to, subject, body);
 	}
 	
+	public List<Job_Application> getJobApplicationByCandidateId(String candidateId) {
+		List<String> params = new ArrayList<>();
+		params.add(candidateId);
+		ResultSet rs = DBConnect.getInstance().selectSQL(params, SQL_ALL_JOBS_BY_CANIDATE);
+		return mapResultToListJobApplication(rs);
+	}
+	
+	public boolean insertJobApplication(Job_Application jobApplication) {
+		List<String> params = new ArrayList<>();
+		params.add(jobApplication.getId());
+		params.add(jobApplication.getName());
+		params.add(jobApplication.getEmail());
+		params.add(jobApplication.getPhone());
+		params.add(jobApplication.getJob_id());
+		params.add(jobApplication.getCv_url());
+		params.add(jobApplication.getCandidate_id());
+		params.add(jobApplication.getStatus());
+		System.out.println("params: " + params);
+		return DBConnect.getInstance().dataSQL(params, SQL_INSERT_JOB_APPLICATION);
+	}
 	
 	public static void main(String[] args) {
 		

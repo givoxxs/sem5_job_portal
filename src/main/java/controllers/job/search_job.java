@@ -25,7 +25,7 @@ public class search_job extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+	
 		String destination = null;
 		 // Xử lý tìm kiếm
         String jobName = request.getParameter("jobName");

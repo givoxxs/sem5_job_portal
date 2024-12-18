@@ -25,12 +25,8 @@ public class JobBO {
 	}
 	
 	public List<Job> getTopLatestJobs(int limit) {
-		System.out.println("JobBO - getTopLatestJobs");
-		// in ra length
-		System.out.println("limit: " + limit);
 		// in ra danh sách các công việc mới nhất
 		List<Job> jobs = jobDAO.getTopLatestJobs(limit);
-		System.out.println("jobs: " + jobs);
 		return jobDAO.getTopLatestJobs(limit);
 	}
 

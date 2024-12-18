@@ -1,0 +1,122 @@
+/* General Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+/* Navbar */
+.navbar {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar a {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 10px;
+    font-weight: bold;
+}
+
+.navbar a:hover {
+    text-decoration: underline;
+}
+
+/* Container */
+.container {
+    max-width: 1100px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow-x: auto;
+}
+
+/* Title */
+.title {
+    text-align: center;
+    font-size: 2.2rem;
+    margin-bottom: 20px;
+    color: #333;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* No Jobs Message */
+.no-jobs {
+    text-align: center;
+    font-size: 1.5rem;
+    color: #777;
+    margin: 30px 0;
+    font-weight: bold;
+}
+
+/* Job Table */
+.job-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.job-table th, .job-table td {
+    padding: 12px 15px;
+    text-align: center;
+    border: 1px solid #ddd;
+    font-size: 1rem;
+}
+
+.job-table th {
+    background-color: #007bff;
+    color: #fff;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+
+.job-table tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+.job-table tr:hover {
+    background-color: #e6f7ff;
+    transition: background-color 0.3s ease;
+}
+
+.job-table td {
+    color: #555;
+}
+
+/* Links */
+.cv-link, .detail-link {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.cv-link:hover, .detail-link:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+/* Responsive Table */
+@media screen and (max-width: 768px) {
+    .job-table th, .job-table td {
+        font-size: 0.9rem;
+        padding: 8px;
+    }
+
+    .title {
+        font-size: 1.8rem;
+    }
+}

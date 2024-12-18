@@ -1,11 +1,13 @@
 <%@ page import="model.bean.Account" %>
-    <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-        <% Account account=(Account) request.getSession().getAttribute("account"); if (account !=null) {
-            request.setAttribute("account", account); request.getRequestDispatcher(request.getContextPath() + "/"
-            ).forward(request, response); } %>
-            <!DOCTYPE html>
-            <html lang="en">
-
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<% 
+	Account account=(Account) request.getSession().getAttribute("account"); 
+	if (account !=null) {
+		request.getRequestDispatcher(request.getContextPath() + "/home").forward(request, response); 
+	} 
+%>
+			<!DOCTYPE html>
+			<html lang="en">
             <head>
                 <meta charset="UTF-8">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
