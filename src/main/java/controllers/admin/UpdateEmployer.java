@@ -45,7 +45,7 @@ public class UpdateEmployer extends HttpServlet{
 			String link = request.getParameter("link");
 			String description = request.getParameter("description");
 
-			boolean isUpdated= employerBO.updateEmployerProfile(employer.getId(), name, address, email, link, description);
+			boolean isUpdated= employerBO.updateEmployerProfile(employer.getId(), name, email, address, link, description);
 			if (!isUpdated) 
 			{
 				throw new Exception("Có lỗi xảy ra khi thêm thông tin");
