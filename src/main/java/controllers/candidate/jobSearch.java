@@ -68,14 +68,14 @@ public class jobSearch extends HttpServlet {
 
         // Lấy các dữ liệu khác cho JSP
         List<Job> recentJobs = jobBO.getTopLatestJobs(6);
-        List<Job> randomJobs = jobBO.getRandomJobs(6);
+        List<Job> randomJobs = jobBO.getRandomJobs(3);
         List<SalaryRange> salaryRanges = SalaryRangeBO.getInstance().getAllAvailableSalaryRanges();
 
         // Lưu trữ thông tin vào request
         request.setAttribute("recentJobs", recentJobs);
         request.setAttribute("randomJobs", randomJobs);
         request.setAttribute("salaryRanges", salaryRanges);
-        request.setAttribute("locations", new ArrayList<>(List.of("Hà Nội", "Hồ Chí Minh", "Đà Nẵng", "Khác")));
+        request.setAttribute("locations", new ArrayList<>(List.of("Ha Noi", "Ho Chi Minh", "Da Nang", "Others")));
         request.setAttribute("searchResults", searchResults);
         request.setAttribute("totalPages", totalPages);
 

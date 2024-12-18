@@ -12,6 +12,7 @@ import model.bean.Account;
 import model.bean.Candidate;
 import model.bean.Job;
 import model.bo.CandidateBO;
+import model.bo.EmployerBO;
 import model.bo.JobBO;
 
 @WebServlet("/job-detail")
@@ -36,6 +37,7 @@ public class JobDetailServlet extends HttpServlet {
             if (account != null) {
             	Candidate candidate = CandidateBO.getInstance().findCandidateByAccountId(account.getId());
             	request.setAttribute("candidate", candidate);
+            
             }    
             
             if (job != null) {
