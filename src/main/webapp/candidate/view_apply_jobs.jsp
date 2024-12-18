@@ -36,12 +36,12 @@
                 <table class="table table-bordered table-hover">
                     <thead class="table-light">
                         <tr>
-                            <th scope="col">Tên</th>
+                            <th scope="col">Your Name</th>
                             <th scope="col">Email</th>
-                            <th scope="col">Số điện thoại</th>
-                            <th scope="col">Trạng thái</th>
-                            <th scope="col">Link CV</th>
-                            <th scope="col">Chi tiết công việc</th>
+                            <th scope="col">Phone Number</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Your CV</th>
+                            <th scope="col">Detail Job</th>
                         </tr>
                     </thead>
                     <tbody>
