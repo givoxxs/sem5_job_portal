@@ -51,6 +51,8 @@
     <title>Job Portal</title>
     <link rel="stylesheet" href="assets/css/index.css">
     <link rel="stylesheet" href="assets/css/navbar.css">
+    
+    <%@include file="includes/header.jsp"%>
 </head>
 <body>
     <%@include file="includes/navbar.jsp"%>
@@ -88,6 +90,7 @@
                 <% for (String loc : locations) { %>
                     <option value="<%= loc %>" <%= location != null && location.equals(loc) ? "selected" : "" %>> <%= loc %> </option>
                 <% } %>
+                <option value="" <%= location != null && location.equals("other") ? "selected" : "" %>>Other</option>
             </select>
             <button type="submit">Search</button>
         </form>
@@ -135,7 +138,7 @@
            <% } %>
           </br>
           </br>
-         <h2>Random 6 Jobs</h2>
+         <h2>Random 3 Jobs</h2>
          <div class="job-list">
             <% for (Job job : randomJobs) { %>
            <div class="job-item">
@@ -153,17 +156,6 @@
              </div>
          </div>
          <% } %>         
-	</div>
-        
-
-	<!-- Pagination -->
-	<div class="pagination">
-	    <% for (int i = 1; i <= totalPages; i++) { %>
-	        <a href="?page=<%= i %>&jobName=<%= jobName != null ? URLEncoder.encode(jobName, "UTF-8") : "" %>&salaryRange=<%= salaryRangeId != null ? URLEncoder.encode(salaryRangeId, "UTF-8") : "" %>&jobType=<%= jobType != null ? URLEncoder.encode(jobType, "UTF-8") : "" %>&experience=<%= experience != null ? URLEncoder.encode(experience, "UTF-8") : "" %>&location=<%= location != null ? URLEncoder.encode(location, "UTF-8") : "" %>"
-	           class="<%= (i == currentPage) ? "active" : "" %>">
-	            <%= i %>
-	        </a>
-	    <% } %>
 	</div>
 
 	<!-- Previous and Next Links -->
@@ -184,5 +176,6 @@
 	    </a>
 	</div>
 
+	<%@include file="includes/footer.jsp"%>
 </body>
 </html>

@@ -12,6 +12,7 @@ import model.bean.Account;
 import model.bean.Candidate;
 import model.bean.Job;
 import model.bo.CandidateBO;
+import model.bo.EmployerBO;
 import model.bo.JobBO;
 
 @WebServlet("/job-detail")
@@ -33,8 +34,12 @@ public class JobDetailServlet extends HttpServlet {
         try {
             Job job = JobBO.getInstance().getJobById(jobId);
             Account account = (Account) request.getSession().getAttribute("account");
-            Candidate candidate = CandidateBO.getInstance().findCandidateByAccountId(account.getId());
-            request.setAttribute("candidate", candidate);
+            if (account != null) {
+            	Candidate candidate = CandidateBO.getInstance().findCandidateByAccountId(account.getId());
+            	request.setAttribute("candidate", candidate);
+            
+            }    
+            
             if (job != null) {
                 request.setAttribute("job", job);
                 request.getRequestDispatcher("candidate/job-detail.jsp").forward(request, response); // Chuyển đến job-detail.jsp
