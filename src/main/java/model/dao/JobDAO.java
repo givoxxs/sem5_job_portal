@@ -91,11 +91,6 @@ public class JobDAO {
 		job.setDatePost(rs.getTimestamp("date_post"));
 		job.setAvailable(rs.getBoolean("is_available"));
 		job.setSalaryRange(rs.getString("salary_range"));
-		try {		
-	        job.setEmployerName(rs.getString("name"));
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 		return job;
 	}
 	
