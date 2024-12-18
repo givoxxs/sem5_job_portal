@@ -8,9 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import model.bean.Account;
 import model.bean.Candidate;
-import model.bo.AccountBO;
 import model.bo.CandidateBO;
 
 @WebServlet("/candidate/create/profile")

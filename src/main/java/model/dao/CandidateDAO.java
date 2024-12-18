@@ -134,4 +134,31 @@ public class CandidateDAO{
         }
 	    return 0;
 	}
+	
+	public List<Candidate> searchCandidates(int start, int recordsPerPage) throws SQLException{
+	    List<Candidate> candidates = new ArrayList<>();
+	    String sql = "SELECT * FROM candidate_profile LIMIT ?, ?";
+        PreparedStatement preparedStatement = conn.prepareStatement(sql);
+        preparedStatement.setInt(1, start);
+        preparedStatement.setInt(2, recordsPerPage);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()) {
+            Candidate candidate = new Candidate();
+            candidate.setId(resultSet.getString("id"));
+            candidate.setName(resultSet.getString("name"));
+            candidate.setEmail(resultSet.getString("email"));
+            candidates.add(candidate);
+	        }
+	    return candidates;
+	}
+
+	public int getSearchTotalRecords() throws SQLException{
+	    String sql = "SELECT COUNT(*) FROM candidate_profile";
+	    PreparedStatement preparedStatement = conn.prepareStatement(sql);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if (resultSet.next()) {
+            return resultSet.getInt(1);
+        }
+	    return 0;
+	}
 }

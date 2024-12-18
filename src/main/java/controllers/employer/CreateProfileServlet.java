@@ -8,9 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import model.bean.Account;
 import model.bean.Employer;
-import model.bo.AccountBO;
 import model.bo.EmployerBO;
 
 @WebServlet("/employer/create/profile")
@@ -19,7 +17,9 @@ public class CreateProfileServlet extends HttpServlet{
 
 	@Override 
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-		try {			
+		try {
+			request.setCharacterEncoding("UTF-8");
+			response.setCharacterEncoding("UTF-8");
 			String accountId = request.getParameter("accountId");
 			String name = request.getParameter("name");
 			String address = request.getParameter("address");
