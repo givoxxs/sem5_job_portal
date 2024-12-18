@@ -33,8 +33,11 @@ public class JobDetailServlet extends HttpServlet {
         try {
             Job job = JobBO.getInstance().getJobById(jobId);
             Account account = (Account) request.getSession().getAttribute("account");
-            Candidate candidate = CandidateBO.getInstance().findCandidateByAccountId(account.getId());
-            request.setAttribute("candidate", candidate);
+            if (account != null) {
+            	Candidate candidate = CandidateBO.getInstance().findCandidateByAccountId(account.getId());
+            	request.setAttribute("candidate", candidate);
+            }    
+            
             if (job != null) {
                 request.setAttribute("job", job);
                 request.getRequestDispatcher("candidate/job-detail.jsp").forward(request, response); // Chuyển đến job-detail.jsp
