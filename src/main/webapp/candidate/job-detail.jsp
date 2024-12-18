@@ -10,16 +10,17 @@ if (account != null) {
 }
 
 Candidate candidate = (Candidate) request.getAttribute("candidate");
+if (candidate != null) {
+	request.setAttribute("candidate", candidate);
+}
 
 String jobId = request.getParameter("id");
 Job job = (Job) request.getAttribute("job");
 
 if (job == null) {
-    // Xử lý trường hợp không tìm thấy công việc
-    return;
+	// Xử lý trường hợp không tìm thấy công việc
+	return;
 }
-
-
 %>
 <!DOCTYPE html>
 <html>
@@ -49,9 +50,10 @@ if (job == null) {
     %>
     	<button id="applyButton">Apply Now</button>
 	<%
-    } else {
+    	} else {
     %>
     	<button id="" onclick="location.href='${pageContext.request.contextPath}/login.jsp'">Apply Now</button>
+    	<a href="${pageContext.request.contextPath}/login.jsp">Login to apply</a>
   	<%      
 		}
     %>
