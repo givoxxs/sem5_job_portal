@@ -15,10 +15,11 @@
 			</a>
 			<%
 			if (account != null ) { %>
-				<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/profile-candidate">Profile</a></li>
-				<%
+			<%
 				if(account.getRole().equals("candidate")) {
 					%>
+				<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/profile-candidate">Profile</a></li>
+				
 					<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/view_apply_jobs">History Apply Jobs</a></li>
 					<li class="nav-item"><a class="nav-link" href="#">
 					<% } %>
