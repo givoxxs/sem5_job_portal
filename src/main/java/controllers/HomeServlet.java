@@ -25,11 +25,11 @@ public class HomeServlet extends HttpServlet {
         System.out.println("HomeServlet - doGet");
         List<Job> recentJobs = JobBO.getInstance().getTopLatestJobs(6);
         req.setAttribute("recentJobs", recentJobs);
-        List<Job> randomJobs = JobBO.getInstance().getRandomJobs(6);
+        List<Job> randomJobs = JobBO.getInstance().getRandomJobs(3);
         req.setAttribute("randomJobs", randomJobs);
         List<SalaryRange> salaryRanges = SalaryRangeBO.getInstance().getAllAvailableSalaryRanges();
         req.setAttribute("salaryRanges", salaryRanges);
-        req.setAttribute("locations", new ArrayList<>(List.of("Ha Noi", "Ho Chi Minh", "Da Nang", "Others")));
+        req.setAttribute("locations", new ArrayList<>(List.of("Ha Noi", "Ho Chi Minh", "Da Nang")));
 		HttpSession session = req.getSession(false); 
 
         if (session != null && session.getAttribute("role") != null) {

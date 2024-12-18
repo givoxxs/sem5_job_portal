@@ -26,6 +26,10 @@ public class ViewApplyJobsServlet extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 		// Get the current user
 		Account account = (Account) request.getSession().getAttribute("account");
+		if (account == null) {
+			response.sendRedirect(request.getContextPath() + "/login.jsp");
+			return;
+		}
 		Candidate candidate = CandidateBO.getInstance().findCandidateByAccountId(account.getId());
 		// Get the list of jobs that the user has applied to
 		List<Job_Application> jobs = JobApplicationBO.getInstance().getJobApplicationByCandidateId(candidate.getId());

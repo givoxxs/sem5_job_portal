@@ -79,7 +79,7 @@ public class JobDAO {
 		job.setId(rs.getString("id"));
 		job.setTitle(rs.getString("title"));
 		job.setDescription(rs.getString("description"));
-		job.setSalaryRange(rs.getString("salary_range"));
+		job.setEmployerName(rs.getString("name"));
 		job.setLocation(rs.getString("location"));
 		job.setJobType(rs.getString("job_type"));
 		job.setExperience(rs.getString("experience"));
@@ -493,7 +493,8 @@ public class JobDAO {
 			parameters.add(experience);
 		}
 		if (location != null && !location.isEmpty()) {
-			conditions.add("j.location = ?");
+//			conditions.add("j.location = ?");
+			conditions.add("j.location LIKE ?");
 			parameters.add("%" + location + "%");
 		}
 		if (!conditions.isEmpty()) {
