@@ -62,7 +62,12 @@ public class JobDAO {
 	
 	//Create id
 		public String createId(String str) {
-			String rs = str.substring(0, 2).toUpperCase();
+			String rs;
+			if(str.length() < 2) {
+				rs = str.toUpperCase();
+			}else {
+				rs = str.substring(0, 2).toUpperCase();
+			}
 			// Lấy thời gian hiện tại
 	        LocalDateTime now = LocalDateTime.now();
 	        
