@@ -39,7 +39,7 @@
 						        <div class="search-and-filter">
 						            <div class="search-bar">
 						                <input type="text" id="searchInput" placeholder="Tìm kiếm...">
-						                <button id="searchButton" class="search-btn">
+						                <button id="searchButton" class="search-btn" onclick="window.location.href='/sem5_job_portal/admin/search?role=candidate&searchText=' + document.getElementById('searchInput').value">
 						                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
 						                        <path
 						                            d="M 21 3 C 11.601563 3 4 10.601563 4 20 C 4 29.398438 11.601563 37 21 37 C 24.355469 37 27.460938 36.015625 30.09375 34.34375 L 42.375 46.625 L 46.625 42.375 L 34.5 30.28125 C 36.679688 27.421875 38 23.878906 38 20 C 38 10.601563 30.398438 3 21 3 Z M 21 7 C 28.199219 7 34 12.800781 34 20 C 34 27.199219 28.199219 33 21 33 C 13.800781 33 8 27.199219 8 20 C 8 12.800781 13.800781 7 21 7 Z">
@@ -97,7 +97,7 @@
 							        <div class="search-and-filter">
 							            <div class="search-bar">
 							                <input type="text" id="searchInput" placeholder="Tìm kiếm...">
-							                <button id="searchButton" class="search-btn">
+							                <button id="searchButton" class="search-btn" onclick="window.location.href='/sem5_job_portal/admin/search?role=employer&searchText=' + document.getElementById('searchInput').value">
 							                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
 							                        <path
 							                            d="M 21 3 C 11.601563 3 4 10.601563 4 20 C 4 29.398438 11.601563 37 21 37 C 24.355469 37 27.460938 36.015625 30.09375 34.34375 L 42.375 46.625 L 46.625 42.375 L 34.5 30.28125 C 36.679688 27.421875 38 23.878906 38 20 C 38 10.601563 30.398438 3 21 3 Z M 21 7 C 28.199219 7 34 12.800781 34 20 C 34 27.199219 28.199219 33 21 33 C 13.800781 33 8 27.199219 8 20 C 8 12.800781 13.800781 7 21 7 Z">
@@ -161,30 +161,35 @@
 		    int pageRange = 2;  // Hiển thị tối đa 5 trang (trang hiện tại + 2 trước, 2 sau)
 		    int startPage = Math.max(1, currentPage - pageRange);
 		    int endPage = Math.min(totalPages, currentPage + pageRange);
+		    
+		    boolean isSearch = (request.getAttribute("isSearch") != null) ? (boolean) request.getAttribute("isSearch") : false; 
 		%>
-		<div class="pagination">
-		    <% if (currentPage > 1) { %>
-		        <a href="/sem5_job_portal/admin/list?mainContent=<%= mainContent %>&page=<%= currentPage - 1 %>">« Previous</a>
-		    <% } %>
+		<div id="pagination-container" data-is-search="<%= isSearch %>" data-main-content="<%= mainContent %>">
+		    <div class="pagination">
+		        <% if (currentPage > 1) { %>
+		            <a href="#" data-page="<%= currentPage - 1 %>" class="pagination-link">« Previous</a>
+		        <% } %>
+		    
+		        <% if (startPage > 1) { %>
+		            <a href="#" data-page="1" class="pagination-link">1</a>
+		            <% if (startPage > 2) { %> <span>...</span> <% } %>
+		        <% } %>
+		    
+		        <% for (int i = startPage; i <= endPage; i++) { %>
+		            <a href="#" data-page="<%= i %>" class="pagination-link <%= i == currentPage ? "active" : "" %>"><%= i %></a>
+		        <% } %>
+		    
+		        <% if (endPage < totalPages) { %>
+		            <a href="#" data-page="<%= totalPages %>" class="pagination-link"><%= totalPages %></a>
+		            <% if (endPage < totalPages - 1) { %> <span>...</span> <% } %>
+		        <% } %>
+		    
+		        <% if (currentPage < totalPages) { %>
+		            <a href="#" data-page="<%= currentPage + 1 %>" class="pagination-link">Next »</a>
+		        <% } %>
+	    </div>
+	</div>
 		
-		    <% if (startPage > 1) { %>
-		        <a href="/sem5_job_portal/admin/list?mainContent=<%= mainContent %>&page=1">1</a>
-		        <% if (startPage > 2) { %> <span>...</span> <% } %>
-		    <% } %>
-		
-		    <% for (int i = startPage; i <= endPage; i++) { %>
-		        <a href="/sem5_job_portal/admin/list?mainContent=<%= mainContent %>&page=<%= i %>" class="<%= i == currentPage ? "active" : "" %>"><%= i %></a>
-		    <% } %>
-		
-		    <% if (endPage < totalPages) { %>
-		        <a href="/sem5_job_portal/admin/list?mainContent=<%= mainContent %>&page=<%= totalPages %>"><%= totalPages %></a>
-		        <% if (endPage < totalPages - 1) { %> <span>...</span> <% } %>
-		    <% } %>
-		
-		    <% if (currentPage < totalPages) { %>
-		        <a href="/sem5_job_portal/admin/list?mainContent=<%= mainContent %>&page=<%= currentPage + 1 %>">Next »</a>
-		    <% } %>
-		</div>
     </div>
 
     <script src="${pageContext.request.contextPath}/assets/js/admin/dashboard.js"></script>

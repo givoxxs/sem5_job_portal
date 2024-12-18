@@ -147,11 +147,53 @@ public class EmployerDAO{
 	}
 	
 	public List<Employer> getEmployers(int start, int recordsPerPage) throws SQLException{
+		try (Connection conn = DBConnect.getConnection()) {
+		    List<Employer> employers = new ArrayList<>();
+		    String sql = "SELECT * FROM employer_profile LIMIT ?, ?";
+	        PreparedStatement preparedStatement = conn.prepareStatement(sql);
+	        preparedStatement.setInt(1, start);
+	        preparedStatement.setInt(2, recordsPerPage);
+	        ResultSet resultSet = preparedStatement.executeQuery();
+	        while (resultSet.next()) {
+	            Employer employer = new Employer();
+	            employer.setId(resultSet.getString("id"));
+	            employer.setName(resultSet.getString("name"));
+	            employer.setAddress(resultSet.getString("address"));
+	            employer.setEmail(resultSet.getString("email"));
+	            employers.add(employer);
+		        }
+		    return employers;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public int getTotalRecords() throws SQLException{
+		try (Connection conn = DBConnect.getConnection()) {
+		    String sql = "SELECT COUNT(*) FROM employer_profile";
+		    PreparedStatement preparedStatement = conn.prepareStatement(sql);
+	        ResultSet resultSet = preparedStatement.executeQuery();
+	        if (resultSet.next()) {
+	            return resultSet.getInt(1);
+	        }
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    return 0;
+	}
+	
+	public List<Employer> searchEmployers(int start, int recordsPerPage, String searchText) throws SQLException{
 	    List<Employer> employers = new ArrayList<>();
-	    String sql = "SELECT * FROM employer_profile LIMIT ?, ?";
+	    String sql = "SELECT * FROM employer_profile WHERE name LIKE ? OR address LIKE ? OR email LIKE ? LIMIT ?, ?";
         PreparedStatement preparedStatement = conn.prepareStatement(sql);
-        preparedStatement.setInt(1, start);
-        preparedStatement.setInt(2, recordsPerPage);
+        preparedStatement.setString(1, "%" + searchText + "%");
+        preparedStatement.setString(2, "%" + searchText + "%");
+        preparedStatement.setString(3, "%" + searchText + "%");
+        preparedStatement.setInt(4, start);
+        preparedStatement.setInt(5, recordsPerPage);
         ResultSet resultSet = preparedStatement.executeQuery();
         while (resultSet.next()) {
             Employer employer = new Employer();
@@ -164,9 +206,12 @@ public class EmployerDAO{
 	    return employers;
 	}
 
-	public int getTotalRecords() throws SQLException{
-	    String sql = "SELECT COUNT(*) FROM employer_profile";
+	public int getSearchTotalRecords(String searchText) throws SQLException{
+	    String sql = "SELECT COUNT(*) FROM employer_profile WHERE name LIKE ? OR address LIKE ? OR email LIKE ?";
 	    PreparedStatement preparedStatement = conn.prepareStatement(sql);
+	    preparedStatement.setString(1, "%" + searchText + "%");
+        preparedStatement.setString(2, "%" + searchText + "%");
+        preparedStatement.setString(3, "%" + searchText + "%");
         ResultSet resultSet = preparedStatement.executeQuery();
         if (resultSet.next()) {
             return resultSet.getInt(1);

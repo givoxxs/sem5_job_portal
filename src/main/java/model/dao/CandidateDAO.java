@@ -104,29 +104,34 @@ public class CandidateDAO{
     
 	//Update employer profile
 	public boolean updateCandidateProfile(String id, String name, String email) throws SQLException{
-		String query = "UPDATE candidate_profile SET name = ?, email = ? WHERE id = ?";
-		PreparedStatement ps = conn.prepareStatement(query);
-		ps.setString(1, name);
-		ps.setString(2, email);
-		ps.setString(3, id);
-		// tôi muốn in ra câu lệnh sql sau khi chèn của ps
-		System.out.println("ps: " + ps);
-		boolean result = ps.executeUpdate() > 0;
-		return result;
+		try (Connection conn = DBConnect.getConnection()) {
+			String query = "UPDATE candidate_profile SET name = ?, email = ? WHERE id = ?";
+			PreparedStatement ps = conn.prepareStatement(query);
+			ps.setString(1, name);
+			ps.setString(2, email);
+			ps.setString(3, id);
+			// tôi muốn in ra câu lệnh sql sau khi chèn của ps
+			System.out.println("ps: " + ps);
+			boolean result = ps.executeUpdate() > 0;
+			return result;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 	
 	//Get profile
 	public Candidate getCandidateProfile(String id) throws SQLException{
-		String query = "SELECT * FROM candidate_profile WHERE id = ?";
-		PreparedStatement ps = conn.prepareStatement(query);
-		ps.setString(1, id);
-		System.out.println("ps: " + ps);
-		ResultSet result = ps.executeQuery();
-		
-		if (result == null) {
-			return null;
-		}
-		try {
+		try (Connection conn = DBConnect.getConnection()) {
+			String query = "SELECT * FROM candidate_profile WHERE id = ?";
+			PreparedStatement ps = conn.prepareStatement(query);
+			ps.setString(1, id);
+			System.out.println("ps: " + ps);
+			ResultSet result = ps.executeQuery();
+			
+			if (result == null) {
+				return null;
+			}
 			return mapResultToCandidate(result);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -137,65 +142,96 @@ public class CandidateDAO{
 	
 	//Update employer profile
 	public boolean deleteCandidateById(String id) throws SQLException{
-		String query = "DELETE FROM candidate_profile WHERE id = ?";
-		PreparedStatement ps = conn.prepareStatement(query);
-		ps.setString(1, id);
-		System.out.println("ps: " + ps);
-		boolean result = ps.executeUpdate() > 0;
-		return result;
+		try (Connection conn = DBConnect.getConnection()) {
+			String query = "DELETE FROM candidate_profile WHERE id = ?";
+			PreparedStatement ps = conn.prepareStatement(query);
+			ps.setString(1, id);
+			System.out.println("ps: " + ps);
+			boolean result = ps.executeUpdate() > 0;
+			return result;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
     
 	public List<Candidate> getCandidates(int start, int recordsPerPage) throws SQLException{
-	    List<Candidate> candidates = new ArrayList<>();
-	    String sql = "SELECT * FROM candidate_profile LIMIT ?, ?";
-        PreparedStatement preparedStatement = conn.prepareStatement(sql);
-        preparedStatement.setInt(1, start);
-        preparedStatement.setInt(2, recordsPerPage);
-        ResultSet resultSet = preparedStatement.executeQuery();
-        while (resultSet.next()) {
-            Candidate candidate = new Candidate();
-            candidate.setId(resultSet.getString("id"));
-            candidate.setName(resultSet.getString("name"));
-            candidate.setEmail(resultSet.getString("email"));
-            candidates.add(candidate);
-	        }
-	    return candidates;
+		try (Connection conn = DBConnect.getConnection()) {
+		    List<Candidate> candidates = new ArrayList<>();
+		    String sql = "SELECT * FROM candidate_profile LIMIT ?, ?";
+	        PreparedStatement preparedStatement = conn.prepareStatement(sql);
+	        preparedStatement.setInt(1, start);
+	        preparedStatement.setInt(2, recordsPerPage);
+	        ResultSet resultSet = preparedStatement.executeQuery();
+	        while (resultSet.next()) {
+	            Candidate candidate = new Candidate();
+	            candidate.setId(resultSet.getString("id"));
+	            candidate.setName(resultSet.getString("name"));
+	            candidate.setEmail(resultSet.getString("email"));
+	            candidates.add(candidate);
+		        }
+		    return candidates;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	public int getTotalRecords() throws SQLException{
-	    String sql = "SELECT COUNT(*) FROM candidate_profile";
-	    PreparedStatement preparedStatement = conn.prepareStatement(sql);
-        ResultSet resultSet = preparedStatement.executeQuery();
-        if (resultSet.next()) {
-            return resultSet.getInt(1);
-        }
+		try (Connection conn = DBConnect.getConnection()) {
+		    String sql = "SELECT COUNT(*) FROM candidate_profile";
+		    PreparedStatement preparedStatement = conn.prepareStatement(sql);
+	        ResultSet resultSet = preparedStatement.executeQuery();
+	        if (resultSet.next()) {
+	            return resultSet.getInt(1);
+	        }
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	    return 0;
 	}
 	
-	public List<Candidate> searchCandidates(int start, int recordsPerPage) throws SQLException{
-	    List<Candidate> candidates = new ArrayList<>();
-	    String sql = "SELECT * FROM candidate_profile LIMIT ?, ?";
-        PreparedStatement preparedStatement = conn.prepareStatement(sql);
-        preparedStatement.setInt(1, start);
-        preparedStatement.setInt(2, recordsPerPage);
-        ResultSet resultSet = preparedStatement.executeQuery();
-        while (resultSet.next()) {
-            Candidate candidate = new Candidate();
-            candidate.setId(resultSet.getString("id"));
-            candidate.setName(resultSet.getString("name"));
-            candidate.setEmail(resultSet.getString("email"));
-            candidates.add(candidate);
+	public List<Candidate> searchCandidates(int start, int recordsPerPage, String searchText) throws SQLException{
+		try (Connection conn = DBConnect.getConnection()) {
+		    List<Candidate> candidates = new ArrayList<>();
+		    String sql = "SELECT * FROM candidate_profile WHERE name LIKE ? OR email LIKE ? LIMIT ?, ?";
+	        PreparedStatement preparedStatement = conn.prepareStatement(sql);
+	        preparedStatement.setString(1, "%" + searchText + "%");
+	        preparedStatement.setString(2, "%" + searchText + "%");
+	        preparedStatement.setInt(3, start);
+	        preparedStatement.setInt(4, recordsPerPage);
+	        ResultSet resultSet = preparedStatement.executeQuery();
+	        while (resultSet.next()) {
+	            Candidate candidate = new Candidate();
+	            candidate.setId(resultSet.getString("id"));
+	            candidate.setName(resultSet.getString("name"));
+	            candidate.setEmail(resultSet.getString("email"));
+	            candidates.add(candidate);
 	        }
-	    return candidates;
+	        return candidates;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 
-	public int getSearchTotalRecords() throws SQLException{
-	    String sql = "SELECT COUNT(*) FROM candidate_profile";
-	    PreparedStatement preparedStatement = conn.prepareStatement(sql);
-        ResultSet resultSet = preparedStatement.executeQuery();
-        if (resultSet.next()) {
-            return resultSet.getInt(1);
-        }
+	public int getSearchTotalRecords(String searchText) throws SQLException{
+		try (Connection conn = DBConnect.getConnection()) {
+		    String sql = "SELECT COUNT(*) FROM candidate_profile WHERE name LIKE ? OR email LIKE ?";
+		    PreparedStatement preparedStatement = conn.prepareStatement(sql);
+		    preparedStatement.setString(1, "%" + searchText + "%");
+	        preparedStatement.setString(2, "%" + searchText + "%");
+	        ResultSet resultSet = preparedStatement.executeQuery();
+	        if (resultSet.next()) {
+	            return resultSet.getInt(1);
+	        }
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	    return 0;
 	}
 }

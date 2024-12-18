@@ -54,4 +54,13 @@ public class EmployerBO {
 	public int getTotalPages(int recordsPerPage) throws SQLException{
 		return (int) Math.ceil((double) employerDAO.getTotalRecords() / recordsPerPage);
 	}
+	
+	public List<Employer> searchEmployers(int page, int recordsPerPage, String searchText) throws SQLException{
+		int start = (page - 1) * recordsPerPage;
+		return employerDAO.searchEmployers(start, recordsPerPage, searchText);
+	}
+	
+	public int getSearchTotalPages(int recordsPerPage, String searchText) throws SQLException{
+		return (int) Math.ceil((double) employerDAO.getSearchTotalRecords(searchText) / recordsPerPage);
+	}
 }
