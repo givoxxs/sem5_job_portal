@@ -53,7 +53,6 @@ if (job == null) {
     	} else {
     %>
     	<button id="" onclick="location.href='${pageContext.request.contextPath}/login.jsp'">Apply Now</button>
-    	<a href="${pageContext.request.contextPath}/login.jsp">Login to apply</a>
   	<%      
 		}
     %>
