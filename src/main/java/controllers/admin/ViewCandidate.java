@@ -30,6 +30,6 @@ public class ViewCandidate extends HttpServlet {
 //		List<Job_Application> jobs = JobApplicationBO.getInstance()
 //			    .getDetailedJobApplicationsByCandidateId(candidate.getId());
 //			request.setAttribute("jobs_apply", jobs);
-		request.getRequestDispatcher("/candidate/view_apply_jobs.jsp").forward(request, response);
+		request.getRequestDispatcher("/admin/view_candidate_job_application.jsp").forward(request, response);
 	}
 }
