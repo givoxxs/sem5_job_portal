@@ -39,7 +39,6 @@ public class CandidateDAO{
 	
     public Candidate mapResultToCandidate(ResultSet rs) throws SQLException {
         Candidate candidate = new Candidate();
-        rs.next();
         candidate.setId(rs.getString("id"));
         candidate.setAccountId(rs.getString("account_id"));
         candidate.setName(rs.getString("name"));
@@ -70,7 +69,6 @@ public class CandidateDAO{
 	public Candidate findCandidateByAccountId(String id) {
 		System.out.println("CandidateDAO - findCandidateByAccountId");
 		Candidate candidate = null;
-//		try {
 		try (Connection conn = DBConnect.getConnection()) {
 			PreparedStatement ps = conn.prepareStatement(SQL_FIND_CANDIDATE_BY_ACCOUNT_ID);
 			ps.setString(1, id);
