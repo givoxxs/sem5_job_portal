@@ -62,7 +62,12 @@ public class JobDAO {
 	
 	//Create id
 		public String createId(String str) {
-			String rs = str.substring(0, 2).toUpperCase();
+			String rs;
+			if(str.length() < 2) {
+				rs = str.toUpperCase();
+			}else {
+				rs = str.substring(0, 2).toUpperCase();
+			}
 			// Lấy thời gian hiện tại
 	        LocalDateTime now = LocalDateTime.now();
 	        
@@ -79,13 +84,18 @@ public class JobDAO {
 		job.setId(rs.getString("id"));
 		job.setTitle(rs.getString("title"));
 		job.setDescription(rs.getString("description"));
-		job.setEmployerName(rs.getString("name"));
+        job.setEmployerName(rs.getString("name"));
 		job.setLocation(rs.getString("location"));
 		job.setJobType(rs.getString("job_type"));
 		job.setExperience(rs.getString("experience"));
 		job.setDatePost(rs.getTimestamp("date_post"));
 		job.setAvailable(rs.getBoolean("is_available"));
 		job.setSalaryRange(rs.getString("salary_range"));
+		try {		
+	        job.setEmployerName(rs.getString("name"));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return job;
 	}
 	
