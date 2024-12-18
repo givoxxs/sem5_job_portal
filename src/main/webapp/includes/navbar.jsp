@@ -20,7 +20,9 @@
 					%>
 					<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/profile-candidate">Profile</a></li>
 					<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/view_apply_jobs">History Apply Jobs</a></li>
-				<% } %>
+				<% } else if (account.getRole().equals("admin")) {%>
+					<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/admin/list">Admin Dashboard</a></li>
+				<%} %>
           <li class="nav-item"><a class="nav-link" href="#"> <strong> <%=account.getUsername()%> </strong> </a></li>
 				<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/logout">Logout</a></li>	
 			<%} else {%>

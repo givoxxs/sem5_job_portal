@@ -37,7 +37,7 @@ public class HomeServlet extends HttpServlet {
 
             switch (role) {
                 case "admin":
-                	resp.sendRedirect("/sem5_job_portal/admin/dashboard.jsp");
+                	resp.sendRedirect("/sem5_job_portal/admin/list");
                     break;
                 case "employer":
                 	req.getRequestDispatcher("JobServlet").forward(req, resp);

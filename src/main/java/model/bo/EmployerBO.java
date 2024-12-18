@@ -3,6 +3,7 @@ package model.bo;
 import java.sql.SQLException;
 import java.util.List;
 
+import dto.EmployerInAdmin;
 import model.bean.Employer;
 import model.dao.EmployerDAO;
 
@@ -46,12 +47,21 @@ public class EmployerBO {
 		return EmployerDAO.getInstance().deleteEmployerById(id);
 	}
 	
-	public List<Employer> getEmployers(int page, int recordsPerPage) throws SQLException{
+	public List<EmployerInAdmin> getEmployers(int page, int recordsPerPage) throws SQLException{
 		int start = (page - 1) * recordsPerPage;
 		return employerDAO.getEmployers(start, recordsPerPage);
 	}
 	
 	public int getTotalPages(int recordsPerPage) throws SQLException{
 		return (int) Math.ceil((double) employerDAO.getTotalRecords() / recordsPerPage);
+	}
+	
+	public List<EmployerInAdmin> searchEmployers(int page, int recordsPerPage, String searchText) throws SQLException{
+		int start = (page - 1) * recordsPerPage;
+		return employerDAO.searchEmployers(start, recordsPerPage, searchText);
+	}
+	
+	public int getSearchTotalPages(int recordsPerPage, String searchText) throws SQLException{
+		return (int) Math.ceil((double) employerDAO.getSearchTotalRecords(searchText) / recordsPerPage);
 	}
 }

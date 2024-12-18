@@ -7,7 +7,7 @@ body {
     background-color: #f4f4f4;
 }
 
-.container {
+.dashboardContainer {
     display: flex;
     flex-direction: column;
     justify-content: start;
@@ -187,7 +187,7 @@ table th,
 table td {
     padding: 12px;
     border: 1px solid #ddd;
-    max-width: 350px;
+    max-width: 600px;
 }
 
 table th {
