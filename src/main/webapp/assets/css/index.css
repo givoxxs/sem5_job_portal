@@ -1,0 +1,144 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.6;
+    color: #333;
+    margin: 0;
+    background-color: #f4f4f4; /* Slightly off-white background */
+}
+
+.container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 0; /* Removed padding */
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #2c3e50;
+    font-size: 2.5em; /* Increased size */
+    font-weight: 500;
+}
+
+h2 {
+    font-size: 1.8em;
+    margin-bottom: 20px;
+    color: #2c3e50;
+    font-weight: 500;
+}
+
+
+/* Search Bar */
+.search-bar {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 30px;
+    display: flex; /* Use flexbox */
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    justify-content: space-around;
+    gap: 15px;
+}
+
+.search-bar input[type="text"],
+.search-bar select {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    flex: 1; /* Expand to fill available space */
+    min-width: 150px; /* Minimum width */
+}
+
+.search-bar button { /* Improved button styling */
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+
+/* Job List */
+.job-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-gap: 20px;
+}
+
+.job-item {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    transition: transform 0.2s ease;
+}
+
+
+.job-title h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 1.4em;
+    color: #2c3e50;
+}
+
+
+.job-details {
+    color: #666;
+    display: flex; /* Make details a flex container */
+    flex-wrap: wrap; /* Allow details to wrap */
+    gap: 10px;      /* Spacing between detail items */
+}
+
+.detail-item {
+    display: flex;
+    align-items: center; /* Align icon and text vertically */
+}
+
+.detail-item i {
+    margin-right: 5px;
+}
+
+
+/* Pagination */
+.pagination {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.pagination a {
+    display: inline-block;
+    padding: 8px 12px;
+    margin: 0 3px;  /* Reduced margin */
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #333;
+    transition: background-color 0.3s ease;
+}
+
+
+.pagination a.active,
+.pagination a:hover {
+    background-color: #3a99d8;
+    color: #fff;
+    border-color: #3a99d8;
+}
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .search-bar {
+        grid-template-columns: 1fr;  /* Single column on small screens */
+    }
+
+
+    .detail-item {
+        display: inline-block; /* Display details inline on larger screens */
+        margin-right: 15px;
+    }
+}
