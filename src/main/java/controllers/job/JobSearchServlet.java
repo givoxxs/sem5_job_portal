@@ -19,7 +19,7 @@ import model.bo.SalaryRangeBO;
 @WebServlet("/job-search")
 public class JobSearchServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final int JOBS_PER_PAGE = 3;
+	private static final int JOBS_PER_PAGE = 6;
 
 	@Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) 
@@ -72,15 +72,15 @@ public class JobSearchServlet extends HttpServlet {
         }
         
      // Lấy các dữ liệu khác cho JSP
-        List<Job> recentJobs = jobBO.getTopLatestJobs(5);
-        List<Job> randomJobs = jobBO.getRandomJobs(10);
+        List<Job> recentJobs = jobBO.getTopLatestJobs(6);
+        List<Job> randomJobs = jobBO.getRandomJobs(3);
         List<SalaryRange> salaryRanges = SalaryRangeBO.getInstance().getAllAvailableSalaryRanges();
 
         // Lưu trữ thông tin vào request
         request.setAttribute("recentJobs", recentJobs);
         request.setAttribute("randomJobs", randomJobs);
         request.setAttribute("salaryRanges", salaryRanges);
-        request.setAttribute("locations", new ArrayList<>(List.of("Hà Nội", "Hồ Chí Minh", "Đà Nẵng", "Khác")));
+        request.setAttribute("locations", new ArrayList<>(List.of("Ha Noi", "Ho Chi Minh", "Da Nang")));
         request.setAttribute("searchResults", searchResults);
 //        request.setAttribute("totalPages", totalPages);
         request.setAttribute("totalPages", Integer.toString(totalPages));
