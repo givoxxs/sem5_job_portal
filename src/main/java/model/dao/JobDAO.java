@@ -79,13 +79,18 @@ public class JobDAO {
 		job.setId(rs.getString("id"));
 		job.setTitle(rs.getString("title"));
 		job.setDescription(rs.getString("description"));
-        if(rs.getString("name") != null) job.setEmployerName(rs.getString("name"));
+        job.setEmployerName(rs.getString("name"));
 		job.setLocation(rs.getString("location"));
 		job.setJobType(rs.getString("job_type"));
 		job.setExperience(rs.getString("experience"));
 		job.setDatePost(rs.getTimestamp("date_post"));
 		job.setAvailable(rs.getBoolean("is_available"));
 		job.setSalaryRange(rs.getString("salary_range"));
+		try {		
+	        job.setEmployerName(rs.getString("name"));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return job;
 	}
 	
