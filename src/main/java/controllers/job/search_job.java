@@ -9,8 +9,10 @@ import javax.servlet.http.*;
 
 import model.bean.Job;
 import model.bean.Job_Application;
+import model.bean.SalaryRange;
 import model.bo.JobApplicationBO;
 import model.bo.JobBO;
+import model.bo.SalaryRangeBO;
 
 @WebServlet("/search_job")
 public class search_job extends HttpServlet {
@@ -36,6 +38,9 @@ public class search_job extends HttpServlet {
         
         HttpSession session = request.getSession();
         String employer_id = session.getAttribute("employer_id").toString();
+        
+        List<SalaryRange> salaryRanges = SalaryRangeBO.getInstance().getAllAvailableSalaryRanges();
+		request.setAttribute("salaryRanges", salaryRanges);
         
         List<Job> searchResults = null;
         int page = 1;
