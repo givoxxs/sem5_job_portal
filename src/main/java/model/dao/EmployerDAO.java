@@ -45,11 +45,13 @@ public class EmployerDAO{
 		    ps.setString(5, employer.getEmail());
 		    ps.setString(6, employer.getLink());
 		    ps.setString(7, employer.getDescription());
+		    boolean result = ps.executeUpdate() > 0;
+		    return result;
 		}catch(Exception e) {
-			
+			e.printStackTrace();
 		}
-	    boolean result = ps.executeUpdate() > 0;
-	    return result;
+		return false;
+	    
 	}
   
   	// Create id
