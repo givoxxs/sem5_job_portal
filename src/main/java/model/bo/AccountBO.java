@@ -45,13 +45,4 @@ public class AccountBO {
 	public boolean changePassword(String id, String newPassword) throws SQLException {
 		return accountDAO.changePassword(id, PasswordUtils.hashPassword(newPassword));
 	}
-
-	public List<Account> getUsers(int page, int recordsPerPage) throws SQLException{
-		int start = (page - 1) * recordsPerPage;
-		return accountDAO.getUsers(start, recordsPerPage);
-	}
-	
-	public int getTotalPages(int recordsPerPage) throws SQLException{
-		return (int) Math.ceil((double) accountDAO.getTotalRecords() / recordsPerPage);
-	}
 }

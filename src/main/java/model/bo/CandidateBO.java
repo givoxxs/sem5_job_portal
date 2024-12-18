@@ -3,6 +3,7 @@ package model.bo;
 import java.sql.SQLException;
 import java.util.List;
 
+import dto.CandidateInAdmin;
 import model.bean.Candidate;
 import model.dao.CandidateDAO;
 
@@ -47,7 +48,7 @@ public class CandidateBO {
 		return CandidateDAO.getInstance().deleteCandidateById(id);
 	}
     
-	public List<Candidate> getCandidates(int page, int recordsPerPage) throws SQLException{
+	public List<CandidateInAdmin> getCandidates(int page, int recordsPerPage) throws SQLException{
 		int start = (page - 1) * recordsPerPage;
 		return candidateDAO.getCandidates(start, recordsPerPage);
 	}
@@ -56,7 +57,7 @@ public class CandidateBO {
 		return (int) Math.ceil((double) candidateDAO.getTotalRecords() / recordsPerPage);
 	}
 	
-	public List<Candidate> searchCandidates(int page, int recordsPerPage, String searchText) throws SQLException{
+	public List<CandidateInAdmin> searchCandidates(int page, int recordsPerPage, String searchText) throws SQLException{
 		int start = (page - 1) * recordsPerPage;
 		return candidateDAO.searchCandidates(start, recordsPerPage, searchText);
 	}

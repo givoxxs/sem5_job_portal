@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import dto.CandidateInAdmin;
 import model.bean.Candidate;
 import utils.DBConnect;
 
@@ -23,7 +24,7 @@ public class CandidateDAO{
 
 	public static CandidateDAO getInstance() {
 		try {
-			if (instance == null || instance.conn.isClosed()){
+			if (instance == null){
 				synchronized(EmployerDAO.class) {
 					if (instance == null || instance.conn.isClosed()) {
 						instance = new CandidateDAO();
@@ -127,10 +128,9 @@ public class CandidateDAO{
 			System.out.println("ps: " + ps);
 			ResultSet result = ps.executeQuery();
 			
-			if (result == null) {
-				return null;
+			if (result.next()) {
+				return mapResultToCandidate(result);
 			}
-			return mapResultToCandidate(result);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -153,19 +153,25 @@ public class CandidateDAO{
 		}
 	}
     
-	public List<Candidate> getCandidates(int start, int recordsPerPage) throws SQLException{
+	public List<CandidateInAdmin> getCandidates(int start, int recordsPerPage) throws SQLException{
 		try (Connection conn = DBConnect.getConnection()) {
-		    List<Candidate> candidates = new ArrayList<>();
-		    String sql = "SELECT * FROM candidate_profile LIMIT ?, ?";
+		    List<CandidateInAdmin> candidates = new ArrayList<>();
+		    String sql = "SELECT cp.*, COUNT(ja.id) AS job_application_count "
+		    		+ "FROM candidate_profile cp "
+		    		+ "LEFT JOIN job_application ja "
+		    		+ "ON cp.id = ja.candidate_id "
+		    		+ "GROUP BY cp.id "
+		    		+ "LIMIT ?, ?";
 	        PreparedStatement preparedStatement = conn.prepareStatement(sql);
 	        preparedStatement.setInt(1, start);
 	        preparedStatement.setInt(2, recordsPerPage);
 	        ResultSet resultSet = preparedStatement.executeQuery();
 	        while (resultSet.next()) {
-	            Candidate candidate = new Candidate();
-	            candidate.setId(resultSet.getString("id"));
-	            candidate.setName(resultSet.getString("name"));
-	            candidate.setEmail(resultSet.getString("email"));
+	            CandidateInAdmin candidate = new CandidateInAdmin();
+	            candidate.setId(resultSet.getString("cp.id"));
+	            candidate.setName(resultSet.getString("cp.name"));
+	            candidate.setEmail(resultSet.getString("cp.email"));
+	            candidate.setJobApplicationCount(resultSet.getInt("job_application_count"));
 	            candidates.add(candidate);
 		        }
 		    return candidates;
@@ -191,10 +197,16 @@ public class CandidateDAO{
 	    return 0;
 	}
 	
-	public List<Candidate> searchCandidates(int start, int recordsPerPage, String searchText) throws SQLException{
+	public List<CandidateInAdmin> searchCandidates(int start, int recordsPerPage, String searchText) throws SQLException{
 		try (Connection conn = DBConnect.getConnection()) {
-		    List<Candidate> candidates = new ArrayList<>();
-		    String sql = "SELECT * FROM candidate_profile WHERE name LIKE ? OR email LIKE ? LIMIT ?, ?";
+		    List<CandidateInAdmin> candidates = new ArrayList<>();
+		    String sql = "SELECT cp.*, COUNT(ja.id) AS job_application_count "
+		    		+ "FROM candidate_profile cp "
+		    		+ "LEFT JOIN job_application ja "
+		    		+ "ON cp.id = ja.candidate_id "
+		    		+ "WHERE cp.name LIKE ? OR cp.email LIKE ? "
+		    		+ "GROUP BY cp.id "
+		    		+ "LIMIT ?, ?;";
 	        PreparedStatement preparedStatement = conn.prepareStatement(sql);
 	        preparedStatement.setString(1, "%" + searchText + "%");
 	        preparedStatement.setString(2, "%" + searchText + "%");
@@ -202,10 +214,11 @@ public class CandidateDAO{
 	        preparedStatement.setInt(4, recordsPerPage);
 	        ResultSet resultSet = preparedStatement.executeQuery();
 	        while (resultSet.next()) {
-	            Candidate candidate = new Candidate();
-	            candidate.setId(resultSet.getString("id"));
-	            candidate.setName(resultSet.getString("name"));
-	            candidate.setEmail(resultSet.getString("email"));
+	            CandidateInAdmin candidate = new CandidateInAdmin();
+	            candidate.setId(resultSet.getString("cp.id"));
+	            candidate.setName(resultSet.getString("cp.name"));
+	            candidate.setEmail(resultSet.getString("cp.email"));
+	            candidate.setJobApplicationCount(resultSet.getInt("job_application_count"));
 	            candidates.add(candidate);
 	        }
 	        return candidates;

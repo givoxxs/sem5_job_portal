@@ -4,12 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 
 import model.bean.Account;
-import model.bean.Job_Application;
 import utils.DBConnect;
 
 public class AccountDAO {
@@ -125,49 +121,33 @@ public class AccountDAO {
 	public Account getAccountById(String id) throws SQLException {
 		Account account = null;
 		String sql = "SELECT * FROM account WHERE id = ?";
-		PreparedStatement preparedStatement = conn.prepareStatement(sql);
-		preparedStatement.setString(1, id);
-		ResultSet rs = preparedStatement.executeQuery();
-		if (rs.next()) {
-			account = mapResultToAccount(rs);
+		try (Connection conn = DBConnect.getConnection()) {
+			PreparedStatement preparedStatement = conn.prepareStatement(sql);
+			preparedStatement.setString(1, id);
+			ResultSet rs = preparedStatement.executeQuery();
+			if (rs.next()) {
+				account = mapResultToAccount(rs);
+			}
+			return account;
+		} catch (Exception e)
+		{
+			e.printStackTrace();
 		}
-		return account;
+		return null;
 	}
 	
 	public boolean changePassword(String id, String newPassword) throws SQLException {
 		String sql = "UPDATE account SET password = ? WHERE id = ?";
-		PreparedStatement preparedStatement = conn.prepareStatement(sql);
-		preparedStatement.setString(1, newPassword);
-		preparedStatement.setString(2, id);
-		boolean result = preparedStatement.executeUpdate() > 0;
-		return result;
+		try (Connection conn = DBConnect.getConnection()) {
+			PreparedStatement preparedStatement = conn.prepareStatement(sql);
+			preparedStatement.setString(1, newPassword);
+			preparedStatement.setString(2, id);
+			boolean result = preparedStatement.executeUpdate() > 0;
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 	
-	public List<Account> getUsers(int start, int recordsPerPage) throws SQLException{
-	    List<Account> users = new ArrayList<>();
-	    String sql = "SELECT * FROM account LIMIT ?, ?";
-        PreparedStatement preparedStatement = conn.prepareStatement(sql);
-        preparedStatement.setInt(1, start);
-        preparedStatement.setInt(2, recordsPerPage);
-        ResultSet resultSet = preparedStatement.executeQuery();
-        while (resultSet.next()) {
-            Account user = new Account();
-            user.setId(resultSet.getString("id"));
-            user.setUsername(resultSet.getString("username"));
-            user.setRole(resultSet.getString("role"));
-            users.add(user);
-	        }
-	    return users;
-	}
-
-	public int getTotalRecords() throws SQLException{
-	    String sql = "SELECT COUNT(*) FROM account";
-	    PreparedStatement preparedStatement = conn.prepareStatement(sql);
-        ResultSet resultSet = preparedStatement.executeQuery();
-        if (resultSet.next()) {
-            return resultSet.getInt(1);
-        }
-	    return 0;
-	}
-
 }

@@ -79,7 +79,7 @@ public class JobDAO {
 		job.setId(rs.getString("id"));
 		job.setTitle(rs.getString("title"));
 		job.setDescription(rs.getString("description"));
-		job.setEmployerName(rs.getString("name"));
+		try { job.setEmployerName(rs.getString("name")); } catch (Exception e) {};
 		job.setLocation(rs.getString("location"));
 		job.setJobType(rs.getString("job_type"));
 		job.setExperience(rs.getString("experience"));

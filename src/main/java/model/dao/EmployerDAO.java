@@ -9,48 +9,45 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import dto.EmployerInAdmin;
 import model.bean.Employer;
 import utils.DBConnect;
 
 public class EmployerDAO{
-	private Connection conn;
     // create Instance
     private static EmployerDAO instance;
     private static final String SQL_CREATE_EMPLOYER= "INSERT INTO employer_profile (id, account_id, name, address, email, link, description) VALUES (?, ?, ?, ?, ?, ?, ?)";
     
 	private EmployerDAO() {
-		try {
-			conn = DBConnect.getConnection();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+
 	}
 
 	public static EmployerDAO getInstance() {
-		try {
-			if (instance == null || instance.conn.isClosed()){
-				synchronized(EmployerDAO.class) {
-					if (instance == null || instance.conn.isClosed()) {
-						instance = new EmployerDAO();
-					}	
-				}
+		if (instance == null ){
+			synchronized(EmployerDAO.class) {
+				if (instance == null) {
+					instance = new EmployerDAO();
+				}	
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
 		}
 
 		return instance;
 	}
 
 	public boolean createEmployer(Employer employer) throws SQLException {
-	    PreparedStatement ps = conn.prepareStatement(SQL_CREATE_EMPLOYER);
-	    ps.setString(1, employer.getId());
-	    ps.setString(2, employer.getAccountId());
-	    ps.setString(3, employer.getName());
-	    ps.setString(4, employer.getAddress());
-	    ps.setString(5, employer.getEmail());
-	    ps.setString(6, employer.getLink());
-	    ps.setString(7, employer.getDescription());
+		 PreparedStatement ps =  null;
+		try (Connection conn = DBConnect.getConnection()) {
+			ps = conn.prepareStatement(SQL_CREATE_EMPLOYER);
+		    ps.setString(1, employer.getId());
+		    ps.setString(2, employer.getAccountId());
+		    ps.setString(3, employer.getName());
+		    ps.setString(4, employer.getAddress());
+		    ps.setString(5, employer.getEmail());
+		    ps.setString(6, employer.getLink());
+		    ps.setString(7, employer.getDescription());
+		}catch(Exception e) {
+			
+		}
 	    boolean result = ps.executeUpdate() > 0;
 	    return result;
 	}
@@ -146,20 +143,25 @@ public class EmployerDAO{
 		return null;
 	}
 	
-	public List<Employer> getEmployers(int start, int recordsPerPage) throws SQLException{
+	public List<EmployerInAdmin> getEmployers(int start, int recordsPerPage) throws SQLException{
 		try (Connection conn = DBConnect.getConnection()) {
-		    List<Employer> employers = new ArrayList<>();
-		    String sql = "SELECT * FROM employer_profile LIMIT ?, ?";
+		    List<EmployerInAdmin> employers = new ArrayList<>();
+		    String sql = "SELECT ep.*, COUNT(j.id) AS job_count " +
+		             "FROM employer_profile ep " +
+		             "LEFT JOIN job j ON ep.id = j.employer_id " +
+		             "GROUP BY ep.id " +
+		             "LIMIT ?, ?";
 	        PreparedStatement preparedStatement = conn.prepareStatement(sql);
 	        preparedStatement.setInt(1, start);
 	        preparedStatement.setInt(2, recordsPerPage);
 	        ResultSet resultSet = preparedStatement.executeQuery();
 	        while (resultSet.next()) {
-	            Employer employer = new Employer();
-	            employer.setId(resultSet.getString("id"));
-	            employer.setName(resultSet.getString("name"));
-	            employer.setAddress(resultSet.getString("address"));
-	            employer.setEmail(resultSet.getString("email"));
+	        	EmployerInAdmin employer = new EmployerInAdmin();
+	            employer.setId(resultSet.getString("ep.id"));
+	            employer.setName(resultSet.getString("ep.name"));
+	            employer.setAddress(resultSet.getString("ep.address"));
+	            employer.setEmail(resultSet.getString("ep.email"));
+	            employer.setJobCount(resultSet.getInt("job_count"));
 	            employers.add(employer);
 		        }
 		    return employers;
@@ -185,9 +187,15 @@ public class EmployerDAO{
 	    return 0;
 	}
 	
-	public List<Employer> searchEmployers(int start, int recordsPerPage, String searchText) throws SQLException{
-	    List<Employer> employers = new ArrayList<>();
-	    String sql = "SELECT * FROM employer_profile WHERE name LIKE ? OR address LIKE ? OR email LIKE ? LIMIT ?, ?";
+	public List<EmployerInAdmin> searchEmployers(int start, int recordsPerPage, String searchText) throws SQLException{
+	    List<EmployerInAdmin> employers = new ArrayList<>();
+	    String sql = "SELECT ep.*, COUNT(j.id) AS job_count " +
+	             "FROM employer_profile ep " +
+	             "LEFT JOIN job j ON ep.id = j.employer_id " +
+	             "WHERE ep.name LIKE ? OR ep.address LIKE ? OR ep.email LIKE ? " +
+	             "GROUP BY ep.id " +
+	             "LIMIT ?, ?";
+	    try (Connection conn = DBConnect.getConnection()) {
         PreparedStatement preparedStatement = conn.prepareStatement(sql);
         preparedStatement.setString(1, "%" + searchText + "%");
         preparedStatement.setString(2, "%" + searchText + "%");
@@ -196,26 +204,34 @@ public class EmployerDAO{
         preparedStatement.setInt(5, recordsPerPage);
         ResultSet resultSet = preparedStatement.executeQuery();
         while (resultSet.next()) {
-            Employer employer = new Employer();
-            employer.setId(resultSet.getString("id"));
-            employer.setName(resultSet.getString("name"));
-            employer.setAddress(resultSet.getString("address"));
-            employer.setEmail(resultSet.getString("email"));
+        	EmployerInAdmin employer = new EmployerInAdmin();
+            employer.setId(resultSet.getString("ep.id"));
+            employer.setName(resultSet.getString("ep.name"));
+            employer.setAddress(resultSet.getString("ep.address"));
+            employer.setEmail(resultSet.getString("ep.email"));
+            employer.setJobCount(resultSet.getInt("job_count"));
             employers.add(employer);
 	        }
+	    } catch (Exception e) {
+	    	e.printStackTrace();
+	    }
 	    return employers;
 	}
 
 	public int getSearchTotalRecords(String searchText) throws SQLException{
 	    String sql = "SELECT COUNT(*) FROM employer_profile WHERE name LIKE ? OR address LIKE ? OR email LIKE ?";
-	    PreparedStatement preparedStatement = conn.prepareStatement(sql);
-	    preparedStatement.setString(1, "%" + searchText + "%");
-        preparedStatement.setString(2, "%" + searchText + "%");
-        preparedStatement.setString(3, "%" + searchText + "%");
-        ResultSet resultSet = preparedStatement.executeQuery();
-        if (resultSet.next()) {
-            return resultSet.getInt(1);
-        }
+	    try (Connection conn = DBConnect.getConnection()) {
+		    PreparedStatement preparedStatement = conn.prepareStatement(sql);
+		    preparedStatement.setString(1, "%" + searchText + "%");
+	        preparedStatement.setString(2, "%" + searchText + "%");
+	        preparedStatement.setString(3, "%" + searchText + "%");
+	        ResultSet resultSet = preparedStatement.executeQuery();
+	        if (resultSet.next()) {
+	            return resultSet.getInt(1);
+	        }
+	    } catch (Exception e) {
+	    	e.printStackTrace();
+	    }
 	    return 0;
 	}
 }

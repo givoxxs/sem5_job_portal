@@ -41,7 +41,7 @@ public class UploadServlet extends HttpServlet {
 //            	request.getRequestDispatcher(request.getContextPath() + "/candidate/create/profile").forward(request, response);
             }
             else {
-            	request.getRequestDispatcher("/testUrl.jsp").forward(request, response);
+            	throw new Exception("Image upload error");
             }
         } catch (Exception e) {
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage()); // 500

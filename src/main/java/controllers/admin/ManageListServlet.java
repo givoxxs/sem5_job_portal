@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import model.bean.Candidate;
-import model.bean.Employer;
+import dto.CandidateInAdmin;
+import dto.EmployerInAdmin;
 import model.bo.CandidateBO;
 import model.bo.EmployerBO;
 
@@ -28,7 +28,7 @@ public class ManageListServlet extends HttpServlet{
 			int page = Integer.parseInt(request.getParameter("page") != null ? request.getParameter("page") : "1");
 			int recordsPerPage = 5;
 			if (mainContent.equals("manageCandidates")) {
-				List<Candidate> candidates = candidateBO.getCandidates(page, recordsPerPage);
+				List<CandidateInAdmin> candidates = candidateBO.getCandidates(page, recordsPerPage);
 				int totalPages = candidateBO.getTotalPages(recordsPerPage);
 				
 				request.setAttribute("candidates", candidates);
@@ -40,7 +40,7 @@ public class ManageListServlet extends HttpServlet{
 				dispatcher.forward(request, response);
 			}
 			else if (mainContent.equals("manageEmployers")) {
-				List<Employer> employers = employerBO.getEmployers(page, recordsPerPage);
+				List<EmployerInAdmin> employers = employerBO.getEmployers(page, recordsPerPage);
 				int totalPages = employerBO.getTotalPages(recordsPerPage);
 
 				request.setAttribute("employers", employers);

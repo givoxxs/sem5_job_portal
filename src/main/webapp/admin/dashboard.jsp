@@ -1,8 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@page import="java.util.List" %>
-<%@page import="model.bean.Candidate" %>
-<%@page import="model.bean.Employer" %>
+<%@ page import="model.bean.Account" %>
+<%@page import="dto.CandidateInAdmin" %>
+<%@page import="dto.EmployerInAdmin" %>
+<%
+Account account = (Account) request.getSession().getAttribute("account");
+if (account != null) {
+	request.setAttribute("account", account);
+} else {
+	response.sendRedirect("/sem5_job_portal/login.jsp");
+}
+%>
 <!DOCTYPE html>
 <html>
 
@@ -13,10 +22,12 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/admin/dashboard.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/admin/pagination.css">
+    <%@include file="../includes/header.jsp"%>
 </head>
 
 <body>
-    <div class="container">
+	<%@include file="../includes/navbar.jsp"%>
+    <div class="dashboardContainer">
         <!-- Sidebar -->
         <aside class="sidebar">
             <ul>
@@ -56,21 +67,23 @@
 						                <th>ID</th>
 						                <th>Name</th>
 						                <th>Email</th>
+						                <th>Job Application Count</th>
 						                <th>Action</th>
 						            </tr>
 						        </thead>
 						        <tbody>
 
 						            <%
-							            List<Candidate> candidates = (List<Candidate>)request.getAttribute("candidates");
-							           	for (Candidate candidate : candidates) {
+							            List<CandidateInAdmin> candidates = (List<CandidateInAdmin>)request.getAttribute("candidates");
+							           	for (CandidateInAdmin candidate : candidates) {
 							        %>
 							        		<tr>
 						        			  	<td><%= candidate.getId() %></td>
 									            <td><%= candidate.getName() %></td>
 									            <td><%= candidate.getEmail() %></td>
-								                <td>
-							                        <button class="view-btn" onclick="">
+									            <td><%= candidate.getJobApplicationCount() %>
+								                <td style="display: flex; gap: 10px;">
+							                        <button class="view-btn" onclick="window.location.href='/sem5_job_portal/admin/view_candidate?candidateId=<%= candidate.getId()%>'">
 							                            <i class="fas fa-eye"></i> <!-- Biểu tượng Xem -->
 							                        </button>
 							                        <button class="edit-btn" onclick="window.location.href='/sem5_job_portal/admin/update?role=candidate&id=<%= candidate.getId()%>'">
@@ -115,21 +128,23 @@
 							                <th>Name</th>
 							                <th>Address</th>
 							                <th>Email</th>
+							                <th>Job Count</th>
 							                <th>Action</th>
 							            </tr>
 							        </thead>
 							        <tbody>
 							            <%
-							            List<Employer> employers = (List<Employer>)request.getAttribute("employers");
-							           	for (Employer employer : employers) {
+							            List<EmployerInAdmin> employers = (List<EmployerInAdmin>)request.getAttribute("employers");
+							           	for (EmployerInAdmin employer : employers) {
 							        %>
 							        		<tr>
 						        			  	<td><%= employer.getId() %></td>
 									            <td><%= employer.getName() %></td>
 									            <td><%= employer.getAddress() %></td>
 									            <td><%= employer.getEmail() %></td>
-								                <td>
- 													<button class="view-btn" onclick="">
+									            <td><%= employer.getJobCount() %></td>
+								                <td style="display: flex; gap: 10px;">
+ 													<button class="view-btn" onclick="window.location.href='/sem5_job_portal/admin/view_employer?employerId=<%= employer.getId()%>'">
 							                            <i class="fas fa-eye"></i> <!-- Biểu tượng Xem -->
 							                        </button>
 							                        <button class="edit-btn" onclick="window.location.href='/sem5_job_portal/admin/update?role=employer&id=<%= employer.getId()%>'">
@@ -191,7 +206,7 @@
 	</div>
 		
     </div>
-
+	<%@include file="../includes/footer.jsp"%>
     <script src="${pageContext.request.contextPath}/assets/js/admin/dashboard.js"></script>
 </body>
 

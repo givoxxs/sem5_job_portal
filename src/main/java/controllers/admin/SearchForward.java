@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import model.bean.Candidate;
-import model.bean.Employer;
+import dto.CandidateInAdmin;
+import dto.EmployerInAdmin;
 import model.bo.CandidateBO;
 import model.bo.EmployerBO;
 
@@ -43,7 +43,7 @@ public class SearchForward extends HttpServlet {
 			}
 			
 			if (mainContent.equals("manageCandidates")) {
-				List<Candidate> candidates = candidateBO.searchCandidates(page, recordsPerPage, searchText);
+				List<CandidateInAdmin> candidates = candidateBO.searchCandidates(page, recordsPerPage, searchText);
 				int totalPages = candidateBO.getSearchTotalPages(recordsPerPage, searchText);
 				
 				request.setAttribute("candidates", candidates);
@@ -55,7 +55,7 @@ public class SearchForward extends HttpServlet {
 				dispatcher.forward(request, response);
 			}
 			else if (mainContent.equals("manageEmployers")) {
-				List<Employer> employers = employerBO.searchEmployers(page, recordsPerPage, searchText);
+				List<EmployerInAdmin> employers = employerBO.searchEmployers(page, recordsPerPage, searchText);
 				int totalPages = employerBO.getSearchTotalPages(recordsPerPage, searchText);
 
 				request.setAttribute("employers", employers);
