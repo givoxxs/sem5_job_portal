@@ -44,8 +44,21 @@ if (job == null) {
     <p><strong>Experience:</strong> <%= job.getExperience() %></p>
     <p><strong>Job Type:</strong> <%= job.getJobType() %></p>
     <p><strong>Description:</strong> <%= job.getDescription() %></p>
-    <button id="applyButton">Apply Now</button>
-
+    <% 
+    	if (account != null) {
+    %>
+    	<button id="applyButton">Apply Now</button>
+	<%
+    } else {
+    %>
+    	<button id="" onclick="location.href='${pageContext.request.contextPath}/login.jsp'">Apply Now</button>
+  	<%      
+		}
+    %>
+	
+	<%
+	if (candidate != null) {
+		%>
     <!-- Modal for Apply Now -->
     <div id="applyModal" class="modal">
         <div class="modal-content">
@@ -76,6 +89,9 @@ if (job == null) {
             </form>
         </div>
     </div>
+    <%
+	}
+    %>
 </div>
 <%@include file="../includes/footer.jsp"%>
 
