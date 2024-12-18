@@ -1,6 +1,5 @@
 <%@ page import="model.bean.Account" %>
 
-<<<<<<< HEAD
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <% 
 	Account account=(Account) request.getSession().getAttribute("account"); 
