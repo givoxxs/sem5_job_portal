@@ -67,7 +67,7 @@ h1 {
 	
 	<div class="container">
 	    <!-- Search Form -->
-	    <h1>Find My Job</h1>
+	    <h1>Job Manager</h1>
 	    
 	    <form action="JobServlet?action=search" method="POST" class="search-bar">
 	        <!-- Search by job name -->
