@@ -53,15 +53,23 @@ public class ApplyJobServlet extends HttpServlet {
 				String body = "Dear " + candidateName + ",\n\n"
 						+ "Your job application has been submitted successfully.\n\n"
 						+ "Thank you for your interest in our company.\n\n" + "Best regards,\n" + "HR Department";
-				EmailUtils.getInstance().sendEmail(candidateEmail, subject, body);
+//				EmailUtils.getInstance().sendEmail(candidateEmail, subject, body);
+				// Create a new thread for sending email
+				Thread emailThread = new Thread(() -> {
+					try {
+						EmailUtils.getInstance().sendEmail(candidateEmail, subject, body);
+						System.out.println("Email sent successfully to " + candidateEmail);
+					} catch (Exception e) {
+						System.err.println("Failed to send email: " + e.getMessage());
+					}
+				});
+				emailThread.start();
 			} else {
 				request.setAttribute("error", "Failed to apply for the job");
 			}
 			System.out.println("ApplyJobServlet.doPost() job_id: " + job_id);
 			// Redirect to the job details page
 			request.getRequestDispatcher("job-detail?id=" + job_id).forward(request, response);
-//			candidate/job-detail.jsp
-//			request.getRequestDispatcher("candidate/job-detail.jsp").forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
 			request.setAttribute("error", "Failed to apply for the job " + e.getMessage());
